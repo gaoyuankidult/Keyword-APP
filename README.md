@@ -15,7 +15,7 @@
 
 ##Response
 
-<code>{
+<pre>{
 
 keywords: [
 	{
@@ -34,7 +34,7 @@ people: [
 ...
 ]
 
-}</code>
+}</pre>
 
 #POST /next 
 
@@ -50,8 +50,7 @@ people: [
 
 ##Response
 
-<code>{
-
+<pre>{
 keywords: [
 	{
 		id: 1,
@@ -69,4 +68,4 @@ people: [
 ...
 ]
 
-}</code>
+}</pre>
