@@ -15,8 +15,8 @@ function Person(name){
 var KeywordApp = angular.module("KeywordApp", []);
 
 KeywordApp.config(function($interpolateProvider) {
-  $interpolateProvider.startSymbol('{[{');
-  $interpolateProvider.endSymbol('}]}');
+  	$interpolateProvider.startSymbol('{[{');
+  	$interpolateProvider.endSymbol('}]}');
 });
 
 KeywordApp.controller("KeywordController", ["$scope", function($scope){
@@ -81,13 +81,18 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		}, 500, function(){
 			$scope.current_keywords = [];
 
-			$.post("/next", {}).done(function(data){
-				_initialize_keywords(data.keywords);
-			});
-			
-			_views.keywords_view.fadeIn(500);
-			_views.people_view.animate({
-				width: "30%"
+			$.post("/next", _get_keyword_feedback()).done(function(data){
+				$scope.current_keywords = [];
+
+				var id = 0;
+				data.keywords.forEach(function(keyword){
+					$scope.current_keywords.push(new Keyword(id++, keyword.text, keyword.exploitation, keyword.exploration));
+				});
+
+				_views.keywords_view.fadeIn(500);
+				_views.people_view.animate({
+					width: "30%"
+				});
 			});
 		});
 	}
@@ -99,7 +104,10 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 			width: "0%"
 		}, 600, function(){
 			_reset_variables();
-			_views.search_view.slideDown(500);
+			
+			_get_keyword_suggestions(function(){
+				_views.search_view.slideDown(500);
+			});
 		});
 	}
 
