@@ -25,7 +25,7 @@ keywords: [
 		exploration: 0.3
 	},
 	...
-	],
+],
 people: [
 {
 	name: "Kalle Ilves",
@@ -59,7 +59,7 @@ keywords: [
 		exploration: 0.3
 	},
 	...
-	],
+],
 people: [
 {
 	name: "Kalle Ilves",
