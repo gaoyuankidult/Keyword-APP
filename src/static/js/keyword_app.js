@@ -136,6 +136,8 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 			index++;
 		});
 	}
+	
+	
 
 	var _views = {
 		keywords_view: $("#keywords-container"),

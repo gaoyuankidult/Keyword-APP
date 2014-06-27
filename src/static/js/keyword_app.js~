@@ -108,7 +108,7 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 			_views.keyword_suggestions_view.hide();
 
 			var post_params = { search_word: $scope.search_word, keywords: _get_selected_keyword_suggestions() };
-			$.post("127.0.0.1:8888/search", post_params).done(function(data){
+			$.post("/search", post_params).done(function(data){
 				console.log(data);
 				//_initialize_keywords(data.keywords);
 			});
