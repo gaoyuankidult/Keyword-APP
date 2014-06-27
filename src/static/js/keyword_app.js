@@ -174,6 +174,21 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		return selected;
 	}
 
+	var _get_keyword_suggestions = function(){
+		console.log("Getting keyword suggestions");
+		
+		$scope.keyword_suggestions = [];
+
+		$.get("172.17.72.146:8888/keyword_suggestions", function(data){
+			console.log(data);
+
+			/*data.keywords.forEach(function(keyword){
+				$scope.keyword_suggestions.push(new Keyword(keyword.text));
+			})*/
+			
+		});
+	}
+
 	for(var i=0; i<200; i++){
 		if(i < 20){
 			$scope.current_keywords.push(new Keyword(i, "keyword", Math.random(), Math.random()));
@@ -186,6 +201,9 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		keyword.selected = false;
 		$scope.keyword_suggestions.push(keyword);
 	}
+	
+	_get_keyword_suggestions();
+	
 
 }]);
 
