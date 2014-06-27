@@ -179,13 +179,11 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		
 		$scope.keyword_suggestions = [];
 
-		$.get("172.17.72.146:8888/search", function(data){
-			console.log(data);
-
-			/*data.keywords.forEach(function(keyword){
-				$scope.keyword_suggestions.push(new Keyword(keyword.text));
-			})*/
-			
+		$.get("/search", function(data){
+			data.keywords.forEach(function(keyword){
+				$scope.keyword_suggestions.push(new Keyword(keyword));
+			});
+			$scope.$apply();
 		});
 	}
 
