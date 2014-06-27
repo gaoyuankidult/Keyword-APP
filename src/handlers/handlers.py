@@ -292,7 +292,7 @@ class SearchHandler(MainBaseHandler):
     @tornado.web.authenticated
     def get(self):
         message = {
-            "keyword":["words"] * 200 
+            "keywords":["word"] * 200 
         }
         self.json_ok(message)
         
