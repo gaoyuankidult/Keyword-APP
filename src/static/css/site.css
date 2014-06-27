@@ -2,6 +2,9 @@ body{
 	background-image:url("../img/body_bg.png");
 	color: rgb(100,100,100);
 }
+#search-container{
+	display: none;
+}
 .search-form{
 	border-radius: 0px;
 	font-size: 1.5em;
