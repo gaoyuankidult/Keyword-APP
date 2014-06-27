@@ -27,11 +27,11 @@
 		...
 	],
 	persons: [
-	{
-		name: "Kalle Ilves",
-		keywords: [1, 2, 3, ...]
-	},
-	...
+		{
+			name: "Kalle Ilves",
+			keywords: [1, 2, 3, ...]
+		},
+		...
 	]
 
 }</pre>
@@ -61,10 +61,10 @@
 		...
 	],
 	persons: [
-	{
-		name: "Kalle Ilves",
-		keywords: [1, 2, 3, ...]
-	},
-	...
+		{
+			name: "Kalle Ilves",
+			keywords: [1, 2, 3, ...]
+		},
+		...
 	]
 }</pre>
