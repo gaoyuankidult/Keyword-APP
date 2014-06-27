@@ -79,11 +79,12 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		_views.people_view.animate({
 			width: "0%"
 		}, 500, function(){
-			/*
-				$.post("/", {}).done(function(data){
-					_initialize_keywords(data.keywords);
-				});
-			*/
+			$scope.current_keywords = [];
+
+			$.post("/next", {}).done(function(data){
+				_initialize_keywords(data.keywords);
+			});
+			
 			_views.keywords_view.fadeIn(500);
 			_views.people_view.animate({
 				width: "30%"
@@ -103,23 +104,28 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 	}
 
 	$scope.search = function(){
-		//$scope.current_keywords = [];
+		$scope.current_keywords = [];
+
 		_views.search_view.slideUp("slow", function(){
 			_views.keyword_suggestions_view.hide();
 
 			var post_params = { search_word: $scope.search_word, keywords: _get_selected_keyword_suggestions() };
+
 			$.post("/search", post_params).done(function(data){
-				console.log(data);
-				//_initialize_keywords(data.keywords);
+				var id = 0;
+				data.keywords.forEach(function(keyword){
+					$scope.current_keywords.push(new Keyword(id++, keyword.text, keyword.exploitation, keyword.exploration));
+				});
+
+				$(".remove-keyword").tooltip();
+				$(".keyword-knob").knob();
+				
+				_views.people_view.animate({
+					width: "30%"
+				}, 500);
+				
+				_views.keywords_view.fadeIn(500);
 			});
-			
-			$(".remove-keyword").tooltip();
-			$(".keyword-knob").knob();
-			_views.people_view.animate({
-				width: "30%"
-			}, 500);
-			
-			_views.keywords_view.fadeIn(500);
 		});
 	}
 
@@ -136,8 +142,6 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 			index++;
 		});
 	}
-	
-	
 
 	var _views = {
 		keywords_view: $("#keywords-container"),
@@ -145,14 +149,6 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		people_view: $("#people-container"),
 		search_view: $("#search-container"),
 		keyword_suggestions_view: $(".keyword-suggestions-list")
-	}
-
-	var _initialize_keywords = function(keywords){
-		$scope.current_keywords = [];
-
-		keywords.keywords.forEach(function(keyword){
-			$scope.current_keywords.push(new Keyword(keyword.text, keyword.exploitation, keyword.exploration));
-		});
 	}
 
 	var _reset_variables = function(){
@@ -163,6 +159,36 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		$scope.persons = [];
 		$scope.current_person = null;
 		$scope.$apply();
+	}
+
+	var _get_keyword_suggestions = function(callback){
+
+		$scope.keyword_suggestions = [];
+
+		$.get("/search", function(data){
+			data.keywords.forEach(function(keyword){
+				k = new Keyword();
+				k.text = keyword;
+				$scope.keyword_suggestions.push(k);
+			});
+
+			$scope.$apply();
+
+			callback();
+		});
+	}
+
+	var _get_keyword_feedback = function(){
+		var feedback = [];
+
+		$scope.current_keywords.forEach(function(keyword){
+			feedback.push({
+				text: keyword.text,
+				weight: keyword.weight / 100
+			});
+		});
+
+		return feedback;
 	}
 
 	var _get_selected_keyword_suggestions = function(){
@@ -176,39 +202,7 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		return selected;
 	}
 
-	var _get_keyword_suggestions = function(){
-		console.log("Getting keyword suggestions");
-		
-		$scope.keyword_suggestions = [];
-
-		$.get("/search", function(data){
-			
-			console.log(data)
-			data.keywords.forEach(function(keyword){
-				k = new Keyword()
-				k.text = keyword
-				$scope.keyword_suggestions.push(k);
-			});
-			$scope.$apply();
-
-		});
-	}
-
-	for(var i=0; i<200; i++){
-		if(i < 20){
-			$scope.current_keywords.push(new Keyword(i, "keyword", Math.random(), Math.random()));
-		}
-		if(i < 20){
-			person = new Person("Kalle Ilves");
-			$scope.persons.push(person);
-		}
-		keyword = new Keyword(i, "keyword", Math.random(), Math.random());
-		keyword.selected = false;
-		$scope.keyword_suggestions.push(keyword);
-	}
-	
-	_get_keyword_suggestions();
-	
+	_get_keyword_suggestions(function(){ _views.search_view.slideDown(500); });
 
 }]);
 
