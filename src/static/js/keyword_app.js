@@ -79,8 +79,6 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		_views.people_view.animate({
 			width: "0%"
 		}, 500, function(){
-			$scope.current_keywords = [];
-
 			$.post("/next", _get_keyword_feedback()).done(function(data){
 				$scope.current_keywords = [];
 
@@ -88,6 +86,11 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 				data.keywords.forEach(function(keyword){
 					$scope.current_keywords.push(new Keyword(id++, keyword.text, keyword.exploitation, keyword.exploration));
 				});
+
+				$scope.$apply();
+
+				$(".remove-keyword").tooltip();
+				$(".keyword-knob").knob();
 
 				_views.keywords_view.fadeIn(500);
 				_views.people_view.animate({
@@ -104,7 +107,7 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 			width: "0%"
 		}, 600, function(){
 			_reset_variables();
-			
+
 			_get_keyword_suggestions(function(){
 				_views.search_view.slideDown(500);
 			});
@@ -119,7 +122,7 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 
 			var post_params = { search_word: $scope.search_word, keywords: _get_selected_keyword_suggestions() };
 
-			$.post("/search", post_params).done(function(data){
+			$.post("/search", JSON.stringify(post_params)).done(function(data){
 				var id = 0;
 				data.keywords.forEach(function(keyword){
 					$scope.current_keywords.push(new Keyword(id++, keyword.text, keyword.exploitation, keyword.exploration));
@@ -187,16 +190,16 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 	}
 
 	var _get_keyword_feedback = function(){
-		var feedback = [];
-
+		var feedback = {};
+		feedback.keywords = [];
 		$scope.current_keywords.forEach(function(keyword){
-			feedback.push({
+			feedback.keywords.push({
 				text: keyword.text,
 				weight: keyword.weight / 100
 			});
 		});
 
-		return feedback;
+		return JSON.stringify(feedback);
 	}
 
 	var _get_selected_keyword_suggestions = function(){
