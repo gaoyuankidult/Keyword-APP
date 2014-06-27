@@ -15,14 +15,26 @@
 
 ##Response
 
-<code>keywords: [
+<code>{
+
+keywords: [
 	{
+		id: 1,
 		text: "keyword",
 		exploitation: 0.5,
 		exploration: 0.3
 	},
 	...
-]</code>
+	],
+people: [
+{
+	name: "Kalle Ilves",
+	keywords: [1, 2, 3, ...]
+},
+...
+]
+
+}</code>
 
 #POST /next 
 
@@ -38,11 +50,23 @@
 
 ##Response
 
-<code>keywords: [
+<code>{
+
+keywords: [
 	{
+		id: 1,
 		text: "keyword",
 		exploitation: 0.5,
 		exploration: 0.3
 	},
 	...
-]</code>
+	],
+people: [
+{
+	name: "Kalle Ilves",
+	keywords: [1, 2, 3, ...]
+},
+...
+]
+
+}</code>
