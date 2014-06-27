@@ -17,22 +17,22 @@
 
 <pre>{
 
-keywords: [
+	keywords: [
+		{
+			id: 1,
+			text: "keyword",
+			exploitation: 0.5,
+			exploration: 0.3
+		},
+		...
+	],
+	people: [
 	{
-		id: 1,
-		text: "keyword",
-		exploitation: 0.5,
-		exploration: 0.3
+		name: "Kalle Ilves",
+		keywords: [1, 2, 3, ...]
 	},
 	...
-],
-people: [
-{
-	name: "Kalle Ilves",
-	keywords: [1, 2, 3, ...]
-},
-...
-]
+	]
 
 }</pre>
 
@@ -51,21 +51,20 @@ people: [
 ##Response
 
 <pre>{
-keywords: [
+	keywords: [
+		{
+			id: 1,
+			text: "keyword",
+			exploitation: 0.5,
+			exploration: 0.3
+		},
+		...
+	],
+	people: [
 	{
-		id: 1,
-		text: "keyword",
-		exploitation: 0.5,
-		exploration: 0.3
+		name: "Kalle Ilves",
+		keywords: [1, 2, 3, ...]
 	},
 	...
-],
-people: [
-{
-	name: "Kalle Ilves",
-	keywords: [1, 2, 3, ...]
-},
-...
-]
-
+	]
 }</pre>
