@@ -1,0 +1,571 @@
+<articles><Article>
+<number>
+1
+</number>
+<name>Ahmed Imtiaj</name><abstract>
+Large screens are populating a variety of settings motivating research on appropriate interaction techniques. While gesture is popularized by depth cameras we contribute with a comparison study showing how eye pointing is a valuable substitute to gesture pointing in dragging tasks. We compare eye pointing combined with gesture selection to gesture pointing and selection. Results clearly show that eye pointing combined with a selection gesture allows more accurate and faster dragging.</abstract>
+</Article>
+<Article>
+<number>
+2
+</number>
+<name>Ahmed Imtiaj</name><abstract>
+Advanced interactive visualization such as in virtual environments and ubiquitous interaction paradigms pose new challenges and opportunities in considering real-time responses to subliminal cues. In this paper, we propose a synthetic reality platform that, combined with psychophysiological recordings, enables us to study in realtime the effects of various subliminal cues. We endeavor to integrate various aspects known to be relevant to implicit perception. The context is of consumer experience and choice of an artifact where the generation of subliminal perception through an intelligent 3D interface controls the spatio-temporal aspects of the information displayed and of the emergent narrative. One novel contribution of this work is the programmable nature of the interface that exploits known perceptive phenomena (e.g. masking, crowding and change blindness) to generate subliminal perception.</abstract>
+</Article>
+<Article>
+<number>
+4
+</number>
+<name>Ahonen Teppo</name><abstract>
+We approach the problem of measuring similarity between chromagrams and present two new quantized representations for the task. The first representation is a sequence of optimal transposition index (OTI) values between the global chroma vector and each frame of the chromagram, whereas the second representation uses in similar fashion the global chroma of the query and frames of the target chromagram, thus emphasizing the mutual information of the chromagrams in the representation. The similarity between quantized representations is measured using normalized compression distance (NCD) as the similarity metric, and we experiment with a variant of k-medians algorithm, where the commonly used Euclidean distance has been replaced with NCD, to cluster the chromagrams. The representations and clustering method are evaluated by experimenting how well different cover versions of a composition can be clustered, and based on the experiments, we analyze various parameter settings for the representations. The results are promising and provide possible directions for future work.</abstract>
+</Article>
+<Article>
+<number>
+6
+</number>
+<name>Ahonen Teppo</name><abstract>
+We present a system for MIREX 2011 cover song identification task that is based on a method for measuring similarity between polyphonic, symbolic pieces of music [1].</abstract>
+</Article>
+<Article>
+<number>
+7
+</number>
+<name>Ahonen Teppo</name><abstract>
+We present a novel compression-based method for measuring similarity between sequences of symbolic, polyphonic music. The method is based on mapping the values of binary chromagrams extracted from MIDI files to tonal centroids, then quantizing the tonal centroid representation values to sequences, and finally measuring the similarity between the quantized sequences using Normalized Compression Distance (NCD). The method is comprehensively evaluated with a test set of classical music variations, and the highest achieved precision and recall values suggest that the proposed method can be applied for similarity measuring. Also, we analyze the performance of the method and discuss what should be taken into consideration when applying the method for measurement tasks.</abstract>
+</Article>
+<Article>
+<number>
+8
+</number>
+<name>Ahonen Teppo</name><abstract>
+We examine how approximating Kolmogorov complexity inlyrics can be used for classification in music information retrieval. Using normalized compression distance as a simi-larity measure between lyrics, we perform various evaluations for large sets of lyrics spanning over several genres,lyricists and moods. Results suggest that straightforward compression-based similarity measuring can be applied tolyrics with competent performance.</abstract>
+</Article>
+<Article>
+<number>
+9
+</number>
+<name>Ahonen Teppo</name><abstract>
+Normalized Compression Distance (NCD) is an information-theory based similarity metric that has been used successfully for similarity measuring in various domains, including music.. Here, we extend NCD from the pairwise similarity measurement to lists of objects. Based on the compressibility of a single object in the context of a list, we can make assumptions of the objects similarity with the objects in the given list.</abstract>
+</Article>
+<Article>
+<number>
+10
+</number>
+<name>Ahonen Teppo</name><abstract>
+We present an approach for cover version identification which is based on combining different discretized features derived from the chromagram vectors extracted from the audio data. For measuring similarity between features, we use a parameter-free quasi-universal similarity metric which utilizes data compression. Evaluation proves that combined feature distances increase the accuracy in cover version identification.</abstract>
+</Article>
+<Article>
+<number>
+11
+</number>
+<name>Ahonen Teppo</name><abstract>
+We present a system for cover song identification. Our approach combines chord sequence estimation with a similarity metric called normalized compression distance.</abstract>
+</Article>
+<Article>
+<number>
+12
+</number>
+<name>Ahonen Teppo</name><abstract>
+syntaxerror in -file- Operand stack: --nostringval-- Execution stack: %interp_exit .runexec2 --nostringval-- --nostringval-- --nostringval-- 2 %stopped_push --nostringval-- --nostringval-- --nostringval-- false 1 %stopped_push 1909 2 3 %oparray_pop 1908 2 3 %oparray_pop 1892 2 3 %oparray_pop 1787 2 3 %oparray_pop --nostringval-- %errorexec_pop .runexec2 --nostringval-- --nostringval-- --nostringval-- 2 %stopped_push Dictionary stack: --dict:1217/1684(ro)(G)-- --dict:0/20(G)-- --dict:80/200(L)-- Current allocation mode is local Current file position is</abstract>
+</Article>
+<Article>
+<number>
+13
+</number>
+<name>Ahonen-Myka Helena</name><abstract>
+Thesauri, which list the most salient semantic relations between words, have mostly been compiled manually. Therefore, the inclusion of an entry depends on the subjective decision of the lexicographer. As a consequence, those resources are usually incomplete. In this paper, we propose an unsupervised methodology to automatically discover pairs of semantically related words by highlighting their local environment and evaluating their semantic similarity in local and global semantic spaces. This proposal differs from all other research presented so far as it tries to take the best of two different methodologies, i.e. semantic space models and information extraction models. In particular, it can be applied to extract close semantic relations, it limits the search space to few, highly probable options and it is unsupervised.</abstract>
+</Article>
+<Article>
+<number>
+14
+</number>
+<name>Ahonen-Myka Helena</name><abstract>
+In this paper, we review statistical techniques for the direct evaluation of descriptive phrases and introduce a</abstract>
+</Article>
+<Article>
+<number>
+15
+</number>
+<name>Ahonen-Myka Helena</name><abstract>
+In this paper, we address the problem of the exploitation of text phrases in a multilingual context. We propose a technique to benefit from multi-word units in </abstract>
+</Article>
+<Article>
+<number>
+16
+</number>
+<name>Ahonen-Myka Helena</name><abstract>
+This paper describes 4M, a language technology research project where a dialogue system is applied on a mobile platform in a maintenance job scenario. The human-machine interface uses speech synthesis and recognition, assisted with a hypertext display. We describe a modular agent architecture, composed of independent program components which are implemented by or communicate using ontology programming techniques. Domain content and lingware are developed and shared using standard Web ontology formats and ontology-aware offline tools. A contribution of the project is the attention paid to standardization to help provide the system with new content and to migrate it to new domains, languages and purposes</abstract>
+</Article>
+<Article>
+<number>
+17
+</number>
+<name>Ahonen-Myka Helena</name><abstract>
+In this paper, we present a new technique for the extraction of discontiguous sequential descriptors from text. We are able to form word sequences without any restriction on their size or on the distance between their components. Based on the concept of a maximal frequent sequence (MFS), our approach allows for the extraction of compact text descriptors of quality in a more efficient manner than other previously known techniques. It further scales up to document collections of virtually any size, when other approaches normally fail for collections large enough. After a review of the related work and the presentation of our approach, MF S MineSweep, we introduce measures of the quality and quantity of information in a set of sequential descriptors representing a document collection. We finally present experiments whose results demonstrate the real-life applicability and superiority of the proposed method.</abstract>
+</Article>
+<Article>
+<number>
+18
+</number>
+<name>Ahonen-Myka Helena</name><abstract>
+We present an efficient technique for calculating the probability of occurrence of a discontinued sequence of words, i.e., the probability that those words occur, and that they occur in a given order, regardless of which and how many other words may occur between them. The procedure we introduce for words and documents may be generalized to any type of sequential data, e.g., item sequences and transactions. Our method relies on the formalization into a particular Markov chain model, whose specificities are combined with techniques of probability and linear algebra to offer competitive computational complexity. The technique is further extended to permit the efficient calculation of the expected document frequency of a sequence. We finally present an application, a fast and automatic direct method to evaluate the interestingness of word sequences, by comparing their expected and observed frequencies.</abstract>
+</Article>
+<Article>
+<number>
+19
+</number>
+<name>Ahonen-Myka Helena</name><abstract>
+We compare different query formulation strategies and expansion based on lexical affinities in the context of passage retrieval. Our method to expand the queries using lexical affinities replaces only the missing terms from the original query in candidate passages while scoring them. The replacement term's affinity with the missing term is used to weight the substitution, and the degree of affinity is computed using statistics generated from a terabyte corpus. The passages extracted using this replacement method and a set of passages extracted using different formulation strategies are evaluated using TREC's QA test set.</abstract>
+</Article>
+<Article>
+<number>
+20
+</number>
+<name>Ahonen-Myka Helena</name><abstract>
+lexical description is mapped to the surface strings by applying morphophonological alternation rules. While in the usual description, followingthe terminology of Xerox, the lower language represents the orthographically correct word forms, in the compile-replace algorithm the initial network (i.e.the composition of the lexicon and the rules) is left abstract for including meta-morphotactic descriptions of non-concatenative phenomena.When processing this kind of description, the morphophonological rules and lexicon, which are in the form of regular expressions, are first readand composed into a network. This network contains strings which also include meta-morphotactic descriptions in the form of regular expressions. Thecompile-replace command is applied to the lower side of the initial network, where it finds the meta-morphotactic descriptions, compiles them as regularexpressions and replaces them in the lexicon network with the new network resulting from the compilation (Beesley and Karttunen 2003: 381-382).The example in (3) illuminates how the above description is implemented with the Swahili verb sema (to say).</abstract>
+</Article>
+<Article>
+<number>
+23
+</number>
+<name>Asokan N.</name><abstract>
+ There is little information from independent sources in the public domain
+about mobile malware infection rates. The only previous independent estimate
+(0.0009%) [12], was based on indirect measurements obtained from domain name
+resolution traces. In this paper, we present the first independent study of
+malware infection rates and associated risk factors using data collected
+directly from over 55,000 Android devices. We find that the malware infection
+rates in Android devices estimated using two malware datasets (0.28% and
+0.26%), though small, are significantly higher than the previous independent
+estimate. Using our datasets, we investigate how indicators extracted
+inexpensively from the devices correlate with malware infection. Based on the
+hypothesis that some application stores have a greater density of malicious
+applications and that advertising within applications and cross-promotional
+deals may act as infection vectors, we investigate whether the set of
+applications used on a device can serve as an indicator for infection of that
+device. Our analysis indicates that this alone is not an accurate indicator for
+pinpointing infection. However, it is a very inexpensive but surprisingly
+useful way for significantly narrowing down the pool of devices on which
+expensive monitoring and analysis mechanisms must be deployed. Using our two
+malware datasets we show that this indicator performs 4.8 and 4.6 times
+(respectively) better at identifying infected devices than the baseline of
+random checks. Such indicators can be used, for example, in the search for new
+or previously undetected malware. It is therefore a technique that can
+complement standard malware scanning by anti-malware tools. Our analysis also
+demonstrates a marginally significant difference in battery use between
+infected and clean devices.
+</abstract>
+</Article>
+<Article>
+<number>
+24
+</number>
+<name>Asokan N.</name><abstract>
+We present the design and implementation of the </abstract>
+</Article>
+<Article>
+<number>
+25
+</number>
+<name>Asokan N.</name><abstract>
+Mobile smart devices and services have become an integral part of our daily life. In this context there are many compelling scenarios for mobile device users to share resources. A popular example is tethering. However, sharing resources also raises privacy and security issues.</abstract>
+</Article>
+<Article>
+<number>
+29
+</number>
+<name>Asokan N.</name><abstract>
+A trusted execution environment (TEE) is a secure processing environment that is isolated from the normal processing environment where the device operating system and applications run. The first mobile phones with hardware-based TEEs appeared almost a decade ago, and today almost every smartphone and tablet contains a TEE like ARM TrustZone. Despite such a large-scale deployment, the use of TEE functionality has been limited for developers. With emerging standardization this situation is about to change. In this tutorial, we explain the security features provided by mobile TEEs and describe On-board Credentials (ObC) system that enables third-party TEE development. We discuss ongoing TEE standardization activities, including the recent Global Platform standards and the Trusted Platform Module (TPM) 2.0 specification, and identify open problems for the near future of mobile hardware security.</abstract>
+</Article>
+<Article>
+<number>
+30
+</number>
+<name>Asokan N.</name><abstract>
+Third-party applications (apps) drive the attractiveness of web and mobile application platforms. Many of these platforms adopt a decentralized control strategy, relying on explicit user consent for granting permissions that the apps request. Users have to rely primarily on community ratings as the signals to identify the potentially harmful and inappropriate apps even though community ratings typically reflect opinions about perceived functionality or performance rather than about risks. With the arrival of HTML5 web apps, such user-consent permission systems will become more widespread. We study the effectiveness of user-consent permission systems through a large scale data collection of Facebook apps, Chrome extensions and Android apps. Our analysis confirms that the current forms of community ratings used in app markets today are not reliable indicators of privacy risks of an app. We find some evidence indicating attempts to mislead or entice users into granting permissions: free applications and applications with mature content request more permissions than is typical; 'look-alike' applications which have names similar to popular applications also request more permissions than is typical. We also find that across all three platforms popular applications request more permissions than average.</abstract>
+</Article>
+<Article>
+<number>
+31
+</number>
+<name>Asokan N.</name><abstract>
+Trusted execution environments (TEEs) are widely deployed both on mobile devices as well as in personal computers. TEEs typically have a small amount of physically secure memory but they are not enough to realize certain algorithms, such as authenticated encryption modes, in the standard manner. TEEs can however access the much larger but untrusted system memory using which “pipelined” variants of these algorithms can be realized by gradually reading input from, and/or writing output to the untrusted memory. In this paper, we motivate the need for pipelined variants of authenticated encryption modes in TEEs, describe a pipelined version of the EAX mode, and prove that it is as secure as standard, “baseline”, EAX. We point out potential pitfalls in mapping the abstract description of a pipelined variant to concrete implementation and discuss how these can be avoided. We also discuss other algorithms which can be adapted to the pipelined setting and proved correct in a similar fashion.</abstract>
+</Article>
+<Article>
+<number>
+32
+</number>
+<name>Asokan N.</name><abstract>
+Configuring access control policies in mobile devices can be quite tedious and unintuitive for users. Software designers attempt to address this problem by setting up default policy configurations. But such global defaults may not be sensible for all users. Modern smart phones are capable of sensing a variety of information about the surrounding environment like Bluetooth devices, WiFi access points, temperature, ambient light, sound and location coordinates. We conjecture that profiling this type of contextual information can be used to infer the familiarity and safety of a context and aid in access control decisions. We propose a context profiling framework and describe device locking as an example application where the locking timeout and unlocking method are dynamically decided based on the perceived safety of current context. We report on using datasets from a large scale smart phone data collection campaign to select parameters for the context profiling framework. We also describe a prototype implementation on a smart phone platform. More generally, we hope that our example design and implementation spurs further research on the notion of using context profiling towards automating security policy decisions and identify other applications.</abstract>
+</Article>
+<Article>
+<number>
+33
+</number>
+<name>Astikainen Katja</name><abstract>
+Enzyme function prediction is an important problem in post-genomic bioinformatics, needed for reconstruction of metabolic networks of organisms. Currently there are two general methods for solving the problem: annotation transfer from a similar annotated protein, and machine learning approaches that treat the problem as classification against a fixed taxonomy, such as Gene Ontology or the EC hierarchy. These methods are suitable in cases where the function of the new protein is indeed previously characterized and included in the taxonomy. However, given a new function that is not previously described, these approaches are not of significant assistance to the human expert. The goal of this paper is to bring forward structured output learning approaches for the case where the exactly correct function of the enzyme to be annotated may not be contained in the training set. Our approach hinges on fine-grained representation of the enzyme function via the so called reaction kernels that allow interpolation and extrapolation in the output (reaction) space. A kernel-based structured output prediction model is used to predict enzymatic reactions from sequence motifs. We bring forward several choices for constructing reaction kernels and experiment with them in the remote homology case where the functions in the test set have not been seen in the training phase.</abstract>
+</Article>
+<Article>
+<number>
+34
+</number>
+<name>Astikainen Katja</name><abstract>
+Enzyme function prediction problem is usually solved using annotation transfer methods. These methods are
+suitable in cases where the function of the new protein is previously characterized and included in the taxonomy
+such as EC hierarchy. However, given a new function that is not previously described, these approaches
+arguably do not offer adequate support for the human expert.
+In this paper, we explore a structured output learning approach, where enzyme function—an enzymatic
+reaction—is described in fine-grained fashion with so called reaction kernels which allow interpolation and
+extrapolation in the output (reaction) space. Two structured output models are learned via Kernel Density
+Estimation and Maximum Margin Regression to predict enzymatic reactions from sequence motifs. We bring
+forward two choices for constructing reaction kernels and experiment with them in the remote homology case
+where the functions in the test set have not been seen in the training phase. Our experiments demonstrate the
+viability of our approach.</abstract>
+</Article>
+<Article>
+<number>
+35
+</number>
+<name>Astikainen Katja</name><abstract>
+Motivation: Enzyme function prediction is an important problem in post-genomic bioinformatics. There are two general methods for solving the problem: annotation transfer from a similar annotated protein, and machine learning approaches that treat the problem as classification against a fixed taxonomy, such as Gene Ontology or the EC hierarchy. These methods are suitable in cases where the function of the new protein is indeed previously characterized and included in the taxonomy. However, given a new function that is not previously described, these approaches arguably do not offer adequate support for the human expert.</abstract>
+</Article>
+<Article>
+<number>
+36
+</number>
+<name>Astikainen Katja</name><abstract>
+In this paper we describe work in progress in developing kernel methods for enzyme
+         function prediction. Our focus is in developing so called structured output prediction
+         methods, where the enzymatic reaction is the combinatorial target object for prediction.
+         We compared two structured output prediction methods, the Hierarchical Max-Margin
+         Markov algorithm (HMIn our experiments, in predicting enzyme EC classification we obtain over 85% accuracy
+         (predicting the four digit EC code) and over 91% microlabel F1 score (predicting individual
+         EC digits). In predicting the Gold Standard enzyme families, we obtain over 79% accuracy
+         (predicting family correctly) and over 89% microlabel F1 score (predicting superfamilies
+         and families). In the latter case, structured output methods are significantly more
+         accurate than nearest neighbor classifier. A polynomial kernel over the GTG feature
+         set turned out to be a prerequisite for accurate function prediction. Combining GTG
+         with string kernels boosted accuracy slightly in the case of EC class prediction.
+      Structured output prediction with GTG features is shown to be computationally feasible
+         and to have accuracy on par with state-of-the-art approaches in enzyme function prediction.
+      </abstract>
+</Article>
+<Article>
+<number>
+38
+</number>
+<name>Athukorala Kumaripaba</name><abstract>
+Since the recent emergence of electronic literature re-sources, researchers have begun to adopt new informationseeking practices. The purpose of this research is to inves-tigate the information needs and searching behaviors of researchers, and their implications for electronic literature search tools. We conducted mixed-method case studies involving interviews, diary logs, and observations of com-puter scientists followed by a web-based survey to validate our findings. The results show that computer science re-searchers have the following main purposes for seeking information: keeping up to date, exploring new topics, re-viewing literature, collaborating, preparing lectures, and recommending material for students. We found that keep-ing up to date with research is the most frequent purpose and exploring unfamiliar research areas is the most diffi-cult. Furthermore, we found that literature searching is a collaborative process and, depending on the search pur-pose, different information sources and navigation strategies are used. On the basis of these findings we discuss six design challenges for literature search tools, which are: providing support for keeping up to date with research, exploring unfamiliar topics, browsing user history, collaborating and sharing, performing a federated search that goes beyond scholarly research, and sorting and navigating the results. Keywords</abstract>
+</Article>
+<Article>
+<number>
+39
+</number>
+<name>Athukorala Kumaripaba</name><abstract>
+This paper presents the design and study of interactive user modeling to support exploratory search tasks. Contrary to traditional interactions, such as query based search, query suggestions, or relevance feedback, interactive user modeling allows a user to perceive the state of the user model at all times and provide feedback that directly rewards or pe-nalizes it. The technique allows the user to continuously tune the system's belief about the user's evolving infor-mation needs. We demonstrate that such functionality is useful in exploratory search where users need to get accustomed to a body of literature in a domain. We conducted two experiments where scientists carried out exploratory search tasks with our implementation of an interactive user modeling and retrieval system (SciNet) and two baselines: SciNet from which interactive user modeling was excluded and a real-world baseline (Google Scholar). The results show that interactive user modeling can help users to more effectively find relevant, novel and diverse information without compromises in task execution time.</abstract>
+</Article>
+<Article>
+<number>
+40
+</number>
+<name>Athukorala Kumaripaba</name><abstract>
+We introduce interactive intent modeling, where the user directs exploratory search by providing feedback for estimates of search intents. The estimated intents are visualized for interaction on an Intent Radar, a novel visual interface that organizes intents onto a radial layout where relevant intents are close to the center of the visualization and similar intents have similar angles. The user can give feedback on the visualized intents, from which the system learns and visualizes improved intent estimates. We systematically evaluated the effect of the interactive intent modeling in a mixed-method task-based information seeking setting with 30 users, where we compared two interface variants for interactive intent modeling, namely intent radar and a simpler list-based interface, to a conventional search system. The results show that interactive intent modeling significantly improves users' task performance and the quality of retrieved information.</abstract>
+</Article>
+<Article>
+<number>
+41
+</number>
+<name>Athukorala Kumaripaba</name><abstract>
+Techniques for both exploratory and known item search tend to direct only to more specific subtopics or individual documents, as opposed to allowing directing the exploration of the information space. We present an interactive information retrieval system that combines Reinforcement Learning techniques along with a novel user interface design to allow active engagement of users in directing the search. Users can directly manipulate document features (keywords) to indicate their interests and Reinforcement Learning is used to model the user by allowing the system to trade off between exploration and exploitation. This gives users the opportunity to more effectively direct their search nearer, further and following a direction. A task-based user study conducted with 20 participants comparing our system to a traditional query-based baseline indicates that our system significantly improves the effectiveness of information retrieval by providing access to more relevant and novel information without having to spend more time acquiring the information.</abstract>
+</Article>
+<Article>
+<number>
+42
+</number>
+<name>Athukorala Kumaripaba</name><abstract>
+Techniques for both exploratory and known item search tend to direct only to more specific subtopics or individual documents, as opposed to allowing directing the exploration of the information space. We present SciNet, an interactive information retrieval system that combines Reinforcement Learning techniques along with a novel user interface design to allow active engagement of users in directing the search. Users can directly manipulate document features (keywords) to indicate their interests and Reinforcement Learning is used to model the user by allowing the system to trade off between exploration and exploitation. This gives users the opportunity to more effectively direct their search.</abstract>
+</Article>
+<Article>
+<number>
+43
+</number>
+<name>Athukorala Kumaripaba</name><abstract>
+Media creation applications cater poorly to one very common usage: Situations in which the users need media that they do not own and for which they are unwilling to pay. Finding and using externally produced media is currently a cumbersome process. Often, users locate the content using a search engine, copy it into their work, cross their fingers, and hope they do not infringe on any copyrights. While the authors have shared hundreds of millions of images with permissive licenses, the license terms are too complicated for other users to follow. In our studies, we found that even the well-intentioned users still fail to respect copyrights in simple image reuse situations. We therefore introduce an Open Media Retrieval (OMR) model to remedy this problem and supplement it with prototypes that access various legal image sources directly within the creative work flow and provide automatic credits to the original authors.</abstract>
+</Article>
+<Article>
+<number>
+45
+</number>
+<name>Athukorala Kumaripaba</name><abstract>
+Pervasive Social Computing is a novel collective paradigm, derived from pervasive computing, social media, social networking, social signal processing, etc. This paper reviews Pervasive Social Computing as an integrated computing environment, which promises to augment five facets of human intelligence: physical environment awareness, behavior awareness, community awareness, interaction awareness, and content awareness. Reviews of related studies are given, and their generic architectures are designed. The resulting architecture for Pervasive Social Computing is presented. A prototype is developed and examined, in order to investigate the characteristics exhibited by Pervasive Social Computing.</abstract>
+</Article>
+<Article>
+<number>
+46
+</number>
+<name>Athukorala Kumaripaba</name><abstract>
+Automation is the process of having a machine or machines to accomplish tasks hitherto performed wholly or partly by humans. Home automation concerns automating the domestic tasks. There are number of applications addressing home automation and monitoring involving infrared/Bluetooth or Ethernet over Power techniques in remote controls. But there is no such publication on providing facility to control and monitor unlimited number of equipments at home via a mobile device at a very low cost using general packet radio services (GPRS) networks. This paper presents a recent research and development effort in construing a real-time home automation and monitoring system named SmartEye which uses cellular networks, Internet based server, networked hardware equipments and GPRS networks. SmartEye accomplishes two tasks; they are home automation and monitoring through mobile phone. Under automation it addresses turning on/off household electrical appliances, such as electric bulbs, door locks etc. SmartEye uses an alerting mechanism together with security cameras to safeguard homes. And also it provides an interface to monitor and control the home through mobile devices. This is a system which integrates the home with the World Wide Web and mobile devices. This paper also discusses the architecture of the system which makes it an easily expandable, user-friendly, affordable and reliable real-time monitoring and remote controlling solution.</abstract>
+</Article>
+<Article>
+<number>
+47
+</number>
+<name>Bayhan Suzan</name><abstract>
+Caching is a key component of information-centric networking, but most of the work in the area focuses on simple en-route caching with limited cooperation between the caches. In this paper we model cache cooperation under a game theoretical framework and show how cache cooperation policy can allow the system to converge to a Pareto optimal configuration. Our work shows how cooperation impacts network caching performance and how it takes advantage of the structural properties of the underlying network.</abstract>
+</Article>
+<Article>
+<number>
+48
+</number>
+<name>Belazzougui Djamal</name><abstract>
+In this paper we are concerned with the basic problem of string pattern matching: preprocess one or multiple fixed strings over alphabet </abstract>
+</Article>
+<Article>
+<number>
+49
+</number>
+<name>Belazzougui Djamal</name><abstract>
+Karpinski and Nekrich (2008) introduced the problem of parameterized range majority, which asks to preprocess a string of length </abstract>
+</Article>
+<Article>
+<number>
+50
+</number>
+<name>Belazzougui Djamal</name><abstract>
+Let </abstract>
+</Article>
+<Article>
+<number>
+51
+</number>
+<name>Belazzougui Djamal</name><abstract>
+We describe succinct and compact representations of the bidirectional </abstract>
+</Article>
+<Article>
+<number>
+52
+</number>
+<name>Berg Otto</name><abstract>
+Bayesian network structure learning is the well-known computationally hard problem of finding a directed acyclic graph structure that optimally describes given data. A learned structure can then be used for probabilistic inference. While exact inference in Bayesian networks is in general NP-hard, it is tractable in networks with low treewidth. This provides good motivations for developing algorithms for the NPhard problem of learning optimal bounded treewidth Bayesian networks (BTW-BNSL). In this work, we develop a novel score-based approach to BTW-BNSL, based on casting BTW-BNSL as weighted partial Maximum satisfiability. We demonstrate empirically that the approach scales notably better than a recent exact dynamic programming algorithm for BTW-BNSL.</abstract>
+</Article>
+<Article>
+<number>
+54
+</number>
+<name>Berg Otto</name><abstract>
+We introduce an extensible framework for correlation clustering by harnessing the Maximum satisfiability (MaxSAT) Boolean optimization paradigm. The approach is based on formulating the correlation clustering task in an exact fashion as MaxSAT, and then using a state-of-the-art MaxSAT solver for finding clusterings by solving the MaxSAT formulation. Our approach allows for finding optimal clusterings wrt the objective function of the problem, extends to constrained correlation clustering-by allowing for easy integration of user-defined domain knowledge in terms of hard constraints over the clusterings of interest-as well as overlapping correlation clustering. First experiments on the scalability of the approach are presented.</abstract>
+</Article>
+<Article>
+<number>
+55
+</number>
+<name>Bhattacharya Sourav</name><abstract>
+ There is little information from independent sources in the public domain
+about mobile malware infection rates. The only previous independent estimate
+(0.0009%) [12], was based on indirect measurements obtained from domain name
+resolution traces. In this paper, we present the first independent study of
+malware infection rates and associated risk factors using data collected
+directly from over 55,000 Android devices. We find that the malware infection
+rates in Android devices estimated using two malware datasets (0.28% and
+0.26%), though small, are significantly higher than the previous independent
+estimate. Using our datasets, we investigate how indicators extracted
+inexpensively from the devices correlate with malware infection. Based on the
+hypothesis that some application stores have a greater density of malicious
+applications and that advertising within applications and cross-promotional
+deals may act as infection vectors, we investigate whether the set of
+applications used on a device can serve as an indicator for infection of that
+device. Our analysis indicates that this alone is not an accurate indicator for
+pinpointing infection. However, it is a very inexpensive but surprisingly
+useful way for significantly narrowing down the pool of devices on which
+expensive monitoring and analysis mechanisms must be deployed. Using our two
+malware datasets we show that this indicator performs 4.8 and 4.6 times
+(respectively) better at identifying infected devices than the baseline of
+random checks. Such indicators can be used, for example, in the search for new
+or previously undetected malware. It is therefore a technique that can
+complement standard malware scanning by anti-malware tools. Our analysis also
+demonstrates a marginally significant difference in battery use between
+infected and clean devices.
+</abstract>
+</Article>
+<Article>
+<number>
+56
+</number>
+<name>Bhattacharya Sourav</name><abstract>
+t is challenging to precisely identify the boundary of activities in order to annotate the activity datasets required to train activity recognition systems. This is the case for experts, as well as non-experts who may be recruited for crowd-sourcing paradigms to reduce the annotation effort or speed up the process by distributing the task over multiple annotators. We present a method to automatically adjust annotation boundaries, presuming a correct annotation label, but imprecise boundaries, otherwise known as "label jitter". The approach maximizes the Fukunaga Class-Separability, applied to time series. Evaluations on a standard benchmark dataset showed statistically significant improvements from the initial jittery annotations.</abstract>
+</Article>
+<Article>
+<number>
+57
+</number>
+<name>Bhattacharya Sourav</name><abstract>
+The dynamics of a city are characterized, among others, by the traveling patterns of its dwellers. Accurate knowledge of human mobility patterns would have applications, e.g., in urban design, in the optimization of public transportation operating costs, and in the improvement of public transportation services. The present paper combines a large scale bus transportation dataset with publicly available data sources to predict bus usage. We propose a Gaussian process-based approach for modeling and predicting bus ridership. To validate our approach we perform experiments on data collected from Lisbon, Portugal. The results demonstrate significant improvements in prediction accuracy compared to a probabilistic baseline predictor.</abstract>
+</Article>
+<Article>
+<number>
+58
+</number>
+<name>Bhattacharya Sourav</name><abstract>
+Off-the-shelf modern mobile devices come with a number of inbuilt sensors, e.g., GPS, WiFi, GSM, accelerometer, compass, gyroscope, NFC and Bluetooth. Equipped with all these sensors and internet connectivity, modern mobile phones are enabling continuous sensing and increasingly many emergent mobile applications are using sensed context on the phone to understand users' needs and improve usability. However, limited battery power is a big hindrance to the deployment of continuous sensing on mobile devices and without any intelligent sensor management, the battery lasts only few hours. In this research, we emphasize on location-awareness and address the challenges in developing ubiquitous positioning solutions, cross-device indoor localization, position and trajectory tracking and inferring high-level contexts using machine-learning techniques on sensor data in an energy-efficient way.</abstract>
+</Article>
+<Article>
+<number>
+59
+</number>
+<name>Bhattacharya Sourav</name><abstract>
+ng Positions for Indoor Location Based Services</abstract>
+</Article>
+<Article>
+<number>
+60
+</number>
+<name>Bhattacharya Sourav</name><abstract>
+Emergent location-aware applications often require tracking trajectories of mobile devices over a long period of time. To be useful, the tracking has to be energy-efficient to avoid having a major impact on the battery life of the mobile device. Furthermore, when trajectory information needs to be sent to a remote server, on-device simplification of the trajectories is needed to reduce the amount of data transmission. While there has recently been a lot of work on energy-efficient position tracking, the energy-efficient tracking of trajectories has not been addressed in previous work. In this paper we propose a novel on-device sensor management strategy and a set of trajectory updating protocols which intelligently determine when to sample different sensors (accelerometer, compass and GPS) and when data should be simplified and sent to a remote server. The system is configurable with regards to accuracy requirements and provides a unified framework for both position and trajectory tracking. We demonstrate the effectiveness of our approach by emulation experiments on real world data sets collected from different modes of transportation (walking, running, biking and commuting by car) as well as by validating with a real-world deployment. The results demonstrate that our approach is able to provide considerable savings in the battery consumption compared to a state-of-the-art position tracking system while at the same time maintaining the accuracy of the resulting trajectory, i.e., support of specific accuracy requirements and different types of applications can be ensured.</abstract>
+</Article>
+<Article>
+<number>
+61
+</number>
+<name>Bhattacharya Sourav</name><abstract>
+Cyber foraging is a pervasive computing technique where small, mobile devices offload resource intensive work to stronger, nearby surrogate computers in order to preserve energy and achieve better performance. The problem with relying only on local resources is, that the availability of such resources may be scarce in many environments. In this paper we therefore argue that a third tier should be added when considering cyber foraging; namely cloud computing. By considering the local device, nearby surrogates, and the cloud when scheduling, the mobile device may be able to continue using remote resources even when such resources are not available in its vicinity. An important challenge of pervasive computing is estimating the physical position of mobile devices. As the requirements increase for continuous and accurate positioning so does the computational requirements of positioning-even limiting the possible accuracy in many cases. In this paper we describe how a three tier cyber foraging approach can help improve the positioning capabilities of mobile devices. We demonstrate initial results for how such an approach applies to particle filtering-based GSM positioning.</abstract>
+</Article>
+<Article>
+<number>
+65
+</number>
+<name>Bingham Ella</name><abstract>
+Several studies have demonstrated the prospects of spectral ordering for data mining. One successful application is seriation of paleontological findings, i.e. ordering the sites of excavation, using data on mammal co-occurrences only. However, spectral ordering ignores the background knowledge that is naturally present in the domain: paleontologists can derive the ages of the sites within some accuracy. On the other hand, the age information is uncertain, so the best approach would be to combine the background knowledge with the information on mammal co-occurrences. Motivated by this kind of partial supervision we propose a novel semi-supervised spectral ordering algorithm that modifies the Laplacian matrix such that domain knowledge is taken into account. Also, it performs feature selection by discarding features that contribute most to the unwanted variability of the data in bootstrap sampling. Moreover, we demonstrate the effectiveness of the proposed framework on the seriation of Usenet newsgroup messages, where the task is to find out the underlying flow of discussion. The theoretical properties of our algorithm are thoroughly analyzed and it is demonstrated that the proposed framework enhances the stability of the spectral ordering output and induces computational gains.</abstract>
+</Article>
+<Article>
+<number>
+67
+</number>
+<name>Bingham Ella</name><abstract>
+Recent studies have demonstrated the prospects of data mining algorithms for addressing the task of seriation in paleontological data (i.e. the age-based ordering of the sites of excavation). A prominent approach is spectral ordering that computes a similarity measure between the sites and orders them such that similar sites become adjacent and dissimilar sites are placed far apart. In the paleontological domain, the similarity measure is based on the mammal genera whose remains are retrieved at each site of excavation. Although spectral ordering achieves good performance in the seriation task, it ignores the background knowledge that is naturally present in the domain, as paleontologists can derive the ages of the sites of excavation within some accuracy. On the other hand, the age information is uncertain, so the best approach would be to combine the background knowledge with the information on mammal co-occurrences. Motivated by this kind of partial supervision we propose a novel semi-supervised spectral ordering algorithm. Our algorithm modifies the Laplacian matrix used in spectral ordering, such that domain knowledge of the ordering is taken into account. Also, it performs feature selection (sparsification) by discarding features that contribute most to the unwanted variability of the data in bootstrap sampling. The theoretical properties of the proposed algorithm are thoroughly analyzed and it is demonstrated that the proposed framework enhances the stability of the spectral ordering output and induces computational gains.</abstract>
+</Article>
+<Article>
+<number>
+70
+</number>
+<name>Bingham Ella</name><abstract>
+We investigate two recommendation approaches suitable for online multimedia sharing services. Our first approach, UserRank, recommends items by global interestingness irrespective of user preferences and is based on the analysis of ownership and evaluation link structure. We also present a personalized interestingness algorithm that combines UserRank with collaborative filtering which enables a single parameter to control the degree of personalization in the recommendations. Our initial results from an informal user study are encouraging.</abstract>
+</Article>
+<Article>
+<number>
+71
+</number>
+<name>Bingham Ella</name><abstract>
+We present a probabilistic multiple cause model for the analysis of binary (0–1) data. A distinctive feature of the aspect Bernoulli (AB) model is its ability to automatically detect and distinguish between “true absences” and “false absences” (both of which are coded as 0 in the data), and similarly, between “true presences” and “false presences” (both of which are coded as 1). This is accomplished by specific additive noise components which explicitly account for such non-content bearing causes. The AB model is thus suitable for noise removal and data explanatory purposes, including omission/addition detection. An important application of AB that we demonstrate is data-driven reasoning about palaeontological recordings. Additionally, results on recovering corrupted handwritten digit images and expanding short text documents are also given, and comparisons to other methods are demonstrated and discussed.</abstract>
+</Article>
+<Article>
+<number>
+72
+</number>
+<name>Bingham Ella</name><abstract>
+We address the problem of interactive feature construction and denoising of binary data. To this end, we develop a variational ICA method, employing a multivariate Bernoulli likelihood and independent Beta source densities. We relate this to other binary data models, demonstrating its advantages in two application domains.</abstract>
+</Article>
+<Article>
+<number>
+74
+</number>
+<name>Brugge Kai Stephan</name><abstract>
+Most learning and sampling algorithms for restricted Boltzmann machines (RMBs) rely on Markov chain Monte Carlo (MCMC) methods using Gibbs sampling. The most prominent examples are Contrastive Divergence learning (CD) and its variants as well as Parallel Tempering (PT). The performance of these methods strongly depends on the mixing properties of the Gibbs chain. We propose a Metropolis-type MCMC algorithm relying on a transition operator maximizing the probability of state changes. It is shown that the operator induces an irreducible, aperiodic, and hence properly converging Markov chain, also for the typically used periodic update schemes. The transition operator can replace Gibbs sampling in RBM learning algorithms without producing computational overhead. It is shown empirically that this leads to faster mixing and in turn to more accurate learning.</abstract>
+</Article>
+<Article>
+<number>
+75
+</number>
+<name>Buntine Wray Lindsay</name><abstract>
+Recently there has been considerable interest in topic models based on the bag-of-features representation of images. The strong independence assumption inherent in the bag-of-features representation is not realistic however: patches often overlap and share underlying image structures. Moreover, important information with respect to relative scales of the features is completely ignored, for the sake of scale invariance. Considering both spatial and scale-based constraints one can derive spatially constrained natural feature hierarchies within images. We explore the use of topic models that build such spatially constrained scale-induced hierarchies of the features in an unsupervised fashion. Our model uses standard topic models as a starting point. We then incorporate information about the hierarchical and spatial relations of the features into the model. We illustrate the hierarchical nature of the resulting models using datasets of natural images, including the MSRC2 dataset as well as a challenging set of images of trees collected from the Internet.</abstract>
+</Article>
+<Article>
+<number>
+76
+</number>
+<name>Buntine Wray Lindsay</name><abstract>
+This article presents a unified theory for analysis of components in discrete data, and compares the methods with techniques such as independent component analysis, non-negative matrix factorisation and latent Dirichlet allocation. The main families of algorithms discussed are a variational approximation, Gibbs sampling, and Rao-Blackwellised Gibbs sampling. Applications are presented for voting records from the United States Senate for 2003, and for the Reuters-21578 newswire collection.</abstract>
+</Article>
+<Article>
+<number>
+79
+</number>
+<name>Buntine Wray Lindsay</name><abstract>
+syntaxerror in -file- Operand stack: --nostringval-- Execution stack: %interp_exit .runexec2 --nostringval-- --nostringval-- --nostringval-- 2 %stopped_push --nostringval-- --nostringval-- --nostringval-- false 1 %stopped_push 1909 2 3 %oparray_pop 1908 2 3 %oparray_pop 1892 2 3 %oparray_pop 1787 2 3 %oparray_pop --nostringval-- %errorexec_pop .runexec2 --nostringval-- --nostringval-- --nostringval-- 2 %stopped_push Dictionary stack: --dict:1217/1684(ro)(G)-- --dict:0/20(G)-- --dict:80/200(L)-- Current allocation mode is local Current file position is</abstract>
+</Article>
+<Article>
+<number>
+84
+</number>
+<name>Chemmagate Binoy</name><abstract>
+Providing acceptable quality level for interactive media flows such as interactive video or audio is challenging in the presence of TCP traffic. Volatile TCP traffic such as Web traffic causes transient queues to appear and vanish rapidly introducing jitter to the packets of the media flow. Meanwhile long-lived TCP connections cause standing queues to form which increases the one-way delay for the media flow packets. To get insights into this problem space we conducted experiments in a real high-speed cellular network. Our results confirm the existence of issues with both Web-like traffic and long-lived TCP connections and highlight that current trend of using several parallel connections in Web browsers tends to have high cost on media flows. In addition, the recent proposal to increase the initial window of TCP to ten segments, if deployed, is going to make the jitter problem even worse.</abstract>
+</Article>
+<Article>
+<number>
+92
+</number>
+<name>Corander Jukka</name><abstract>
+-As shown by M'edard, the capacity of fading chan-nels with imperfect channel-state information (CSI) can be lowerbounded by assuming a Gaussian channel input and by treatingthe unknown portion of the channel multiplied by the channel input as independent worst-case (Gaussian) noise. Recently, wehave demonstrated that this lower bound can be sharpened by a rate-splitting approach: by expressing the channel input as thesum of two independent Gaussian random variables (referred to as layers), say X = X1+X2, and by applying M'edard's boundingtechnique to first lower-bound the capacity of the virtual channel from X1 to the channel output Y (while treating X2 as noise),and then lower-bound the capacity of the virtual channel from X2 to Y (while assuming X1 to be known), one obtains a lowerbound that is strictly larger than M'edard's bound. This ratesplitting approach is reminiscent of an approach used by Rimoldiand Urbanke to achieve points on the capacity region of the Gaussian multiple-access channel (MAC). Here we blend thesetwo rate-splitting approaches to derive a novel inner bound on the capacity region of the memoryless fading MAC withimperfect CSI. Generalizing the above rate-splitting approach to more than two layers, we show that, irrespective of how weassign powers to each layer, the supremum of all rate-splitting bounds is approached as the number of layers tends to infinity,and we derive an integral expression for this supremum. We further derive an expression for the vertices of the best innerbound, maximized over the number of layers and over all power assignments.</abstract>
+</Article>
+<Article>
+<number>
+97
+</number>
+<name>Cunial Fabio</name><abstract>
+We describe succinct and compact representations of the bidirectional </abstract>
+</Article>
+<Article>
+<number>
+98
+</number>
+<name>Cunial Fabio</name><abstract>
+Determining whether a pattern is statistically overrepresented or underrepresented in a string is a fundamental primitive in computational biology and in large-scale text mining. We study ways to speed up the computation of the expectation and variance of the number of occurrences of a pattern with rigid gaps in a random string. Our contributions are twofold: first, we focus on patterns in which groups of characters from an alphabet Σ can occur at each position. We describe a way to compute the exact expectation and variance of the number of occurrences of a pattern </abstract>
+</Article>
+<Article>
+<number>
+99
+</number>
+<name>Daniel Laila</name><abstract>
+Providing acceptable quality level for interactive media flows such as interactive video or audio is challenging in the presence of TCP traffic. Volatile TCP traffic such as Web traffic causes transient queues to appear and vanish rapidly introducing jitter to the packets of the media flow. Meanwhile long-lived TCP connections cause standing queues to form which increases the one-way delay for the media flow packets. To get insights into this problem space we conducted experiments in a real high-speed cellular network. Our results confirm the existence of issues with both Web-like traffic and long-lived TCP connections and highlight that current trend of using several parallel connections in Web browsers tends to have high cost on media flows. In addition, the recent proposal to increase the initial window of TCP to ten segments, if deployed, is going to make the jitter problem even worse.</abstract>
+</Article>
+<Article>
+<number>
+100
+</number>
+<name>Daniel Laila</name><abstract>
+Finding the available network capacity for a TCP connection is an important research problem as it allows the connection to improve its throughput and fairness in addition to reducing packet losses. As flows arrive and depart randomly in the network, the state of a TCP connection at any instant is very dynamic and a good estimate of the available capacity can enable TCP to quickly adapt to the actual available capacity in the network. This is especially relevant to heterogeneous access network environments where the end-to-end path characteristics of a TCP connection may abruptly change due to the changes in the access link characteristics after a vertical handoff. In this paper, we present an approach that combines available network capacity estimation with cross-layer notifications to TCP about the access link bandwidth and delay to quickly determine a rough estimate of the available capacity for a TCP connection. Using simulation experiments we evaluate our algorithms in the different phases of a TCP connection where the available capacity is unknown such as in the beginning of a TCP connection and after a vertical handoff. Our results show that the proposed algorithms improve TCP throughput and reduce the transfer time after a vertical handoff in heterogeneous access networks.</abstract>
+</Article>
+<Article>
+<number>
+102
+</number>
+<name>Daniel Laila</name><abstract>
+Finding the available network capacity for a TCP connection is an important research problem as it allows the connection to improve its throughput and fairness in addition to reducing packet losses. As flows arrive and depart randomly in the network, the state of a TCP connection at any instant is very dynamic and a good estimate of the available capacity can enable TCP to quickly adapt to the actual available capacity in the network. This is especially relevant to heterogeneous access network environments where the end-to-end path characteristics of a TCP connection may abruptly change due to the changes in the access link characteristics after a vertical handoff. In this paper, we present an approach that combines available network capacity estimation with cross-layer notifications to TCP about the access link bandwidth and delay to quickly determine a rough estimate of the available capacity for a TCP connection. Using simulation experiments we evaluate our algorithms in the different phases of a TCP connection where the available capacity is unknown such as in the beginning of a TCP connection and after a vertical handoff. Our results show that the proposed algorithms improve TCP throughput and reduce the transfer time after a vertical handoff in heterogeneous access networks.</abstract>
+</Article>
+<Article>
+<number>
+106
+</number>
+<name>Daniel Laila</name><abstract>
+The performance of an individual TCP flow with a vertical handoff has been studied in several papers. However, the effect of a vertical handoff on </abstract>
+</Article>
+<Article>
+<number>
+107
+</number>
+<name>Daniel Laila</name><abstract>
+In this paper we propose an enhancement to the TCP sender algorithm to combat packet reordering that may occur due to a vertical handoff from a slow to a fast access link. The proposed algorithm employs cross-layer notifications regarding the changes in the access link characteristics. Our algorithm avoids unnecessary retransmissions by dynamically changing the dupthresh value according to the bandwidth and delay of the old and new access links involved in the handoff. In addition it uses DSACK information to infer that there are no congestion-related losses and selects proper values for cwnd and ssthresh after the handoff. Simulation results show that the unnecessary retransmissions caused by packet reordering in a vertical handoff can be effectively minimized over a wide range of bandwidth and delay ratios of the access links. In addition, our algorithm is effective in reducing the congestion-related packet losses due to a decrease in bandwidth-delay product (BDP) after a handoff.</abstract>
+</Article>
+<Article>
+<number>
+108
+</number>
+<name>Daniel Laila</name><abstract>
+syntaxerror in -file- Operand stack: --nostringval-- Execution stack: %interp_exit .runexec2 --nostringval-- --nostringval-- --nostringval-- 2 %stopped_push --nostringval-- --nostringval-- --nostringval-- false 1 %stopped_push 1909 2 3 %oparray_pop 1908 2 3 %oparray_pop 1892 2 3 %oparray_pop 1787 2 3 %oparray_pop --nostringval-- %errorexec_pop .runexec2 --nostringval-- --nostringval-- --nostringval-- 2 %stopped_push Dictionary stack: --dict:1217/1684(ro)(G)-- --dict:0/20(G)-- --dict:80/200(L)-- Current allocation mode is local Current file position is</abstract>
+</Article>
+<Article>
+<number>
+109
+</number>
+<name>Ding Aaron Yi</name><abstract>
+Aerosols and new particle formation were studiedin the western part of the Yangtze River Delta (YRD) at the Station for Observing Regional Processes of the Earth Sys-tem, Nanjing University (SORPES-NJU). Air ions in the diameter range 0.8-42 nm were measured using an air ion spec-trometer, and a differential mobility particle sizer (DMPS) provided particle number size distributions between 6 and800 nm. Additionally, meteorological data, trace gas concentrations, and PM2.5 values were recorded. During themeasurement period from 18 November 2011 to 31 March 2012, the mean total particle concentration was found to be23 000 cm-3 and the mean PM</abstract>
+</Article>

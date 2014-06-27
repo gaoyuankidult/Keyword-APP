@@ -1,0 +1,245 @@
+<!doctype html>
+<!--[if lte IE 8]>
+<html class="lt-ie9">
+<![endif]-->
+<!--[if gt IE 8]>
+<!-->
+<html class="">
+  <!--<![endif]-->
+  <head>    
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Cascading grid layout library" />
+    <title>Masonry</title>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Montserrat:400,700" />
+    <!-- DEV MODE - including each .css file -->
+    <link rel="stylesheet" href="/static/bower_components/normalize-css/normalize.css" />
+    
+    <link rel="stylesheet" href="/static/css/base.css" />
+    <link rel="stylesheet" href="/static/css/code.css" />
+    <link rel="stylesheet" href="/static/css/demos.css" />
+    <link rel="stylesheet" href="/static/css/footer.css" />
+    <link rel="stylesheet" href="/static/css/hero.css" />
+    <link rel="stylesheet" href="/static/css/icons.css" />    
+    <link rel="stylesheet" href="/static/css/index.css" />
+    <link rel="stylesheet" href="/static/css/layout.css" />
+    <link rel="stylesheet" href="/static/css/modules.css" />    
+    <link rel="stylesheet" href="/static/css/site-nav.css" />    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@desandro" />
+    <meta name="twitter:url" content="http://masonry.desandro.com/index.html" />
+    <meta name="twitter:title" content="Masonry" />
+    <meta name="twitter:description" content="Cascading grid layout library" />
+	
+	<script>
+	function submitKeywords() {
+		var list = document.getElementById("member_list");
+		var keywords = "";
+      var listItems = list.getElementsByTagName ("li");
+      
+      
+      if (listItems.length > 0) {
+      	keywords = (listItems[0].firstElementChild||listItems[0].firstChild).innerHTML;
+      }
+		for (var i=1; i<listItems.length; i++) {
+			keywords = keywords + "_" + (listItems[i].firstElementChild||listItems[i].firstChild).innerHTML;
+		}
+
+		var method = "post" 
+		var path = "/hello"
+		var form = document.createElement("form");
+		form.setAttribute("method", method);
+		form.setAttribute("action", path);
+		
+		var input = document.createElement("input");
+		input.setAttribute("type", "hidden");
+		input.setAttribute("name", "key_prase");
+		input.setAttribute("value",keywords);
+
+		form.appendChild(input);
+		document.body.appendChild(form);
+		form.submit();
+		
+	}
+	
+   function addMember(element) {
+		var list = document.getElementById("member_list");
+		list.innerHTML = "<li><h5>" + element.name + "</h5></li>" + list.innerHTML; 
+	
+   }
+	</script>
+
+  </head>
+
+  <body class="index-page" data-page="index">
+    Hello {{user}} <a href='logout'>logout</a> <br/><a href='form'>fill in form</a><br/>
+    <!-- From here, we implemente the floating div at the right side. -->
+    <div style="position:fixed; top:5%; right:5%;">
+    	<div class="hero-item w2 texty">
+    		<h4>Target Researchers:</h4>
+	      <ul>
+				{% for researcher in researchers %}
+				<li>
+					<h5>
+				  		{{researcher}}
+				  	</h5>
+				</li>
+				{% end %}
+	      </ul>
+      </div>
+      </br>
+    	<div class="hero-item w2 texty">
+			<h4>Selected Keywords:</h4>
+	      <ul id="member_list">
+	     		<button id="keywordsSubmit" class="button" onclick="submitKeywords();">Submit</button>
+	      </ul>
+       </div>
+    </div>
+
+ 
+	<div id="hero">
+		<div class="primary-content">
+			<div class="hero-masonry">
+	  			<div class="grid-sizer"></div>
+	  	<div class="hero-item has-title texty">
+	    <h1>Matching System</h1>
+	    <p class="tagline">Matching your interests with professionals</p>
+	  </div>
+		  <div class="hero-item w2 what-is texty">
+		    <h2>What is matching system</h2>
+		    <p> Matching system matches your research interests with professions interests.Clicking the keywords that are interesting to you.</p>
+		  </div>
+		  <div class="hero-item w2 what-is texty" align="right">
+
+		      <form action="/search" method="post">    
+					<input name = "key_prase" type="search" placeholder="Search...">
+					<button>Search</button>
+		      </form>
+		  </div>
+	</div> 
+		<div>
+	     <button id="load-more-examples" class="button">Load more examples</button>
+		</div>
+
+		   
+    	</div> 
+    </div> 
+    <!-- Masonry does NOT require jQuery.
+	 jQuery is only used to demonstrate Masonry as a jQuery plugin -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/static/bower_components/jquery/jquery.min.js"><\/script>')</script>
+    <!-- DEV MODE - including each .js file -->
+    <script src="/static/bower_components/classie/classie.js"></script>
+    <script src="/static/bower_components/eventie/eventie.js"></script>
+    <script src="/static/bower_components/doc-ready/doc-ready.js"></script>
+    <script src="/static/bower_components/get-style-property/get-style-property.js"></script>
+    <script src="/static/bower_components/eventEmitter/EventEmitter.js"></script>
+    <script src="/static/bower_components/imagesloaded/imagesloaded.js"></script>
+    <script src="/static/bower_components/jquery-bridget/jquery.bridget.js"></script>
+    <script src="/static/bower_components/get-size/get-size.js"></script>
+    <script src="/static/bower_components/matches-selector/matches-selector.js"></script>
+    <script src="/static/bower_components/outlayer/item.js"></script>    
+    <script src="/static/bower_components/outlayer/outlayer.js"></script>
+    <script src="/static/bower_components/masonry/masonry.js"></script>
+    <script src="/static/js/controller.js"></script>
+    <script src="/static/js/pages/events.js"></script>
+    <script src="/static/js/pages/faq.js"></script>
+
+    <script>
+	/**
+	 * methods page
+	 */
+	
+	( function( window ) {
+	
+	'use strict';
+	
+	var MD = window.MD;
+	// var $ = window.jQuery;
+	
+	var heroContainer;
+	var heroMasonry;
+	var loadMoreButton;
+	
+	// --------------------------  -------------------------- //
+	
+	
+	MD.index = function() {
+	
+	  // ----- hero ----- //
+	
+	  ( function() {
+	    var hero = document.querySelector('#hero');
+	    heroContainer = hero.querySelector('.hero-masonry');
+	    heroMasonry = new Masonry( heroContainer, {
+	      itemSelector: '.hero-item',
+	      columnWidth: '.grid-sizer'
+	    });
+	
+	    getExamples();
+	
+	  })();
+	
+	  loadMoreButton = document.querySelector('#load-more-examples');
+	
+	};
+	
+	
+	function getExamples() {
+	
+	  var items = [];
+	  var fragment = document.createDocumentFragment();
+	  var data = examplesData;
+	  for ( var i=0, len = data.length; i < len; i++ ) {
+	    var item = makeExampleItem( data[i] );
+	    items.push( item );
+	    fragment.appendChild( item );
+	  }
+	
+	  imagesLoaded( fragment )
+	    .on( 'progress', function( imgLoad, image ) {
+	      var item = image.img.parentNode.parentNode;
+	      // debugger
+	      // console.dir( image.img.parentNode );
+	      heroContainer.appendChild( item );
+	      heroMasonry.appended( item );
+	    });
+	}
+	
+	var examplesData = [
+	  {% for keyword in keywords %}
+	  {
+	    title: "{{ keyword }}",
+	    image: "http://www.theunlimitedleadsource.com/wp-content/uploads/2013/03/16629018-abstract-word-cloud-for-keywords-with-related-tags-and-terms-300x264.jpg"
+	  },
+	  {% end %}
+	];
+	
+	function makeExampleItem( dataObj ) {
+	  var item = document.createElement('div');
+	  item.className = 'hero-item has-example is-hidden';
+	  var keyword = document.createElement('a');
+	  
+	  var img = document.createElement('img');
+	  img.src = dataObj.image;
+	  img.setAttribute("onclick","addMember(this)");
+	  img.name = dataObj.title;
+	  
+	  var title = document.createElement('p');
+	  title.className = 'example-title';
+	  title.textContent = dataObj.title;
+	  keyword.appendChild( img );
+	  keyword.appendChild( title );
+	  item.appendChild( keyword );
+	  return item;
+	}
+	
+	})( window );
+    </script>
+
+<!--    <script src="/static/js/pages/index.js"></script>-->
+    <script src="/static/js/pages/methods.js"></script>
+  </body>
+</html>

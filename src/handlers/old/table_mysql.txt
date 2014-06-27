@@ -1,0 +1,8 @@
+CREATE TABLE `PaperLinks` (
+  `Link_ID` smallint(6) NOT NULL AUTO_INCREMENT,
+  `PaperLink` varchar(255) NOT NULL,
+  `Paper_ID` smallint(6) NOT NULL,
+  PRIMARY KEY (`Link_ID`),
+  KEY `Paper_ID` (`Paper_ID`),
+  CONSTRAINT `PaperLinks_ibfk_1` FOREIGN KEY (`Paper_ID`) REFERENCES `PaperNames` (`Paper_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='latin1_swedish_ci'

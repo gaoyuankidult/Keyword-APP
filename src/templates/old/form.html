@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>jQuery UI Accordion - Default functionality</title>
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/jquery-1.10.2.js">
+	</script>
+	<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js">
+	</script>
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script>
+	    $(function() {
+	    $( "#accordion" ).accordion();
+	    });
+	</script>
+	</head>
+
+	<body>
+	  {% if notification %}
+	  <div id='notification' style="display: none;">
+	    <span>{{ notification }}</span>
+	    <a href="#" class="close-notify">X</a>
+	  </div>
+	  {% end %}
+	  Hello {{user}} <a href='logout'>logout</a> <br/><br/>
+
+	<div id="accordion">
+		<h3>Description</h3>
+		<div>
+			<form id="description_form" action="/hello" method="post">
+		 		<label class="grey" for="log">description:</label><br />
+		 		<input type="text" name="	description" style="width:40%;height:60%" id="description" value="robot robot walk robot"><br>
+		 		<input type="submit"  value="submit" class="button"><br />
+		  </form>
+		</div>
+	</div>      
+	</body>
+</html>
+
+
+
