@@ -182,12 +182,19 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		$scope.keyword_suggestions = [];
 
 		$.get("/search", function(data){
+<<<<<<< HEAD
 			console.log(data);
 
 			/*data.keywords.forEach(function(keyword){
 				$scope.keyword_suggestions.push(new Keyword(keyword.text));
 			})*/
 			
+=======
+			data.keywords.forEach(function(keyword){
+				$scope.keyword_suggestions.push(new Keyword(keyword));
+			});
+			$scope.$apply();
+>>>>>>> a226584920e03e55c3cf68fa659ce08cb2c0bdb8
 		});
 	}
 
