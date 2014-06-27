@@ -26,7 +26,7 @@
 		},
 		...
 	],
-	people: [
+	persons: [
 	{
 		name: "Kalle Ilves",
 		keywords: [1, 2, 3, ...]
@@ -60,7 +60,7 @@
 		},
 		...
 	],
-	people: [
+	persons: [
 	{
 		name: "Kalle Ilves",
 		keywords: [1, 2, 3, ...]
