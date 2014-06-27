@@ -41,9 +41,11 @@ class BaseHandler(RequestHandler):
         else:
             return None
     def json_ok(self, data):
+        ERR_OK = 1
+        MSG_OK = 0
         info = {"errcode": ERR_OK, "msg": MSG_OK}
         info.update(data)
-        j_ = json.dumps(info, default=json_default)
+        j_ = json.dumps(info)
         self.set_header("Content-Type", "application/json")
         self.finish("%s\n" % j_)
     # Allows us to get the previous URL
@@ -290,7 +292,7 @@ class SearchHandler(MainBaseHandler):
     @tornado.web.authenticated
     def get(self):
         message = {
-            "keyword":["keyword"] * 200 
+            "keyword":["words"] * 200 
         }
         self.json_ok(message)
         

@@ -181,7 +181,7 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		
 		$scope.keyword_suggestions = [];
 
-		$.get("172.17.72.146:8888/search", function(data){
+		$.get("/search", function(data){
 			console.log(data);
 
 			/*data.keywords.forEach(function(keyword){
