@@ -1,53 +1,48 @@
------------
-GET /search
------------
-
-RESPONSE:
-
-keywords : ["keyword", ...]
+#GET /search
 
 
--------------
-POST /search 
--------------
+##Response
 
-PARAMS:
-
-{ search_keyword: "keyword", keywords: ["keyword", "keyword", ...] }
+<code>keywords : ["keyword", ...]</code>
 
 
-RESPONSE:
+#POST /search 
 
-keywords: [
+##Params
+
+<code>{ search_keyword: "keyword", keywords: ["keyword", "keyword", ...] }</code>
+
+
+##Response
+
+<code>keywords: [
 	{
 		text: "keyword",
 		exploitation: 0.5,
 		exploration: 0.3
 	},
 	...
-]
+]</code>
 
-----------
-POST /next 
-----------
+#POST /next 
 
-PARAMS:
+##Params
 
-keywords: [
+<code>keywords: [
 	{
 		text: "keyword"
 		weight: 0.2
 	},
 	...
-]
+]</code>
 
-RESPONSE:
+##Response
 
-keywords: [
+<code>keywords: [
 	{
 		text: "keyword",
 		exploitation: 0.5,
 		exploration: 0.3
 	},
 	...
-]
+]</code>
