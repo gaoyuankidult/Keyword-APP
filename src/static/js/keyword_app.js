@@ -127,6 +127,8 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 				data.keywords.forEach(function(keyword){
 					$scope.current_keywords.push(new Keyword(id++, keyword.text, keyword.exploitation, keyword.exploration));
 				});
+				
+				$scope.$apply();
 
 				$(".remove-keyword").tooltip();
 				$(".keyword-knob").knob();
