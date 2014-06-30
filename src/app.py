@@ -26,11 +26,11 @@ class Application(tornado.web.Application):
     def __init__(self, **overrides):
         #self.config = self._get_config()
         handlers = [
-        url(r'/', HelloHandler, name='index'),
+        url(r'/', LoginHandler, name='/'),
 
         url(r'/form', FormHandler, name = 'form'),
-
-        url(r'/hello', HelloHandler, name='hello'),
+        url(r'/next', NextHandler,name = 'next'),
+        url(r'/index', IndexHandler, name='index'),
         url(r'/search', SearchHandler, name='search'),
         url(r'/analyzer', AnalyzerHandler, name='analyzer'),
         url(r'/email', EmailMeHandler, name='email'),
@@ -98,6 +98,8 @@ class Application(tornado.web.Application):
         
 
         self.f_obj = open(self.keywords_filename,'r')
+        
+        # set of all keywords
         self.keywords_set = pickle.load(self.f_obj)
         self.corpus = self.ke.get_corpus(109)
 

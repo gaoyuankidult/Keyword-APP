@@ -3,11 +3,14 @@
 # Tornado imports
 import pymongo
 import uuid
+
 import tornado.ioloop
 import tornado.options
 import tornado.web
+
 from tornado.options import define, options
 from tornado.web import url
+from copy import deepcopy
 
 from handlers.handlers import *
 
@@ -23,8 +26,13 @@ class Application(tornado.web.Application):
     def __init__(self, **overrides):
         #self.config = self._get_config()
         handlers = [
-        url(r'/', HelloHandler, name='index'),
-        url(r'/hello', HelloHandler, name='hello'),
+        url(r'/', LoginHandler, name='in'),
+
+        url(r'/form', FormHandler, name = 'form'),
+
+        url(r'/index', IndexHandler, name='index'),
+        url(r'/search', SearchHandler, name='search'),
+        url(r'/analyzer', AnalyzerHandler, name='analyzer'),
         url(r'/email', EmailMeHandler, name='email'),
         url(r'/message', MessageHandler, name='message'),
         url(r'/grav', GravatarHandler, name='grav'),
@@ -76,8 +84,37 @@ class Application(tornado.web.Application):
             self.syncdb = self.syncconnection[overrides['db']]
         else:
             self.syncdb = self.syncconnection["test-thank"]
+        self.syncconnection.close()
+        
+        
+        # following part is for analyzer
+        
+        self.keywords_number = 10
+        self._num_of_corpuses = 109 
+        self.abstracts_filename = "../docs/abstracts/abstracts.xml"
+        self.keywords_filename = "../docs/keywords/abstract_%s.txt"%self._num_of_corpuses
+        self.ke = KeywordExtractor(self.abstracts_filename)
 
-        #self.syncconnection.close()
+        
+
+        self.f_obj = open(self.keywords_filename,'r')
+        self.keywords_set = pickle.load(self.f_obj)
+        self.corpus = self.ke.get_corpus(109)
+
+
+        self.current_selected_keyword = len(list(self.keywords_set))
+        self.keywords_list = list(self.keywords_set)[:self.current_selected_keyword]
+        self.ranked_keywords = deepcopy(self.keywords_list)
+        self.filtered_keywords = deepcopy(self.keywords_list)
+        self.current_keywords = []
+        self.iter_num = 0
+        self.keywords = self.keywords_list[self.keywords_number * self.iter_num:self.keywords_number*(self.iter_num +1)]
+        self.analyzer = Analyzer(self.keywords_list, self.corpus)
+        self.f_obj.close()
+        
+    def __del__(self):
+        super(tornado.web.Application, self).__del__(*args, **kwargs)
+
 
 
 # to redirect log file run python with : --log_file_prefix=mylog

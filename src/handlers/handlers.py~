@@ -8,7 +8,7 @@ import pickle
 
 import boto
 import cStringIO
-import Image
+from PIL import Image
 
 import tornado.auth
 import tornado.escape
@@ -27,9 +27,8 @@ from tornado.ioloop import IOLoop
 from tornado.web import asynchronous, RequestHandler, Application
 from tornado.httpclient import AsyncHTTPClient
 
-
-from keywords_extractor import KeywordExtractor
-from doc_analyzer import Analyzer
+from analyzer.analyzer import Analyzer
+from analyzer.extractors import KeywordExtractor
 
 class BaseHandler(RequestHandler):
     def get_login_url(self):
@@ -41,7 +40,14 @@ class BaseHandler(RequestHandler):
             return tornado.escape.json_decode(user_json)
         else:
             return None
-
+    def json_ok(self, data):
+        ERR_OK = 1
+        MSG_OK = 0
+        info = {"errcode": ERR_OK, "msg": MSG_OK}
+        info.update(data)
+        j_ = json.dumps(info)
+        self.set_header("Content-Type", "application/json")
+        self.finish("%s\n" % j_)
     # Allows us to get the previous URL
     def get_referring_url(self):
         try:
@@ -81,7 +87,7 @@ class FormHandler(BaseHandler):
         user = self.application.syncdb['users'].find_one({'user': self.get_current_user()})
         user['description'] = description
         auth = self.application.syncdb['users'].save(user)
-        self.redirect("hello")
+        self.redirect(u"/index")
 
 
 class NotificationHandler(BaseHandler):
@@ -114,14 +120,14 @@ class LoginHandler(BaseHandler):
 
     def post(self):
         email = self.get_argument("email", "")
-        password = self.get_argument("password", "")
+        password = self.get_argument("password", "").encode("utf-8")
         user = self.application.syncdb['users'].find_one({'user': email})
         
 
         # Warning bcrypt will block IO loop:
-        if user and user['password'] and bcrypt.hashpw(password, user['password']) == user['password']:
+        if user and user['password'] and bcrypt.hashpw(password, user['password'].encode("utf-8")) == user['password']:
             self.set_current_user(email)
-            self.redirect("hello")
+            self.redirect("/index")
         else:
             self.set_secure_cookie('flash', "Login incorrect")
             self.redirect(u"/login")
@@ -190,7 +196,7 @@ class RegisterHandler(LoginHandler):
         auth = self.application.syncdb['users'].save(user)
         self.set_current_user(email)
 
-        self.redirect("hello")
+        self.redirect(u"/index")
 
 
 class TwitterLoginHandler(LoginHandler,
@@ -210,7 +216,7 @@ class TwitterLoginHandler(LoginHandler,
         # Create user if user not found
 
         self.set_current_user(tw_user['username'])
-        self.redirect("hello")
+        self.redirect(u"/index")
 
 
 class FacebookLoginHandler(LoginHandler, tornado.auth.FacebookGraphMixin):
@@ -233,7 +239,7 @@ class FacebookLoginHandler(LoginHandler, tornado.auth.FacebookGraphMixin):
         #user_details = self.application.syncdb['users'].find_one( {'facebook': fb_user['id']} )
         # Create user if user not found
         self.set_current_user(fb_user['id'])
-        self.redirect("hello")
+        self.redirect(u"/index")
 
 
 class LogoutHandler(BaseHandler):
@@ -285,36 +291,45 @@ class SearchHandler(MainBaseHandler):
 
     @tornado.web.authenticated
     def get(self):
-        pass        
+        message = {
+            "keywords":["word"] * 200 
+        }
+        self.json_ok(message)
         
     @tornado.web.authenticated
     def post(self):
-        self.application.iter_num = 0
-        messages = self.get_messages()
-        researchers = self.get_researcher()       
-        
-        # get key prases from user
-        key_prases = self.get_argument('key_prase', '').split(' ')
-        temp = []
-        self.application.current_keywords = []
-        for keyword in self.application.keywords_list:
-            if self._lists_overlap(key_prases, keyword.split()):
-                temp.append(keyword)
-        self.application.filtered_keywords = temp
-        self.application.keywords = self.application.filtered_keywords[self.application.keywords_number * self.application.iter_num:self.application.keywords_number*(self.application.iter_num +1)]    
-        self.application.current_keywords.extend(self.application.keywords)
-        self.render("hello.html", user=self.get_current_user(), messages=messages, notification=self.get_flash(),keywords=self.application.keywords,  researchers = researchers)        
+#        self.application.iter_num = 0
+#        messages = self.get_messages()
+#        researchers = self.get_researcher()       
+#        
+#        # get key prases from user
+#        key_prases = self.get_argument('key_prase', '').split(' ')
+#        temp = []
+#        self.application.current_keywords = []
+#        for keyword in self.application.keywords_list:
+#            if self._lists_overlap(key_prases, keyword.split()):
+#                temp.append(keyword)
+#        
+#        self.application.filtered_keywords = temp
+#        self.application.keywords = self.application.filtered_keywords[self.application.keywords_number * self.application.iter_num:self.application.keywords_number*(self.application.iter_num +1)]    
+#        self.application.current_keywords.extend(self.application.keywords)
+#        #self.render("hello.html", user=self.get_current_user(), messages=messages, notification=self.get_flash(),keywords=self.application.keywords,  researchers = researchers)        
+        message = {
+            "keyword":["keyword"] * 200 
+        }
+
+        self.json_ok(message)
 
         
     
-class HelloHandler(MainBaseHandler):
+class IndexHandler(MainBaseHandler):
 
     @tornado.web.authenticated        
     def get(self):		
         import pickle
         messages = self.get_messages()
         researchers = self.get_researcher()
-        self.render("hello.html", user=self.get_current_user(), messages=messages, notification=self.get_flash(),keywords=self.application.keywords, researchers = researchers)
+        self.render("index.html")
 
     @tornado.web.authenticated 
     def post(self):

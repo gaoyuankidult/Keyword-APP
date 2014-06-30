@@ -8,7 +8,7 @@ import pickle
 
 import boto
 import cStringIO
-import Image
+from PIL import Image
 
 import tornado.auth
 import tornado.escape
@@ -21,6 +21,9 @@ import urlparse
 import time
 import threading
 import functools
+
+from random import sample
+import json
 
 
 from tornado.ioloop import IOLoop
@@ -41,9 +44,7 @@ class BaseHandler(RequestHandler):
         else:
             return None
     def json_ok(self, data):
-        ERR_OK = 1
-        MSG_OK = 0
-        info = {"errcode": ERR_OK, "msg": MSG_OK}
+        info = {}
         info.update(data)
         j_ = json.dumps(info)
         self.set_header("Content-Type", "application/json")
@@ -87,7 +88,7 @@ class FormHandler(BaseHandler):
         user = self.application.syncdb['users'].find_one({'user': self.get_current_user()})
         user['description'] = description
         auth = self.application.syncdb['users'].save(user)
-        self.redirect("hello")
+        self.redirect(u"/index")
 
 
 class NotificationHandler(BaseHandler):
@@ -120,14 +121,14 @@ class LoginHandler(BaseHandler):
 
     def post(self):
         email = self.get_argument("email", "")
-        password = self.get_argument("password", "")
+        password = self.get_argument("password", "").encode("utf-8")
         user = self.application.syncdb['users'].find_one({'user': email})
         
 
         # Warning bcrypt will block IO loop:
-        if user and user['password'] and bcrypt.hashpw(password, user['password']) == user['password']:
+        if user and user['password'] and bcrypt.hashpw(password, user['password'].encode("utf-8")) == user['password']:
             self.set_current_user(email)
-            self.redirect("hello")
+            self.redirect("/index")
         else:
             self.set_secure_cookie('flash', "Login incorrect")
             self.redirect(u"/login")
@@ -196,7 +197,7 @@ class RegisterHandler(LoginHandler):
         auth = self.application.syncdb['users'].save(user)
         self.set_current_user(email)
 
-        self.redirect("hello")
+        self.redirect(u"/index")
 
 
 class TwitterLoginHandler(LoginHandler,
@@ -216,7 +217,7 @@ class TwitterLoginHandler(LoginHandler,
         # Create user if user not found
 
         self.set_current_user(tw_user['username'])
-        self.redirect("hello")
+        self.redirect(u"/index")
 
 
 class FacebookLoginHandler(LoginHandler, tornado.auth.FacebookGraphMixin):
@@ -239,7 +240,7 @@ class FacebookLoginHandler(LoginHandler, tornado.auth.FacebookGraphMixin):
         #user_details = self.application.syncdb['users'].find_one( {'facebook': fb_user['id']} )
         # Create user if user not found
         self.set_current_user(fb_user['id'])
-        self.redirect("hello")
+        self.redirect(u"/index")
 
 
 class LogoutHandler(BaseHandler):
@@ -285,51 +286,89 @@ class MainBaseHandler(BaseHandler):
     def get_messages(self): 
         return self.application.syncdb.messages.find()
 
+class NextHandler(MainBaseHandler):
+    def get(self):
+        
+        pass
+
+    def post(self):
+        message = {
+            "keywords": [
+                {
+                    "id": 1,
+                    "text": "keyword",
+                    "exploitation": 0.5,
+                    "exploration": 0.3
+                },
+            ],
+            "persons": [
+                {
+                    "name": "Kalle Ilves",
+                    "keywords": [1, 2, 3]
+                },
+            ]
+        }
+        self.json_ok(message)
+
+
+
 class SearchHandler(MainBaseHandler):
     def _lists_overlap(self, a, b):
         return bool(set(a) & set(b))
 
     @tornado.web.authenticated
     def get(self):
+        # defines the number of the keywords received by the front end
+        self.index_keyowords_no = 200 
         message = {
-            "keywords":["word"] * 200 
+            "keywords":sample(self.application.keywords_set,self.index_keyowords_no)
         }
         self.json_ok(message)
         
     @tornado.web.authenticated
     def post(self):
-#        self.application.iter_num = 0
-#        messages = self.get_messages()
-#        researchers = self.get_researcher()       
-#        
-#        # get key prases from user
-#        key_prases = self.get_argument('key_prase', '').split(' ')
-#        temp = []
-#        self.application.current_keywords = []
-#        for keyword in self.application.keywords_list:
-#            if self._lists_overlap(key_prases, keyword.split()):
-#                temp.append(keyword)
-#        
-#        self.application.filtered_keywords = temp
-#        self.application.keywords = self.application.filtered_keywords[self.application.keywords_number * self.application.iter_num:self.application.keywords_number*(self.application.iter_num +1)]    
-#        self.application.current_keywords.extend(self.application.keywords)
-#        #self.render("hello.html", user=self.get_current_user(), messages=messages, notification=self.get_flash(),keywords=self.application.keywords,  researchers = researchers)        
+        # reset the iteration number 
+        self.application.iter_num = 0
+        # load the data from the front end
+        data = json.loads(self.request.body)
+
+        search_word = data["search_word"]
+        # decompose the search word and keywords and make them as a local keyoword list
+        keywords = [word for keyword in data["keywords"] for word in keyword.split()]
+        print keywords
+        # initilze temp container for sending keywords
+        temp = []
+        #iterate throught each word in the list and check wether it overlaps with our local keyword list.
+        for keyword in self.application.keywords_list:
+            if self._lists_overlap(keywords, keyword.split()):
+                temp.append(keyword)
+        print temp
+        self.application.filtered_keywords = temp
+        self.application.keywords = self.application.filtered_keywords[self.application.keywords_number * self.application.iter_num:self.application.keywords_number*(self.application.iter_num +1)]    
+
+
         message = {
-            "keyword":["keyword"] * 200 
+            "keywords": [
+                {
+                    "id" :1 ,
+                    "text": keyword,
+                    "exploitation": 0.5,
+                    "exploration": 0.3
+                }
+                for keyword in self.application.keywords
+            ]
+            
         }
 
         self.json_ok(message)
 
         
     
-class HelloHandler(MainBaseHandler):
+class IndexHandler(MainBaseHandler):
 
     @tornado.web.authenticated        
     def get(self):		
-        import pickle
-        messages = self.get_messages()
-        researchers = self.get_researcher()
-        self.render("hello.html", user=self.get_current_user(), messages=messages, notification=self.get_flash(),keywords=self.application.keywords, researchers = researchers)
+        self.render("index.html")
 
     @tornado.web.authenticated 
     def post(self):
