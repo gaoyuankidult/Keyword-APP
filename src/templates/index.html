@@ -1,0 +1,123 @@
+<html ng-app="KeywordApp">
+	<head>
+		<title>Kewyword app</title>
+
+		<link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="static/css/animate.css">
+		<link rel="stylesheet" href="static/css/site.css">
+
+		<script src="static/js/jquery.js"></script>
+		<script src="static/js/jquery-ui.min.js"></script>
+		<script src="static/js/knob.js"></script>
+		<script src="static/js/angular.js"></script>
+		<script src="static/bootstrap/js/bootstrap.min.js"></script>
+		<script src="static/js/keyword_app.js"></script>
+
+	</head>
+
+	<body ng-controller="KeywordController">
+		
+		<!-- SEARCH FORM AND KEYWORD SUGGESTIONS -->
+		<div class="container-basic container-dark" id="search-container">
+
+			<div class="wrapper">
+				
+				<!-- SEARCH FORM -->
+				<form>
+					<input type="text" ng-model="search_word" class="form-control text-field-rounded" id="search-field" placeholder="What are you looking for?" autofocus>
+					<input type="submit" ng-click="search()" style="display: none">
+				</form>
+
+				<!-- KEYWORD SUGGESTIONS -->
+				<p class="text-center text-muted" style="margin-bottom: 20px">Type in a search phrase of select your keywords from below</p>
+
+				<div class="text-center">
+
+					<button id="suggest-keywords-trigger" ng-click="toggle_keyword_suggestions()"><i class="fa fa-list marg-right"></i>Suggest keywords<i class="fa fa-angle-down marg-left" ng-hide="show_keyword_suggestions"></i><i class="fa fa-angle-up marg-left" ng-show="show_keyword_suggestions"></i></button>
+				
+				</div>
+
+				<div class="keyword-suggestions-list">
+
+					<button class="keyword-suggestion keyword-suggestion-selected-{[{keyword_suggestion.selected}]}" ng-repeat="keyword_suggestion in keyword_suggestions | limitTo: keyword_suggestions_count" ng-click="toggle_keyword_suggestion_selection(keyword_suggestion)"><i class="fa fa-square marg-right" ng-hide="keyword_suggestion.selected"></i><i class="fa fa-check-square marg-right" ng-show="keyword_suggestion.selected"></i>{[{keyword_suggestion.text}]}</button>
+
+					<div class="text-center" style="margin-top: 20px">
+						<button class="btn btn-green btn-rounded" ng-click="load_more_keyword_suggestions()"><i class="fa fa-plus marg-right"></i>More</button>
+						<button class="btn btn-blue btn-rounded" ng-click="search()"><i class="fa fa-search marg-right"></i>Search</button>
+					</div>
+				
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- SINGLE PERSON DISPLAY -->
+		<div class="container-basic" id="person-container">
+			
+			<h2>
+				{[{current_person.name}]}
+
+				<button class="btn pull-right btn-close" data-toggle="tooltip" data-placement="bottom" title="Close this window" ng-click="hide_person()">
+					<i class="fa fa-times"></i>
+				</button>
+
+			</h2>
+
+			<div class="wrapper">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacinia laoreet quam, id aliquet neque. Donec tristique gravida erat eu euismod. Nam at diam interdum, tempor tortor non, consequat est. Donec dolor ante, fringilla vel mauris vitae, venenatis facilisis est. In in neque at leo condimentum aliquam.
+			</div>
+
+		</div>
+
+		<!-- KEYWORDS DISPLAY -->
+		<div class="container-basic" id="keywords-container">
+
+			<h2>
+				Keywords
+
+				<button class="btn pull-right" id="next-iteration" data-toggle="tooltip" data-placement="bottom" title="Carry on to the next iteration" ng-click="next()">
+					<i class="fa fa-long-arrow-right"></i>
+				</button>
+
+				<button class="btn pull-right" id="end-search" data-toggle="tooltip" data-placement="bottom" title="End search" ng-click="end()">
+					<i class="fa fa-times"></i>
+				</button>
+
+			</h2>
+
+			<!-- SINGLE KEYWORD DISPLAY -->
+			<div class="keywords-display">
+
+				<div class="keyword-box" data-keywordId="{[{keyword.id}]}" ng-repeat="keyword in current_keywords">
+					
+					<input type="text" class="keyword-knob" data-width="70" data-height="70" data-displayPrevious="true" data-fgColor="#0097cf" data-bgColor="#ffffff" data-thickness=".3" value="{[{keyword.weight}]}" ng-model="keyword.weight">
+					<div class="text-center" style="margin-top: 10px">
+						<span class="arrow"></span>
+					</div>
+
+					<div class="text-center keyword-text">
+						<i class="fa fa-times text-danger remove-keyword" data-toggle="tooltip" data-placement="top" title="Remove this keyword" style="cursor: pointer" ng-click="remove_keyword(keyword)"></i>
+						{[{keyword.text}]}
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- PEOPLE LIST -->
+		<div class="container-basic container-dark container-dark-vertical" id="people-container">
+
+			<h2>People</h2>
+
+			<ul class="people-nav">
+				<li ng-repeat="person in current_persons"><a href="#" ng-click="show_person(person)" class="selected-{[{person.selected}]}"><i class="fa fa-user marg-right"></i>{[{person.name}]}</a></li>
+			</ul>
+
+		</div>
+
+	</body>
+</html>
