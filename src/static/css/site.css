@@ -259,6 +259,10 @@ ul.keyword-suggestions-list{
 	padding: 0px 25px;
 	float: left;
 	margin: 10px;
+	text-align: center;
+}
+.keyword-box canvas{
+	display: inline-block;
 }
 .keyword-text{
 	-moz-box-shadow: 0 0 5px rgba(0,0,0,.2);
