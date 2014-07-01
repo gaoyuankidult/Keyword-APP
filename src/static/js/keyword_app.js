@@ -148,7 +148,7 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 				_views.keywords_view.fadeIn(500);
 			}).fail(function(){
 				alert("Something went wrong!")
-			});*/
+			});
 		});
 	}
 
