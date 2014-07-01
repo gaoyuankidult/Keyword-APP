@@ -135,6 +135,7 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 			var post_params = { search_word: $scope.search_word || "", keywords: _get_selected_keyword_suggestions() };
 
 			$.post("/search", JSON.stringify(post_params)).done(function(data){
+				console.log(data);
 				_initialize_keywords(data.keywords);
 				_initialize_persons(data.persons);
 
