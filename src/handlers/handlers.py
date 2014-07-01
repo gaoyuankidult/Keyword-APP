@@ -286,29 +286,7 @@ class MainBaseHandler(BaseHandler):
     def get_messages(self): 
         return self.application.syncdb.messages.find()
 
-class NextHandler(MainBaseHandler):
-    def get(self):
-        
-        pass
 
-    def post(self):
-        message = {
-            "keywords": [
-                {
-                    "id": 1,
-                    "text": "keyword",
-                    "exploitation": 0.5,
-                    "exploration": 0.3
-                },
-            ],
-            "persons": [
-                {
-                    "name": "Kalle Ilves",
-                    "keywords": [1, 2, 3]
-                },
-            ]
-        }
-        self.json_ok(message)
 
 
 
@@ -342,7 +320,6 @@ class SearchHandler(MainBaseHandler):
         for keyword in self.application.keywords_list:
             if self._lists_overlap(keywords, keyword.split()):
                 temp.append(keyword)
-        print temp
         self.application.filtered_keywords = temp
         self.application.keywords = self.application.filtered_keywords[self.application.keywords_number * self.application.iter_num:self.application.keywords_number*(self.application.iter_num +1)]    
 
@@ -352,16 +329,81 @@ class SearchHandler(MainBaseHandler):
                 {
                     "id" :1 ,
                     "text": keyword,
-                    "exploitation": 0.5,
-                    "exploration": 0.3
+                    "exploitation":0.01,
+                    "exploration": 0.99
                 }
                 for keyword in self.application.keywords
+            ], 
+            "persons": [
+                {
+                    "name": "Kalle Ilves",
+                    "keywords": [1, 2, 3]
+                },
             ]
             
         }
-
         self.json_ok(message)
+        
+class NextHandler(MainBaseHandler):
+    def get(self):
+        
+        pass
 
+    def post(self):
+        def sort_keyowrds(scores):
+            """
+            This function sorts the keywords according to their scores. This function also will filter out the keywords contained in the 
+            @params scores: scores of h=the keywords , the order is the same as how keywords are order in self.application keywords
+            @return 
+            """
+            # store temp variables of keywords of last iteration
+            keyword_of_last_generation = self.application.keywords
+            
+            # sort keywords according to their scores
+            combined_pairs = zip(scores,self.application.ranked_keywords)
+            combined_pairs = filter(lambda x: x[1] not in self.application.experienced_keywords, combined_pairs)
+            sorted_pair = zip(*sorted(combined_pairs))
+            return sorted_pair[1]
+ 
+        # load the data from the front end
+        data = json.loads(self.request.body)
+        
+        # keywords info consists a list of tupes. It stores name of keyword and weight of keyword
+        keywords_info = [(keyword ["text"] , keyword ["weight"]) for keyword in data["keywords"]]
+        # decompose the keywords_info array to two arraies. One of them contains keywords, another of them contains weights of keywords
+        keywords, weights = zip(*keywords_info)
+        
+        # increase the iteration number
+        self.application.iter_num = self.application.iter_num +1
+        
+        # get scores of all the keywords ordered in list order 
+        scores = self.application.analyzer.analyze(self.application.keywords ,self.application.corpus, weights)
+        self.application.ranked_keywords = sort_keyowrds(scores)
+
+        print scores
+        # get the keywords that has hightest score.
+        self.application.keywords = (self.application.ranked_keywords[-self.application.keywords_number:])[::-1]
+        
+        self.application.experienced_keywords.extend(self.application.keywords)
+
+        message = {
+            "keywords": [
+                {
+                    "id": 1,
+                    "text": keyword,
+                    "exploitation":0.01,
+                    "exploration": 0.99, 
+                }
+                for keyword in self.application.keywords
+            ],
+            "persons": [
+                {
+                    "name": "Kalle Ilves",
+                    "keywords": [1, 2, 3]
+                },
+            ]
+        }
+        self.json_ok(message)
         
     
 class IndexHandler(MainBaseHandler):
@@ -374,36 +416,13 @@ class IndexHandler(MainBaseHandler):
     def post(self):
         self.application.iter_num = self.application.iter_num +1
         
-        messages = self.get_messages()
-        researchers = self.get_researcher()
-
-        
         key_prase = self.get_argument('key_prase', '').split('_')
         indexes = []
         
         for k in key_prase:
             indexes.append(self.application.keywords.index(k))
         
-        
-        scores = self.application.analyzer.analyze(self.application.keywords ,self.application.corpus, indexes)
-        
-        keyword_of_last_generation = self.application.keywords
-        
-        combined_pairs = zip(scores,self.application.ranked_keywords)
-        
-        combined_pairs = filter(lambda x: x[1] not in keyword_of_last_generation, combined_pairs)
-        
-        sorted_pair = zip(*sorted(combined_pairs))
-        
-        self.application.ranked_keywords = sorted_pair[1]
-        
-        self.application.keywords = (self.application.ranked_keywords[-self.application.keywords_number:])[::-1]
-        
-        print ((sorted_pair[0])[-self.application.keywords_number:])[::-1]
-        print self.application.keywords
-        
-        self.application.current_keywords.extend(self.application.keywords)
-        self.render("hello.html", user=self.get_current_user(), messages=messages, notification=self.get_flash(),keywords=self.application.keywords,  researchers = researchers)
+
         
     def __del__(self):
         super(BaseHandler, self).__del__(*args, **kwargs)

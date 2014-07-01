@@ -104,12 +104,23 @@ class Application(tornado.web.Application):
         self.corpus = self.ke.get_corpus(109)
 
 
-        self.current_selected_keyword = len(list(self.keywords_set))
-        self.keywords_list = list(self.keywords_set)[:self.current_selected_keyword]
+        # length of all keywords
+        self.current_selected_keyword_length = len(list(self.keywords_set))
+        # list of all keywords
+        self.keywords_list = list(self.keywords_set)[:self.current_selected_keyword_length]
+        
+        # position of keywords pairs
+        self.keywords_pairs = zip(self.keywords_list, range(0, self.current_selected_keyword_length))
+        
+        # keywords after ranking
         self.ranked_keywords = deepcopy(self.keywords_list)
+        # keywords after user input their preferences
         self.filtered_keywords = deepcopy(self.keywords_list)
-        self.current_keywords = []
+        # selected keywords
+        self.experienced_keywords = []
+        # number of iteration
         self.iter_num = 0
+        
         self.keywords = self.keywords_list[self.keywords_number * self.iter_num:self.keywords_number*(self.iter_num +1)]
         self.analyzer = Analyzer(self.keywords_list, self.corpus)
         self.f_obj.close()

@@ -73,17 +73,23 @@ class Analyzer():
         tfidfm = matrix(tfidft.fit_transform(tfm).toarray())
         return normalize(tfidfm.T.astype(float), norm='l2')
         
-    def calculate_y(self, indexes, current_X_row_num):
+    def calculate_y(self, weights, current_X_row_num):
         y = zeros((1, current_X_row_num)).T
-        for index in indexes:
-            y[index, 0] = 1
+        for index in xrange(0, current_X_row_num):
+            y[index, 0] = weights[index]
         return y
         
-    def analyze(self, keywords, corpus, indexes):
+    def analyze(self, keywords, corpus, weights):
+        """
+        This function analyzes the relativeness of keywords according to the experiances  
+        @params keywords of last time
+        @params corpus of abstracts
+        @params weights of each keywords
+        """
         
         input_matrix = self.calculate_X(keywords, corpus)
         self._current_X_row_num, self._current_X_column_num = input_matrix.shape
-        cy = self.calculate_y(indexes, self._current_X_row_num)
+        cy = self.calculate_y(weights, self._current_X_row_num)
         self._current_y = concatenate( ( self._current_y, cy) ) 
         self._current_X = concatenate( ( self._current_X, input_matrix) ) 
         
