@@ -239,6 +239,8 @@ ul.keyword-suggestions-list{
 	display: none;
 }
 .keyword-suggestion{
+	width: 100px;
+	text-align: center;
 	transition: 0.5s;
 	background-color: rgb(70,70,70);
 	padding: 6px 10px;
