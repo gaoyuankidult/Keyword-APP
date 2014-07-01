@@ -391,8 +391,8 @@ class NextHandler(MainBaseHandler):
                 {
                     "id": 1,
                     "text": keyword,
-                    "exploitation":0.01,
-                    "exploration": 0.99, 
+                    "exploitation":0.5,
+                    "exploration": 0.5, 
                 }
                 for keyword in self.application.keywords
             ],

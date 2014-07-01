@@ -110,7 +110,8 @@ class Application(tornado.web.Application):
         self.keywords_list = list(self.keywords_set)[:self.current_selected_keyword_length]
         
         # position of keywords pairs
-        self.keywords_pairs = zip(self.keywords_list, range(0, self.current_selected_keyword_length))
+        self.keywords_info = zip(self.keywords_list, range(0, self.current_selected_keyword_length))
+        #self.keywords_info = zip(self.keywords_list, range(0, self.current_selected_keyword_length))
         
         # keywords after ranking
         self.ranked_keywords = deepcopy(self.keywords_list)
