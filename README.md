@@ -42,6 +42,7 @@
 
 <code>keywords: [
 	{
+		id: 1
 		text: "keyword"
 		weight: 0.2
 	},
