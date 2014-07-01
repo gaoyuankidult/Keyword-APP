@@ -2,17 +2,18 @@
 	<head>
 		<title>Kewyword app</title>
 
-		<link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" href="static/font-awesome/css/font-awesome.min.css">
-		<link rel="stylesheet" href="static/css/animate.css">
-		<link rel="stylesheet" href="static/css/site.css">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/animate.css">
+		<link rel="stylesheet" href="css/site.css">
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 
-		<script src="static/js/jquery.js"></script>
-		<script src="static/js/jquery-ui.min.js"></script>
-		<script src="static/js/knob.js"></script>
-		<script src="static/js/angular.js"></script>
-		<script src="static/bootstrap/js/bootstrap.min.js"></script>
-		<script src="static/js/keyword_app.js"></script>
+		<script src="js/jquery.js"></script>
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/knob.js"></script>
+		<script src="js/angular.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<script src="js/keyword_app.js"></script>
 
 	</head>
 
@@ -25,7 +26,7 @@
 				
 				<!-- SEARCH FORM -->
 				<form>
-					<input type="text" ng-model="search_word" class="form-control text-field-rounded" id="search-field" placeholder="What are you looking for?" autofocus>
+					<input type="text" ng-model="search_word" class="form-control text-field-rounded" id="search-field" placeholder="What are you looking for?">
 					<input type="submit" ng-click="search()" style="display: none">
 				</form>
 
@@ -57,7 +58,7 @@
 		<div class="container-basic" id="person-container">
 			
 			<h2>
-				{[{current_person.name}]}
+				{[{selected_person.name}]}
 
 				<button class="btn pull-right btn-close" data-toggle="tooltip" data-placement="bottom" title="Close this window" ng-click="hide_person()">
 					<i class="fa fa-times"></i>
@@ -73,7 +74,7 @@
 
 		<!-- KEYWORDS DISPLAY -->
 		<div class="container-basic" id="keywords-container">
-
+			
 			<h2>
 				Keywords
 
@@ -90,9 +91,9 @@
 			<!-- SINGLE KEYWORD DISPLAY -->
 			<div class="keywords-display">
 
-				<div class="keyword-box" data-keywordId="{[{keyword.id}]}" ng-repeat="keyword in current_keywords">
+				<div class="keyword-box animated bounceIn" data-keywordId="{[{keyword.id}]}" ng-repeat="keyword in current_keywords">
 					
-					<input type="text" class="keyword-knob" data-width="70" data-height="70" data-displayPrevious="true" data-fgColor="#0097cf" data-bgColor="#ffffff" data-thickness=".3" value="{[{keyword.weight}]}" ng-model="keyword.weight">
+					<input type="text" class="keyword-knob" data-width="70" data-height="70" data-displayPrevious="true" data-fgColor="#0097cf" data-bgColor="#ffffff" data-angleArc="250" data-angleOffset="-125" data-thickness=".3" value="{[{keyword.weight}]}" ng-model="keyword.weight">
 					<div class="text-center" style="margin-top: 10px">
 						<span class="arrow"></span>
 					</div>
@@ -114,9 +115,12 @@
 			<h2>People</h2>
 
 			<ul class="people-nav">
-				<li ng-repeat="person in current_persons"><a href="#" ng-click="show_person(person)" class="selected-{[{person.selected}]}"><i class="fa fa-user marg-right"></i>{[{person.name}]}</a></li>
+				<li ng-repeat="person in current_persons"><a href="#" ng-mouseenter="highlight_persons_keywords(person)" ng-mouseleave="un_highlight_persons_keywords()" ng-click="show_person(person)" class="selected-{[{person.selected}]}"><i class="fa fa-user marg-right"></i>{[{person.name}]}</a></li>
 			</ul>
 
+		</div>
+
+		<div class="layer" id="keywords-display-layer">
 		</div>
 
 	</body>
