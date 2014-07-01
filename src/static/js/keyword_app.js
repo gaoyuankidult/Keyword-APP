@@ -219,8 +219,11 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 
 		var id=0;
 		data.forEach(function(person){
+			console.log(person)
 			$scope.current_persons.push(new Person(id++, person.name, person.keywords));
 		});
+		
+		console.log("Persons count: " + $scope.current_persons.length)
 
 		$scope.$apply();
 	}
