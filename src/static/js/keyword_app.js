@@ -7,8 +7,10 @@ function Keyword(id, text, exploitation, exploration){
 	this.selected = false;
 }
 
-function Person(name){
+function Person(id, name, keywords){
+	this.id = id;
 	this.name = name;
+	this.keywords = keywords || [];
 	this.selected = false;
 }
 
@@ -23,50 +25,63 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 
 	$scope.keyword_suggestions = [];
 	$scope.show_keyword_suggestions = false;
-	$scope.keyword_suggestions_count = 150;
+	$scope.keyword_suggestions_count = 100;
 
 	$scope.current_keywords = [];
 
-	$scope.persons = [];
-	$scope.current_person = null;
+	$scope.current_persons = [];
+	$scope.selected_person = null;
+
+	$scope.highlight_persons_keywords = function(person){
+		person.keywords.forEach(function(keyword){
+			$(".keyword-box[data-keywordId='" + keyword + "']").addClass("keyword-box-active");
+		});
+
+		_views.keywords_view_layer.hide();
+		_views.keywords_view_layer.stop().fadeIn(500);
+	}
+
+	$scope.un_highlight_persons_keywords = function(){
+		$(".keyword-box").removeClass("keyword-box-active");
+
+		_views.keywords_view_layer.show();
+		_views.keywords_view_layer.stop().fadeOut(500);
+	};
 
 	$scope.toggle_keyword_suggestions = function(){
 		$scope.show_keyword_suggestions = !$scope.show_keyword_suggestions;
 	}
 
 	$scope.load_more_keyword_suggestions = function(){
-		$scope.keyword_suggestions_count += 150;
+		$scope.keyword_suggestions_count += 100;
 	}
 
 	$scope.toggle_keyword_suggestion_selection = function(keyword){
-		if(!keyword.selected){
-			keyword.selected = true;
-		}else{
-			keyword.selected = !keyword.selected;
-		}
+		keyword.selected = !keyword.selected;
 	}
 
 	$scope.show_person = function(person){
+		/*_views.keywords_view_layer.fadeOut(500);
 		_views.person_view.fadeOut(500);
 		_views.keywords_view.fadeOut(500, function(){
 
-			if($scope.current_person){
-				$scope.current_person.selected = false;
+			if($scope.selected_person){
+				$scope.selected_person.selected = false;
 			}
 
 			person.selected = true;
-			$scope.current_person = person;
+			$scope.selected_person = person;
 			$scope.$apply();
 
 			_views.person_view.fadeIn(500);
-		});
+		});*/
 	}
 
 	$scope.hide_person = function(){
 		_views.person_view.fadeOut(500, function(){
 
-			$scope.current_person.selected = false;
-			$scope.current_person = null;
+			$scope.selected_person.selected = false;
+			$scope.selected_person = null;
 
 			$scope.$apply();
 
@@ -80,12 +95,8 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 			width: "0%"
 		}, 500, function(){
 			$.post("/next", _get_keyword_feedback()).done(function(data){
-				$scope.current_keywords = [];
-
-				var id = 0;
-				data.keywords.forEach(function(keyword){
-					$scope.current_keywords.push(new Keyword(id++, keyword.text, keyword.exploitation, keyword.exploration));
-				});
+				_initialize_keywords(data.keywords);
+				_initialize_persons(data.persons);
 
 				$scope.$apply();
 
@@ -96,6 +107,8 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 				_views.people_view.animate({
 					width: "30%"
 				});
+			}).fail(function(){
+				alert("Something went wrong!")
 			});
 		});
 	}
@@ -110,25 +123,20 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 
 			_get_keyword_suggestions(function(){
 				_views.search_view.slideDown(500);
+				$("#search-field").focus();
 			});
 		});
 	}
 
 	$scope.search = function(){
-		$scope.current_keywords = [];
-
 		_views.search_view.slideUp("slow", function(){
 			_views.keyword_suggestions_view.hide();
 
-			var post_params = { search_word: $scope.search_word, keywords: _get_selected_keyword_suggestions() };
+			var post_params = { search_word: $scope.search_word || "", keywords: _get_selected_keyword_suggestions() };
 
 			$.post("/search", JSON.stringify(post_params)).done(function(data){
-				var id = 0;
-				data.keywords.forEach(function(keyword){
-					$scope.current_keywords.push(new Keyword(id++, keyword.text, keyword.exploitation, keyword.exploration));
-				});
-				
-				$scope.$apply();
+				_initialize_keywords(data.keywords);
+				_initialize_persons(data.persons);
 
 				$(".remove-keyword").tooltip();
 				$(".keyword-knob").knob();
@@ -138,7 +146,9 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 				}, 500);
 				
 				_views.keywords_view.fadeIn(500);
-			});
+			}).fail(function(){
+				alert("Something went wrong!")
+			});*/
 		});
 	}
 
@@ -146,10 +156,7 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		var index = 0;
 		$scope.current_keywords.forEach(function(k){
 			if(k.id == keyword.id){
-				$(".keyword-box[data-keywordId='" + k.id + "']").fadeOut(300, function(){
-					$scope.current_keywords.splice(index, 1);
-				});
-
+				$scope.current_keywords.splice(index, 1);
 				return;
 			}
 			index++;
@@ -161,10 +168,12 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		person_view: $("#person-container"),
 		people_view: $("#people-container"),
 		search_view: $("#search-container"),
-		keyword_suggestions_view: $(".keyword-suggestions-list")
+		keyword_suggestions_view: $(".keyword-suggestions-list"),
+		keywords_view_layer: $("#keywords-display-layer")
 	}
 
 	var _reset_variables = function(){
+		$scope.search_word = "";
 		$scope.current_keywords = [];
 		$scope.keyword_suggestions = [];
 		$scope.show_keyword_suggestions = false;
@@ -177,10 +186,12 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 	var _get_keyword_suggestions = function(callback){
 
 		$scope.keyword_suggestions = [];
+		
+		callback();
 
 		$.get("/search", function(data){
 			data.keywords.forEach(function(keyword){
-				k = new Keyword();
+				var k = new Keyword();
 				k.text = keyword;
 				$scope.keyword_suggestions.push(k);
 			});
@@ -189,6 +200,28 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 
 			callback();
 		});
+	}
+
+	var _initialize_keywords = function(data){
+		$scope.current_keywords = [];
+
+		var id = 0;
+		data.forEach(function(keyword){
+			$scope.current_keywords.push(new Keyword(id++, keyword.text, keyword.exploitation, keyword.exploration));
+		});
+
+		$scope.$apply();
+	}
+
+	var _initialize_persons = function(data){
+		$scope.current_persons = [];
+
+		var id=0;
+		data.forEach(function(person){
+			$scope.current_persons.push(new Person(id++, person.name, person.keywords));
+		});
+
+		$scope.$apply();
 	}
 
 	var _get_keyword_feedback = function(){
@@ -212,10 +245,11 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 				selected.push(keyword.text);
 			}
 		});
+
 		return selected;
 	}
 
-	_get_keyword_suggestions(function(){ _views.search_view.slideDown(500); });
+	_get_keyword_suggestions(function(){ _views.search_view.slideDown(500); $("#search-field").focus() });
 
 }]);
 
