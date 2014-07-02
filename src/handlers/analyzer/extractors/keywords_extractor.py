@@ -12,8 +12,6 @@ from sklearn.feature_extraction.text import CountVectorizer
 from nltk.corpus import stopwords
 from nltk import word_tokenize
 
-from ..database_messager.mysql_messager import MysqlMessager
-
 import functools
 import operator
 import nltk
@@ -103,7 +101,6 @@ class KeywordExtractor():
         @param line_number number of lines to be processed as batch 
         """
         self._file_name = file_name
-        self._mm = MysqlMessager() 
         
     def get_corpus(self, number_of_corpus, file_name = None):
         """
@@ -130,7 +127,7 @@ class KeywordExtractor():
     def get_from_abstract(self,number_of_corpuses, file_name = None):
         """
         This funciton reads name of paper from database. and return all the words that belongs to one auther in a list
-        @param self: Pointer to class
+        @param self: Pointer to classtfm
         @return a term frequency matrix
         """
         # if the file name exits then use a xml parser to parse the file
@@ -140,37 +137,35 @@ class KeywordExtractor():
           root = tree.getroot()
           
         # set name of file that contains keyword and name of file that contains keyword list for each abstract
-        self._keywords_filename = "abstract_%s.txt"%number_of_corpuses
-        self._corpus_keyword_filename = "corpus_abstract_%s.txt"%number_of_corpuses
+        self._keywords_filename = "../../../../docs/keywords/abstract_%s.txt"%number_of_corpuses
+        self._corpus_keyword_filename = "../../../../docs/keywords/corpus_abstract_%s.txt"%number_of_corpuses
         
         # if the file does not exist
-        if not path.isfile(self._keywords_filename):
-            keyword_set = set()
-            corpuses_representation_list = []
-            f_obj = open(self._keywords_filename,'w')
-            f_corpus_obj = open(self._corpus_keyword_filename,'w')
-            i = 0
-            phase_extractor = PhraseExtractor()
-            for article in root.iterchildren():
-                for element in article.iterchildren():
-                    if element.tag == "abstract":
-                        abstract = element.text
+        keyword_set = set()
+        corpuses_representation_list = []
+        f_obj = open(self._keywords_filename,'w')
+        f_corpus_obj = open(self._corpus_keyword_filename,'w')
+        phase_extractor = PhraseExtractor()
+        for article in root.iterchildren():
+            for element in article.iterchildren():
+                if element.tag == "abstract":
+                    abstract = element.text
 
-                        keywords = list(phase_extractor.extract(abstract))
-                        keywords = [' '.join(sublist) for sublist in keywords]
-                        corpuses_representation_list.append(','.join(keywords))
+                    keywords = list(phase_extractor.extract(abstract))
+                    keywords = [' '.join(sublist) for sublist in keywords]
+                    corpuses_representation_list.append(','.join(keywords))
 
-                        keyword_set |= set(keywords) 
-                        i = i +1
-                if(i == number_of_corpuses):
-                    break
-            pickle.dump(corpuses_representation_list, f_corpus_obj)
-            pickle.dump(keyword_set,f_obj) 
-            f_obj.close()                  
-            f_corpus_obj.close()
+                    keyword_set |= set(keywords) 
+                if element.tag == "number":
+                    if element.text == number_of_corpuses:
+                        break
+        pickle.dump(corpuses_representation_list, f_corpus_obj)
+        pickle.dump(keyword_set,f_obj) 
+        f_obj.close()                  
+        f_corpus_obj.close()
  
 if __name__ == "__main__":
-    keyword_extractor = KeywordExtractor("abstracts.xml",4)
-    keyword_extractor.get_from_arxiv_num(109)
+    keyword_extractor = KeywordExtractor("../../../../docs/abstracts/abstracts.xml")
+    keyword_extractor.get_from_abstract("all")
     
         

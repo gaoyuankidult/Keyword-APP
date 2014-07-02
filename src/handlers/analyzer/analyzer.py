@@ -11,6 +11,7 @@ from numpy import zeros
 from numpy import amax
 from numpy import concatenate
 from numpy.linalg import norm
+from numpy import float64
 
 from extractors import KeywordExtractor
 from extractors import PhraseExtractor
@@ -28,6 +29,7 @@ class Analyzer():
 
         self._all_keywords = all_keywords
         self._X = self. calculate_X(all_keywords, all_corpus)
+
         self._X_row_num,   self._X_column_num = self._X.shape
         self._current_X = matrix(zeros((0, self._X_column_num)))
         self._current_y = matrix(zeros((1, 0))).T
@@ -38,9 +40,9 @@ class Analyzer():
         @param self: Pointer to class
         @param cii: current image
         """
-        c = 0.01
+        c = 0.8
         a_i = xi * w
-        score = a_i * y + c/2*norm(a_i)
+        score = [float(a_i * y), c/2*norm(a_i)]
 
         return score
         
@@ -50,7 +52,7 @@ class Analyzer():
         paper -> "Pinview: implicit Feedback in content-based image retrieval"
         """
         assert(type(cX) == matrixlib.defmatrix.matrix)
-        mu = 1
+        mu = 1.0
 
         w =  (cX.T * cX + mu * eye(self._current_X_column_num, dtype=float)).I * cX.T
         scores = [None] * self._X_row_num
@@ -65,13 +67,13 @@ class Analyzer():
         vectorizer = CountVectorizer(vocabulary= keywords, tokenizer = tokenizer)  
 
         # tfm: term frequency matrix
-        tfm = vectorizer.fit_transform(corpus).toarray()
-
-#        tfidft : term frequency inverse document frequency transformer
+        tfm = matrix(vectorizer.fit_transform(corpus).toarray(), dtype=float64)
+        #tfidft : term frequency inverse document frequency transformer
         tfidft = TfidfTransformer()
-#        tfidft : term frequency inverse document frequency matrix        
-        tfidfm = matrix(tfidft.fit_transform(tfm).toarray())
-        return normalize(tfidfm.T.astype(float), norm='l2')
+        #tfidfm : term frequency inverse document frequency matrix        
+        tfidfm = matrix(tfidft.fit_transform(tfm).toarray(), dtype=float64)
+        target_matrix = tfm
+        return normalize(target_matrix.T, norm='l1')
         
     def calculate_y(self, weights, current_X_row_num):
         y = zeros((1, current_X_row_num)).T
@@ -79,15 +81,16 @@ class Analyzer():
             y[index, 0] = weights[index]
         return y
         
-    def analyze(self, keywords, corpus, weights):
+    def analyze(self, keywords, all_corpus, weights):
         """
         This function analyzes the relativeness of keywords according to the experiances  
         @params keywords of last time
-        @params corpus of abstracts
+        @params all_corpus of abstracts
         @params weights of each keywords
         """
         
-        input_matrix = self.calculate_X(keywords, corpus)
+        input_matrix = self.calculate_X(keywords, all_corpus)
+        print sum_matrix(input_matrix, 1)
         self._current_X_row_num, self._current_X_column_num = input_matrix.shape
         cy = self.calculate_y(weights, self._current_X_row_num)
         self._current_y = concatenate( ( self._current_y, cy) ) 

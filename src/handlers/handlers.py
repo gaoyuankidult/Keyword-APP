@@ -21,6 +21,7 @@ import urlparse
 import time
 import threading
 import functools
+import datetime
 
 from random import sample
 import json
@@ -317,21 +318,15 @@ class SearchHandler(MainBaseHandler):
         # initilze temp container for sending keywords
         temp = []
         #iterate throught each word in the list and check wether it overlaps with our local keyword list.
-        for keyword in self.application.keywords_list:
-            if self._lists_overlap(keywords, keyword.split()):
-                temp.append(keyword)
+        for keyword_info in self.application.keywords_info:
+            if self._lists_overlap(keywords, keyword_info["text"].split()):
+                temp.append(keyword_info)
         self.application.filtered_keywords = temp
         self.application.keywords = self.application.filtered_keywords[self.application.keywords_number * self.application.iter_num:self.application.keywords_number*(self.application.iter_num +1)]    
 
-
         message = {
             "keywords": [
-                {
-                    "id" :1 ,
-                    "text": keyword,
-                    "exploitation":0.01,
-                    "exploration": 0.99
-                }
+                keyword
                 for keyword in self.application.keywords
             ], 
             "persons": [
@@ -342,6 +337,7 @@ class SearchHandler(MainBaseHandler):
             ]
             
         }
+        print message
         self.json_ok(message)
         
 class NextHandler(MainBaseHandler):
@@ -356,44 +352,59 @@ class NextHandler(MainBaseHandler):
             @params scores: scores of h=the keywords , the order is the same as how keywords are order in self.application keywords
             @return 
             """
-            # store temp variables of keywords of last iteration
-            keyword_of_last_generation = self.application.keywords
             
             # sort keywords according to their scores
-            combined_pairs = zip(scores,self.application.ranked_keywords)
-            combined_pairs = filter(lambda x: x[1] not in self.application.experienced_keywords, combined_pairs)
+            combined_pairs = zip(scores, self.application.keywords_info)
+            
+            # filter out the keyword info if keyword's text is in experienced_keywords
+            combined_pairs = filter(lambda x: x[1]["text"] not in self.application.experienced_keywords, combined_pairs)
+            
             sorted_pair = zip(*sorted(combined_pairs))
             return sorted_pair[1]
- 
+            
+        def update_keywords_info(scores):
+            """
+            This function update information stored in the self.application.keywords_info
+            @params scores is a list of tuples. First element of tuple stores exploitation rate of the keyword. Second element of tuple stores exaploration rate of the keyword
+            """
+            for i in xrange(len(self.application.keywords_info)):
+                self.application.keywords_info[i]["exploitation"] = scores[i][0]
+                self.application.keywords_info[i]["exploration"] = scores[i][1]
+                print self.application.keywords_info[i]
+
+        # add exprienced word, this word will not appear any in selection process
+        self.application.experienced_keywords.extend(self.application.keywords)
+        
         # load the data from the front end
         data = json.loads(self.request.body)
         
         # keywords info consists a list of tupes. It stores name of keyword and weight of keyword
         keywords_info = [(keyword ["text"] , keyword ["weight"]) for keyword in data["keywords"]]
+        
         # decompose the keywords_info array to two arraies. One of them contains keywords, another of them contains weights of keywords
         keywords, weights = zip(*keywords_info)
-        
         # increase the iteration number
         self.application.iter_num = self.application.iter_num +1
         
         # get scores of all the keywords ordered in list order 
-        scores = self.application.analyzer.analyze(self.application.keywords ,self.application.corpus, weights)
-        self.application.ranked_keywords = sort_keyowrds(scores)
-
-        print scores
+        before = datetime.datetime.now()
+        scores = self.application.analyzer.analyze(keywords ,self.application.corpus, weights)
+        after = datetime.datetime.now()
+        print "Time Comsumption of Function Analyzer: ",  after- before
+        scores_sum = [sum(score) for score in scores]
+        
+        # update information if self.application.keywords_info
+        update_keywords_info(scores)
+        self.application.ranked_keywords = sort_keyowrds(scores_sum)
+        
         # get the keywords that has hightest score.
         self.application.keywords = (self.application.ranked_keywords[-self.application.keywords_number:])[::-1]
         
-        self.application.experienced_keywords.extend(self.application.keywords)
 
+        
         message = {
             "keywords": [
-                {
-                    "id": 1,
-                    "text": keyword,
-                    "exploitation":0.5,
-                    "exploration": 0.5, 
-                }
+               keyword
                 for keyword in self.application.keywords
             ],
             "persons": [

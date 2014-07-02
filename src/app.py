@@ -88,35 +88,45 @@ class Application(tornado.web.Application):
         
         
         # following part is for analyzer
-        
-        self.keywords_number = 10
-        self._num_of_corpuses = 109 
-        self.abstracts_filename = "../docs/abstracts/abstracts.xml"
-        self.keywords_filename = "../docs/keywords/abstract_%s.txt"%self._num_of_corpuses
-        self.ke = KeywordExtractor(self.abstracts_filename)
+        def set_keywords_parameters():
+            self.keywords_number = 10
+            self._num_of_corpuses = "all" 
+            
+            # this file stores information of all abstracts
+            self.abstracts_filename = "../docs/abstracts/abstracts.xml"
+            
+            # this file stores informaiton of all keywords as a set
+            self.keywords_filename = "../docs/keywords/abstract_%s.txt"%self._num_of_corpuses
+            
+            # this file stores keywords list of each abstract
+            self.corpus_keywords_filename = "../docs/keywords/corpus_abstract_%s.txt"%self._num_of_corpuses
+            self.ke = KeywordExtractor(self.abstracts_filename)
 
+            self.keywords_file_obj = open(self.keywords_filename,'r')
+            self.corpus_keywords_file_obj = open(self.corpus_keywords_filename,'r')
+        def form_keywords_info():
+            # set of all keywords
+            self.keywords_set = pickle.load(self.keywords_file_obj)
+            self.corpus = pickle.load(self.corpus_keywords_file_obj)
+            
+            # length of all keywords
+            self.current_selected_keyword_length = len(list(self.keywords_set))
+            # list of all keywords
+            self.keywords_list = list(self.keywords_set)[:self.current_selected_keyword_length]
+            self.keywords_id = range(0, self.current_selected_keyword_length)
+            self.keywords_exploitation = [0.5] * len( self.keywords_list)
+            self.keywords_exploration = [0.5] * len( self.keywords_list)
+            self.keywords_info = zip( self.keywords_id ,self.keywords_list,self.keywords_exploitation, self.keywords_exploration)
+            self.kewords_keys = ("id", "text",  "exploitation", "exploration" )
+            self.keywords_info = [dict(zip(self.kewords_keys, keyword_info)) for keyword_info in self.keywords_info]
+            
+        set_keywords_parameters()
+        form_keywords_info()
         
-
-        self.f_obj = open(self.keywords_filename,'r')
-        
-        # set of all keywords
-        self.keywords_set = pickle.load(self.f_obj)
-        self.corpus = self.ke.get_corpus(109)
-
-
-        # length of all keywords
-        self.current_selected_keyword_length = len(list(self.keywords_set))
-        # list of all keywords
-        self.keywords_list = list(self.keywords_set)[:self.current_selected_keyword_length]
-        
-        # position of keywords pairs
-        self.keywords_info = zip(self.keywords_list, range(0, self.current_selected_keyword_length))
-        #self.keywords_info = zip(self.keywords_list, range(0, self.current_selected_keyword_length))
-        
-        # keywords after ranking
-        self.ranked_keywords = deepcopy(self.keywords_list)
-        # keywords after user input their preferences
-        self.filtered_keywords = deepcopy(self.keywords_list)
+        # keywords after ranking, this variable will only be used in NextHandler
+        self.ranked_keywords = deepcopy(self.keywords_info)
+        # keywords after user input their preferences, this will be only be used in the SearchHandler
+        self.filtered_keywords = deepcopy(self.keywords_info)
         # selected keywords
         self.experienced_keywords = []
         # number of iteration
@@ -124,7 +134,8 @@ class Application(tornado.web.Application):
         
         self.keywords = self.keywords_list[self.keywords_number * self.iter_num:self.keywords_number*(self.iter_num +1)]
         self.analyzer = Analyzer(self.keywords_list, self.corpus)
-        self.f_obj.close()
+        self.keywords_file_obj.close()
+        self.corpus_keywords_file_obj.close()
         
     def __del__(self):
         super(tornado.web.Application, self).__del__(*args, **kwargs)
