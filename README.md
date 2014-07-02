@@ -40,14 +40,22 @@
 
 ##Params
 
-<code>keywords: [
-	{
-		id: 1
-		text: "keyword"
-		weight: 0.2
-	},
-	...
-]</code>
+<pre>
+{
+	keywords: [
+		{
+			id: 1
+			text: "keyword"
+			weight: 0.2
+		},
+		...
+
+	],
+	
+	// These are keywords (id of each removed keyword) removed by the user
+	removed: [1, 2, 3]
+}
+</pre>
 
 ##Response
 
