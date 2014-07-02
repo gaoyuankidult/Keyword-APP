@@ -1,17 +1,17 @@
 function Keyword(id, text, exploitation, exploration){
-	this.id = id;
+	this.id = id || 0;
 	this.text = text;
-	this.exploitation = exploitation;
-	this.exploration = exploration;
-	this.weight = Math.round(( this.exploitation / ( this.exploitation + this.exploration ) * 100 ));
+	this.exploitation = exploitation || 0;
+	this.exploration = exploration || 0;
+	this.weight = Math.round(( this.exploitation / ( this.exploitation + this.exploration ) * 100 )) || 0;
 	this.selected = false;
+	this.removed = false;
 }
 
 function Person(id, name, keywords){
-	this.id = id;
+	this.id = id || 0;
 	this.name = name;
 	this.keywords = keywords || [];
-	this.selected = false;
 }
 
 var KeywordApp = angular.module("KeywordApp", []);
@@ -31,6 +31,15 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 
 	$scope.current_persons = [];
 	$scope.selected_person = null;
+
+	var _views = {
+		keywords_view: $("#keywords-container"),
+		person_view: $("#person-container"),
+		people_view: $("#people-container"),
+		search_view: $("#search-container"),
+		keyword_suggestions_view: $(".keyword-suggestions-list"),
+		keywords_view_layer: $("#keywords-display-layer")
+	}
 
 	$scope.highlight_persons_keywords = function(person){
 		person.keywords.forEach(function(keyword){
@@ -90,6 +99,9 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 	}
 
 	$scope.next = function(){
+		$scope.current_persons = [];
+		$scope.current_keywords = [];
+
 		_views.keywords_view.fadeOut(500);
 		_views.people_view.animate({
 			width: "0%"
@@ -128,14 +140,17 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		});
 	}
 
+	$scope.filter_removed_keywords = function(keyword){
+		return !keyword.removed;
+	}
+
 	$scope.search = function(){
 		_views.search_view.slideUp("slow", function(){
 			_views.keyword_suggestions_view.hide();
 
-			var post_params = { search_word: $scope.search_word || "", keywords: _get_selected_keyword_suggestions() };
+			var post_params = { search_word: ( $scope.search_word || "" ), keywords: _get_selected_keyword_suggestions() };
 
 			$.post("/search", JSON.stringify(post_params)).done(function(data){
-				console.log(data);
 				_initialize_keywords(data.keywords);
 				_initialize_persons(data.persons);
 
@@ -154,23 +169,8 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 	}
 
 	$scope.remove_keyword = function(keyword){
-		var index = 0;
-		$scope.current_keywords.forEach(function(k){
-			if(k.id == keyword.id){
-				$scope.current_keywords.splice(index, 1);
-				return;
-			}
-			index++;
-		});
-	}
-
-	var _views = {
-		keywords_view: $("#keywords-container"),
-		person_view: $("#person-container"),
-		people_view: $("#people-container"),
-		search_view: $("#search-container"),
-		keyword_suggestions_view: $(".keyword-suggestions-list"),
-		keywords_view_layer: $("#keywords-display-layer")
+		keyword.removed = true;
+		$scope.$apply();
 	}
 
 	var _reset_variables = function(){
@@ -181,14 +181,12 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		$scope.keyword_suggestions_count = 150;
 		$scope.persons = [];
 		$scope.current_person = null;
+
 		$scope.$apply();
 	}
 
 	var _get_keyword_suggestions = function(callback){
-
 		$scope.keyword_suggestions = [];
-		
-		callback();
 
 		$.get("/search", function(data){
 			data.keywords.forEach(function(keyword){
@@ -206,9 +204,8 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 	var _initialize_keywords = function(data){
 		$scope.current_keywords = [];
 
-		var id = 0;
 		data.forEach(function(keyword){
-			$scope.current_keywords.push(new Keyword(id++, keyword.text, keyword.exploitation, keyword.exploration));
+			$scope.current_keywords.push(new Keyword(keyword.id, keyword.text, keyword.exploitation, keyword.exploration));
 		});
 
 		$scope.$apply();
@@ -217,13 +214,9 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 	var _initialize_persons = function(data){
 		$scope.current_persons = [];
 
-		var id=0;
 		data.forEach(function(person){
-			console.log(person)
-			$scope.current_persons.push(new Person(id++, person.name, person.keywords));
+			$scope.current_persons.push(new Person(person.id, person.name, person.keywords));
 		});
-		
-		console.log("Persons count: " + $scope.current_persons.length)
 
 		$scope.$apply();
 	}
@@ -231,23 +224,37 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 	var _get_keyword_feedback = function(){
 		var feedback = {};
 		feedback.keywords = [];
+		feedback.removed = [];
 		$scope.current_keywords.forEach(function(keyword){
-			feedback.keywords.push({
-				text: keyword.text,
-				weight: keyword.weight / 100
-			});
+			if(!keyword.removed){
+				feedback.keywords.push({
+					id: keyword.id,
+					text: keyword.text,
+					weight: keyword.weight / 100
+				});
+			}else{
+				feedback.removed.push(keyword.id);
+			}
 		});
 
 		return JSON.stringify(feedback);
 	}
 
-	var _get_selected_keyword_suggestions = function(){
-		var selected = [];
+	var _get_removed_keywords = function(){
+		var removed = $.grep($scope.current_keywords, function(keyword){
+			return keyword.removed;
+		});
 
-		$scope.keyword_suggestions.forEach(function(keyword){
-			if(keyword.selected){
-				selected.push(keyword.text);
-			}
+		removed = $.map(removed, function(keyword){
+			return keyword.id;
+		})
+
+		return removed;
+	}
+
+	var _get_selected_keyword_suggestions = function(){
+		var selected = $.grep($scope.keyword_suggestions, function(keyword){
+			return keyword.selected;
 		});
 
 		return selected;

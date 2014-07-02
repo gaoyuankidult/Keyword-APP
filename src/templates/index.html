@@ -91,7 +91,7 @@
 			<!-- SINGLE KEYWORD DISPLAY -->
 			<div class="keywords-display">
 
-				<div class="keyword-box animated bounceIn" data-keywordId="{[{keyword.id}]}" ng-repeat="keyword in current_keywords">
+				<div class="keyword-box animated bounceIn" data-keywordId="{[{keyword.id}]}" ng-repeat="keyword in current_keywords | filter: filter_removed_keywords">
 					
 					<input type="text" class="keyword-knob" data-width="70" data-height="70" data-displayPrevious="true" data-fgColor="#0097cf" data-bgColor="#ffffff" data-angleArc="250" data-angleOffset="-125" data-thickness=".3" value="{[{keyword.weight}]}" ng-model="keyword.weight">
 					<div class="text-center" style="margin-top: 10px">
