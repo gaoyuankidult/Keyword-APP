@@ -43,7 +43,7 @@
 
 }</pre>
 
-#POST /next 
+#POST/next
 
 ##Params
 
@@ -91,3 +91,7 @@
 		...
 	]
 }</pre>
+
+# Tasks
+
+## A small bug lies in acquiring abstracts. The expand button is wrong
