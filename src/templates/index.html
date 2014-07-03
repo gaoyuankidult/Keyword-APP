@@ -13,7 +13,8 @@
 		<script src="static/js/knob.js"></script>
 		<script src="static/js/angular.js"></script>
 		<script src="static/bootstrap/js/bootstrap.min.js"></script>
-		<script src="static/js/keyword_app.js"></script>
+		<script src="static/js/app/models.js"></script>
+		<script src="static/js/app/keyword_app.js"></script>
 
 	</head>
 
@@ -115,12 +116,23 @@
 			<h2>People</h2>
 
 			<ul class="people-nav">
-				<li ng-repeat="person in current_persons"><a href="#" ng-mouseenter="highlight_persons_keywords(person)" ng-mouseleave="un_highlight_persons_keywords()" ng-click="show_person(person)" class="selected-{[{person.selected}]}"><i class="fa fa-user marg-right"></i>{[{person.name}]}</a></li>
+				<li ng-repeat="person in current_persons"><a href="#" ng-mouseenter="highlight_persons_keywords(person)" ng-mouseleave="un_highlight_persons_keywords()" ng-click="toggle_person_selection(person);" class="toggle-navigation"><i class="fa fa-user marg-right"></i>{[{person.name}]}
+					<i class="fa fa-plus pull-right" ng-hide="person.selected"></i>
+					<i class="fa fa-minus pull-right" ng-show="person.selected"></i>
+				</a>
+					<ul class="list-unstyled">
+						<li ng-repeat="article in person.articles"><a href="#" ng-mouseenter="highlight_article(article, person)" ng-mouseleave="un_highlight_article()"><i class="fa fa-file-text marg-right"></i>{[{article.title}]}</a></li>
+					</ul>
+				</li>
 			</ul>
 
 		</div>
 
 		<div class="layer" id="keywords-display-layer">
+			<div id="article-highlight-display">
+				<h3>{[{current_article.title}]}</h3>
+				<span class="text-muted">{[{current_article.abstract}]}</span>
+			</div>
 		</div>
 
 	</body>

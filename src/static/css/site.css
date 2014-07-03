@@ -162,6 +162,7 @@ h2.text-muted{
 	overflow: scroll;
 }
 #people-container h2{
+	border-bottom: 1px solid rgb(30,30,30);;
 	font-size: 2em;
 	color: white;
 	background-color: #0097cf;
@@ -199,10 +200,12 @@ ul.people-nav{
 	margin: 0px;
 	padding: 0px;
 }
-ul.people-nav li a{
+ul.people-nav a:focus{
+	text-decoration: none;
+}
+ul.people-nav > li  > a{
 	transition: 0.5s;
 	display: block;
-	color: white;
 	background-color: rgb(30,30,30);
 	border-bottom: 1px solid rgb(50,50,50);
 	padding: 10px 14px;
@@ -212,29 +215,70 @@ ul.people-nav li a{
     -webkit-box-shadow: inset 10px 0 5px -10px rgba(0,0,0,.5) !important;
 	box-shadow: inset 10px 0 5px -10px rgba(0,0,0,.5) !important;
 }
-ul.people-nav li a.selected-true{
+ul.people-nav > li a.selected-true{
 	text-decoration: none;
 	transition: 0.5s;
 	color: white;
-	background-color: rgb(20,20,20);
+	background-color: #0097cf;
 }
-ul.people-nav li a.selected-true i{
+ul.people-nav > li > a.selected-true i{
 	transition: 0.5s;
 	color: white;
 }
-ul.people-nav li a i{
+ul.people-nav > li > a i{
 	transition: 0.5s;
 	color: rgb(140,140,140);
 }
-ul.people-nav li a:hover{
+ul.people-nav > li > a:hover{
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
 	text-decoration: none;
 	transition: 0.5s;
 	color: white;
-	background-color: rgb(20,20,20);
+	background-color: #0097cf;
 }
-ul.people-nav li a:hover i{
+ul.people-nav > li > a:hover i{
 	transition: 0.5s;
 	color: white;
+}
+ul.people-nav ul{
+	display: none;
+	padding: 0px;
+	margin: 0px;
+}
+ul.people-nav ul > li > a{
+	background-color: rgb(15,15,15);
+	transition: 0.5s;
+	display: block;
+	color: rgb(185,185,185);
+	border-bottom: 1px solid rgb(50,50,50);
+	padding: 10px 14px;
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.8);
+	-moz-box-shadow: inset 10px 0 5px -10px rgba(0,0,0,.5) !important;
+    -webkit-box-shadow: inset 10px 0 5px -10px rgba(0,0,0,.5) !important;
+	box-shadow: inset 10px 0 5px -10px rgba(0,0,0,.5) !important;
+}
+ul.people-nav ul > li > a i{
+	transition: 0.5s;
+	color: rgb(125,125,125);
+}
+ul.people-nav ul > li > a:hover{
+	transition: 0.5s;
+	background-color: black;
+	text-decoration: none;
+	color: white;
+}
+ul.people-nav ul > li > a:hover i{
+	transition: 0.5s;
+	color: white;
+}
+ul.people-nav > li > a i.pull-right{
+	position: relative;
+	top: 5px;
+}
+ul.people-nav ul > li:first-child > a{
+	-webkit-box-shadow: inset 5px 5px 5px -5px rgba(0,0,0,0.5) !important; 
+	-moz-box-shadow: inset 5px 5px 5px -5px rgba(0,0,0,0.5) !important;
+	box-shadow: inset 5px 5px 5px -5px rgba(0,0,0,0.5) !important;
 }
 .wrapper{
 	margin: 0px auto;
@@ -352,4 +396,20 @@ ul.people-nav li a:hover i{
 	padding: 8px 12px;
 	margin: 0px -25px 0px -25px;
 	display: block;
+}
+#article-highlight-display h3{
+	margin-top: 0px;
+}
+#article-highlight-display .text-muted{
+	color: rgb(180,180,180);
+}
+#article-highlight-display{
+	border-top: 1px solid rgba(255,255,255,0.2);
+	display: none;
+	padding: 20px;
+	position: fixed;
+	bottom: 0px;
+	color: white;
+	width: 70%;
+	text-shadow:0px 0px 3px rgba(0,0,0,.8);
 }
