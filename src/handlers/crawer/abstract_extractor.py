@@ -252,13 +252,16 @@ class AbstractExtractor():
                 abstract_file_obj.write(row[2])
                 #write last name
                 abstract_file_obj.write(row[3])
-                abstract_file_obj.write("</name>" )
+		abstract_file_obj.write("<title>" + "\n")
+		abstract_file_obj.write(row[4])
+                abstract_file_obj.write("</title>")
+		abstract_file_obj.write("</number>" + "\n")
                 abstract_file_obj.write("<abstract>""\n")
                 abstract_file_obj.write(abstract.encode('utf-8'))
                 abstract_file_obj.write("</abstract>" + "\n")
                 abstract_file_obj.write("</Article>")
                 abstract_file_obj.write("\n")
-            sleep(randint(10, 20))
+            #sleep(randint(10, 20))
                 
         abstract_file_obj.write("</articles>")
         abstract_file_obj.close()
@@ -289,13 +292,16 @@ class AbstractExtractor():
         last_name = row[3].lstrip().decode('latin1')
         paper_link = row[4]
         paper_name = row[5]
-        folder_prefix = "../../docs/papers/"
+        folder_prefix = "../../../docs/papers/"
         path_name = folder_prefix + first_name + '_' + last_name + "/" + paper_name
         contents = None
         if "pdf" in paper_link:
-            from urllib import urlretrieve
-            urlretrieve(paper_link,path_name)
-            contents =  _pdf_abstract_extracter(path_name)
+		try:	
+		    from urllib import urlretrieve
+		    urlretrieve(paper_link,path_name)
+		    contents =  _pdf_abstract_extracter(path_name)
+		except Exception, e:
+		    stderr.write("Error: %s ."%e)
         else:
             website_type = None
             try:

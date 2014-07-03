@@ -124,8 +124,6 @@ class LoginHandler(BaseHandler):
         email = self.get_argument("email", "")
         password = self.get_argument("password", "").encode("utf-8")
         user = self.application.syncdb['users'].find_one({'user': email})
-        
-
         # Warning bcrypt will block IO loop:
         if user and user['password'] and bcrypt.hashpw(password, user['password'].encode("utf-8")) == user['password']:
             self.set_current_user(email)
@@ -133,6 +131,7 @@ class LoginHandler(BaseHandler):
         else:
             self.set_secure_cookie('flash', "Login incorrect")
             self.redirect(u"/login")
+
 
     def set_current_user(self, user):
         print "setting " + user
@@ -297,6 +296,7 @@ class SearchHandler(MainBaseHandler):
 
     @tornado.web.authenticated
     def get(self):
+        self.application.form_new_keywords_information()
         # defines the number of the keywords received by the front end
         self.index_keyowords_no = 200 
         message = {
@@ -342,7 +342,6 @@ class SearchHandler(MainBaseHandler):
             ]
             
         }
-        print message
         self.json_ok(message)
         
 class NextHandler(MainBaseHandler):

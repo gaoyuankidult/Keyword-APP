@@ -102,18 +102,51 @@ class Application(tornado.web.Application):
             self.corpus_keywords_filename = "../docs/keywords/corpus_abstract_%s.txt"%self._num_of_corpuses
             self.extractors = Extractors(self.abstracts_filename)
 
-            self.keywords_file_obj = open(self.keywords_filename,'r')
-            self.corpus_keywords_file_obj = open(self.corpus_keywords_filename,'r')
-            
-
-        def form_keywords_info():
             def set_corpuses():
+                self.corpus_keywords_file_obj = open(self.corpus_keywords_filename,'r')
                 # set preprocessed corpuses, this is different than original corpuses
                 self.corpuses = pickle.load(self.corpus_keywords_file_obj)
                 self.original_corpuses = self.extractors.project_corpuses
-                
+                self.corpus_keywords_file_obj.close()
+            def set_titles():
+                self.titles = self.extractors.titles
+            
+            # set all title related parameters
+            set_titles()
             # set all the corpuses related parameters
             set_corpuses()
+
+            
+        def form_persons_info():    
+            # for persons_info
+            assert(len(self.original_corpuses) == len(self.corpuses) == len(self.auther_names))
+            
+            corpuses_name_id = {}
+            self.persons_info = []
+            for title,  original_corpuse,  decomposed_corpus, name in zip(self.titles,  self.original_corpuses, self.corpuses, self.auther_names):
+                if name not in corpuses_name_id.keys():
+                    corpuses_name_id[name] = {}
+                    corpuses_name_id[name]["name"] = name
+                    corpuses_name_id[name]["keywords"] = []
+                    corpuses_name_id[name]["articles"] = []
+
+                corpuses_name_id[name]["articles"].append({"title":"%s"%title ,   "abstract":"%s"%original_corpuse})
+                for keyword in decomposed_corpus.split(','):
+                    for keyword_info in self.keywords_info:
+                        if keyword == keyword_info["text"]:
+                            corpuses_name_id[name]["keywords"].append(keyword_info["id"])
+                    
+            self.persons_info =  corpuses_name_id.values()
+            
+        def set_iteration_parameters():
+            # number of iteration
+            self.iter_num = 0
+        def analyze_data():
+            self.analyzer = Analyzer(self.keywords_list, self.corpuses)
+        def form_keywords_info():
+            
+            self.keywords_file_obj = open(self.keywords_filename,'r')
+            
             # set of all keywords
             self.keywords_set = pickle.load(self.keywords_file_obj)
 
@@ -126,52 +159,34 @@ class Application(tornado.web.Application):
             # list of all keywords information: it is a dictionary that contains ("id", "text",  "exploitation", "exploration" ) as keys
             self.keywords_list = list(self.keywords_set)[:self.current_selected_keyword_length]
             self.keywords_id = range(0, self.current_selected_keyword_length)
-            keywords_exploitation = [0.5] * len( self.keywords_list)
-            keywords_exploration = [0.5] * len( self.keywords_list)
-            self.keywords_info = zip( self.keywords_id ,self.keywords_list,keywords_exploitation, keywords_exploration)
-            self.kewords_keys = ("id", "text",  "exploitation", "exploration" )
-            self.keywords_info = [dict(zip(self.kewords_keys, keyword_info)) for keyword_info in self.keywords_info]
-             
-
-        def form_persons_info():    
-            # for persons_info
-            assert(len(self.original_corpuses) == len(self.corpuses) == len(self.auther_names))
             
-            corpuses_name_id = {}
-            self.persons_info = []
-            for original_corpuse,  decomposed_corpus, name in zip(self.original_corpuses, self.corpuses, self.auther_names):
-                if name not in corpuses_name_id.keys():
-                    corpuses_name_id[name] = {}
-                    corpuses_name_id[name]["name"] = name
-                    corpuses_name_id[name]["keywords"] = []
-                    corpuses_name_id[name]["articles"] = []
-
-                corpuses_name_id[name]["articles"].append({"title":"titles",  "abstract":"%s"%original_corpuse})
-                for keyword in decomposed_corpus.split(','):
-                    for keyword_info in self.keywords_info:
-                        if keyword == keyword_info["text"]:
-                            corpuses_name_id[name]["keywords"].append(keyword_info["id"])
-                    
-            self.persons_info =  corpuses_name_id.values()
-
+            self.form_new_keywords_information()
+            
+            self.keywords_file_obj.close()
+        
         set_keywords_parameters()
+        set_iteration_parameters()
         form_keywords_info()
         form_persons_info()
+        analyze_data()
         
+
+    def form_new_keywords_information(self):
+        keywords_exploitation = [0.1] * len( self.keywords_list)
+        keywords_exploration = [0.9] * len( self.keywords_list)
+        self.keywords_info = zip( self.keywords_id ,self.keywords_list,keywords_exploitation, keywords_exploration)
+        self.kewords_keys = ("id", "text",  "exploitation", "exploration" )
+        self.keywords_info = [dict(zip(self.kewords_keys, keyword_info)) for keyword_info in self.keywords_info]
+        self.keywords = self.keywords_list[self.keywords_number * self.iter_num:self.keywords_number*(self.iter_num +1)]
+         
         # keywords after ranking, this variable will only be used in NextHandler
         self.ranked_keywords = deepcopy(self.keywords_info)
         # keywords after user input their preferences, this will be only be used in the SearchHandler
         self.filtered_keywords = deepcopy(self.keywords_info)
         # selected keywords
         self.experienced_keywords = []
-        # number of iteration
-        self.iter_num = 0
-        self.keywords = self.keywords_list[self.keywords_number * self.iter_num:self.keywords_number*(self.iter_num +1)]
-        self.analyzer = Analyzer(self.keywords_list, self.corpuses)
         
-        self.keywords_file_obj.close()
-        self.corpus_keywords_file_obj.close()
-        
+
     def __del__(self):
         super(tornado.web.Application, self).__del__(*args, **kwargs)
 

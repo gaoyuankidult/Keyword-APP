@@ -214,7 +214,7 @@ class PaperAbstractCrawler(AbstractCrawler):
         self.mm.excute_sql(sql)
         iter = self.mm.fetch()
         for row in iter:
-            if row[1] > 337:
+            if row[1] > 342:
                 self.name = row[0]
                 url_name = '+'.join(self.name.split(' '))
                 url  = "http://scholar.google.fi/scholar?as_q=%s&as_occt=title&hl=en"%url_name            
