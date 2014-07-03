@@ -29,7 +29,14 @@
 	persons: [
 		{
 			name: "Kalle Ilves",
-			keywords: [1, 2, 3, ...]
+			keywords: [1, 2, 3, ...],
+			articles: [
+				{
+					title: "Some title",
+					abstract: "Some abstract"
+				},
+				...
+			]
 		},
 		...
 	]
@@ -72,7 +79,14 @@
 	persons: [
 		{
 			name: "Kalle Ilves",
-			keywords: [1, 2, 3, ...]
+			keywords: [1, 2, 3, ...],
+			articles: [
+				{
+					title: "Some title",
+					abstract: "Some abstract"
+				},
+				...
+			]
 		},
 		...
 	]
