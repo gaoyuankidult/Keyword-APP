@@ -32,7 +32,7 @@ from tornado.web import asynchronous, RequestHandler, Application
 from tornado.httpclient import AsyncHTTPClient
 
 from analyzer.analyzer import Analyzer
-from analyzer.extractors import KeywordExtractor
+from analyzer.extractors import Extractors
 
 class BaseHandler(RequestHandler):
     def get_login_url(self):
@@ -312,9 +312,10 @@ class SearchHandler(MainBaseHandler):
         data = json.loads(self.request.body)
 
         search_word = data["search_word"]
+       # print data["keywords"]
         # decompose the search word and keywords and make them as a local keyoword list
-        keywords = [word for keyword in data["keywords"] for word in keyword.split()]
-        print keywords
+        keywords = [word for keyword in data["keywords"] for word in keyword["text"].split()]
+        #print keywords
         # initilze temp container for sending keywords
         temp = []
         #iterate throught each word in the list and check wether it overlaps with our local keyword list.
@@ -324,16 +325,20 @@ class SearchHandler(MainBaseHandler):
         self.application.filtered_keywords = temp
         self.application.keywords = self.application.filtered_keywords[self.application.keywords_number * self.application.iter_num:self.application.keywords_number*(self.application.iter_num +1)]    
 
+        # sort the persons
+        keywords_id = [keyword["id"] for keyword in self.application.keywords]
+        def sort_persons(person):
+            return len(set(person["keywords"]) & set(keywords_id))
+        persons = sorted(self.application.persons_info, key = sort_persons, reverse = True)
+
         message = {
             "keywords": [
                 keyword
                 for keyword in self.application.keywords
             ], 
             "persons": [
-                {
-                    "name": "Kalle Ilves",
-                    "keywords": [1, 2, 3]
-                },
+                person
+                for person in persons
             ]
             
         }
@@ -370,7 +375,6 @@ class NextHandler(MainBaseHandler):
             for i in xrange(len(self.application.keywords_info)):
                 self.application.keywords_info[i]["exploitation"] = scores[i][0]
                 self.application.keywords_info[i]["exploration"] = scores[i][1]
-                print self.application.keywords_info[i]
 
         # add exprienced word, this word will not appear any in selection process
         self.application.experienced_keywords.extend(self.application.keywords)
@@ -379,8 +383,8 @@ class NextHandler(MainBaseHandler):
         data = json.loads(self.request.body)
         
         # keywords info consists a list of tupes. It stores name of keyword and weight of keyword
+        print "data of next", data
         keywords_info = [(keyword ["text"] , keyword ["weight"]) for keyword in data["keywords"]]
-        
         # decompose the keywords_info array to two arraies. One of them contains keywords, another of them contains weights of keywords
         keywords, weights = zip(*keywords_info)
         # increase the iteration number
@@ -388,7 +392,7 @@ class NextHandler(MainBaseHandler):
         
         # get scores of all the keywords ordered in list order 
         before = datetime.datetime.now()
-        scores = self.application.analyzer.analyze(keywords ,self.application.corpus, weights)
+        scores = self.application.analyzer.analyze(keywords ,self.application.corpuses, weights)
         after = datetime.datetime.now()
         print "Time Comsumption of Function Analyzer: ",  after- before
         scores_sum = [sum(score) for score in scores]
@@ -400,6 +404,11 @@ class NextHandler(MainBaseHandler):
         # get the keywords that has hightest score.
         self.application.keywords = (self.application.ranked_keywords[-self.application.keywords_number:])[::-1]
         
+        # sort the persons
+        keywords_id = [keyword["id"] for keyword in self.application.keywords]
+        def sort_persons(person):
+            return len(set(person["keywords"]) & set(keywords_id))
+        persons = sorted(self.application.persons_info, key = sort_persons, reverse = True)
 
         
         message = {
@@ -408,12 +417,11 @@ class NextHandler(MainBaseHandler):
                 for keyword in self.application.keywords
             ],
             "persons": [
-                {
-                    "name": "Kalle Ilves",
-                    "keywords": [1, 2, 3]
-                },
+                person
+                for person in persons
             ]
         }
+        print message
         self.json_ok(message)
         
     

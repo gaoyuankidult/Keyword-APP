@@ -1,2 +1,2 @@
-from keywords_extractor import KeywordExtractor
-from keywords_extractor import PhraseExtractor
+from extractors import Extractors
+from extractors import PhraseExtractor

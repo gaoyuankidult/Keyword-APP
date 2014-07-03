@@ -8,8 +8,6 @@ from urllib import urlretrieve
 import os
 import sys
 import codecs
-import scholar
-
 
 from mysql_messager import MysqlMessager 
 
@@ -20,7 +18,7 @@ class AbstractCrawler(object):
     """
     def __init__(self):
         self.name = self.__class__.__name__
-        self.log_dir = "../../crawler_logs/"
+        self.log_dir = "crawler_logs/"
 
     def set_name(self, name):
         """ Set name of crawler
@@ -216,7 +214,7 @@ class PaperAbstractCrawler(AbstractCrawler):
         self.mm.excute_sql(sql)
         iter = self.mm.fetch()
         for row in iter:
-            if row[1] > 327:
+            if row[1] > 337:
                 self.name = row[0]
                 url_name = '+'.join(self.name.split(' '))
                 url  = "http://scholar.google.fi/scholar?as_q=%s&as_occt=title&hl=en"%url_name            

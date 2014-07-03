@@ -1,4 +1,4 @@
-from database_messager import MysqlMessager
+from ..database_messager import MysqlMessager
 
 from numpy import nan
 from numpy import set_printoptions
@@ -13,7 +13,7 @@ from numpy import concatenate
 from numpy.linalg import norm
 from numpy import float64
 
-from extractors import KeywordExtractor
+from extractors import Extractors
 from extractors import PhraseExtractor
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
