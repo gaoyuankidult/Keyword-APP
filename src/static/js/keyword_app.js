@@ -1,19 +1,3 @@
-function Keyword(id, text, exploitation, exploration){
-	this.id = id || 0;
-	this.text = text;
-	this.exploitation = exploitation || 0;
-	this.exploration = exploration || 0;
-	this.weight = Math.round(( this.exploitation / ( this.exploitation + this.exploration ) * 100 )) || 0;
-	this.selected = false;
-	this.removed = false;
-}
-
-function Person(id, name, keywords){
-	this.id = id || 0;
-	this.name = name;
-	this.keywords = keywords || [];
-}
-
 var KeywordApp = angular.module("KeywordApp", []);
 
 KeywordApp.config(function($interpolateProvider) {
@@ -21,7 +5,7 @@ KeywordApp.config(function($interpolateProvider) {
   	$interpolateProvider.endSymbol('}]}');
 });
 
-KeywordApp.controller("KeywordController", ["$scope", function($scope){
+KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $sce){
 
 	$scope.keyword_suggestions = [];
 	$scope.show_keyword_suggestions = false;
@@ -30,7 +14,8 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 	$scope.current_keywords = [];
 
 	$scope.current_persons = [];
-	$scope.selected_person = null;
+
+	$scope.current_article = null;
 
 	var _views = {
 		keywords_view: $("#keywords-container"),
@@ -38,7 +23,8 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		people_view: $("#people-container"),
 		search_view: $("#search-container"),
 		keyword_suggestions_view: $(".keyword-suggestions-list"),
-		keywords_view_layer: $("#keywords-display-layer")
+		keywords_view_layer: $("#keywords-display-layer"),
+		article_highlight_view: $("#article-highlight-display")
 	}
 
 	$scope.highlight_persons_keywords = function(person){
@@ -69,23 +55,6 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		keyword.selected = !keyword.selected;
 	}
 
-	$scope.show_person = function(person){
-		/*_views.keywords_view_layer.fadeOut(500);
-		_views.person_view.fadeOut(500);
-		_views.keywords_view.fadeOut(500, function(){
-
-			if($scope.selected_person){
-				$scope.selected_person.selected = false;
-			}
-
-			person.selected = true;
-			$scope.selected_person = person;
-			$scope.$apply();
-
-			_views.person_view.fadeIn(500);
-		});*/
-	}
-
 	$scope.hide_person = function(){
 		_views.person_view.fadeOut(500, function(){
 
@@ -99,21 +68,16 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 	}
 
 	$scope.next = function(){
-		$scope.current_persons = [];
-		$scope.current_keywords = [];
-
 		_views.keywords_view.fadeOut(500);
 		_views.people_view.animate({
 			width: "0%"
 		}, 500, function(){
 			$.post("/next", _get_keyword_feedback()).done(function(data){
+				$scope.current_persons = [];
+				$scope.current_keywords = [];
+
 				_initialize_keywords(data.keywords);
 				_initialize_persons(data.persons);
-
-				$scope.$apply();
-
-				$(".remove-keyword").tooltip();
-				$(".keyword-knob").knob();
 
 				_views.keywords_view.fadeIn(500);
 				_views.people_view.animate({
@@ -144,11 +108,55 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		return !keyword.removed;
 	}
 
+	$scope.toggle_person_selection = function(person){
+		$scope.current_persons.forEach(function(p){
+			if(p.id != person.id){
+				p.selected = false;
+			}
+		});
+
+		person.selected = !person.selected;
+	}
+
+	$scope.highlight_article = function(article, person){
+		$scope.current_article = article;
+
+		$(".keyword-box[data-keywordId='" + Math.round(Math.random() * 10) + "']").addClass("keyword-box-active");
+
+		_views.article_highlight_view.show();
+		_views.keywords_view_layer.hide();
+		_views.keywords_view_layer.stop().fadeIn(500);
+		_views.article_highlight_view.addClass("animated bounceInUp");
+	}
+
+	$scope.un_highlight_article = function(){
+		$scope.current_article = null;
+
+		$(".keyword-box").removeClass("keyword-box-active");
+
+		_views.article_highlight_view.hide();
+		_views.keywords_view_layer.show();
+		_views.keywords_view_layer.stop().fadeOut(500);	
+		_views.article_highlight_view.removeClass("animated bounceInUp");
+	}
+
 	$scope.search = function(){
 		_views.search_view.slideUp("slow", function(){
 			_views.keyword_suggestions_view.hide();
 
 			var post_params = { search_word: ( $scope.search_word || "" ), keywords: _get_selected_keyword_suggestions() };
+
+			/*var keywords = _keyword_dummy_data();
+			var persons = _person_dummy_data();
+
+			_initialize_keywords(keywords);
+			_initialize_persons(persons);
+			
+			_views.people_view.animate({
+				width: "30%"
+			}, 500);
+			
+			_views.keywords_view.fadeIn(500);*/
 
 			$.post("/search", JSON.stringify(post_params)).done(function(data){
 				_initialize_keywords(data.keywords);
@@ -188,6 +196,12 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 	var _get_keyword_suggestions = function(callback){
 		$scope.keyword_suggestions = [];
 
+		/*$scope.keyword_suggestions = _keyword_suggestion_dummy_data();
+
+		$scope.$apply();
+		callback();*/
+
+
 		$.get("/search", function(data){
 			data.keywords.forEach(function(keyword){
 				var k = new Keyword();
@@ -209,13 +223,24 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		});
 
 		$scope.$apply();
+
+		$scope.current_keywords.forEach(function(keyword){
+			$(".keyword-box[data-keywordId='" + keyword.id + "'] .keyword-knob").knob({
+				change: function(value){
+					keyword.weight = value;
+				}
+			});
+		});
+
+		$(".remove-keyword").tooltip();
+
 	}
 
 	var _initialize_persons = function(data){
 		$scope.current_persons = [];
 
 		data.forEach(function(person){
-			$scope.current_persons.push(new Person(person.id, person.name, person.keywords));
+			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, person.articles));
 		});
 
 		$scope.$apply();
@@ -260,11 +285,66 @@ KeywordApp.controller("KeywordController", ["$scope", function($scope){
 		return selected;
 	}
 
+	/*****************
+	*	DUMMY DATA   *
+	******************/
+
+	/*_keyword_suggestion_dummy_data = function(){
+		var suggestions = [];
+
+		for(var i=0; i<200; i++){
+			var txt = "keywordkeyword";
+			var k = new Keyword();
+			k.text = txt.substring(2, Math.floor(Math.random() * txt.length) + 4);
+			suggestions.push(k);
+		}
+
+		return suggestions;
+	}
+
+	_keyword_dummy_data = function(){
+		var keywords = [];
+
+		for(var i=0; i<10; i++){
+			var txt = "keywordkeyword";
+			var k = new Keyword(i, txt.substring(2, Math.floor(Math.random() * txt.length) + 4), Math.random(), Math.random());
+			keywords.push(k);
+		}
+
+		return keywords;	
+	}
+
+	_person_dummy_data = function(){
+		var persons = [];
+
+		for(var i=0; i<10; i++){
+			var articles = [];
+			for(var n=0; n<10; n++){
+				articles.push({
+					title: "Lorem ipsum dolor sit amet",
+					abstract: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas suscipit lorem turpis, nec volutpat justo sagittis non. Vestibulum tortor enim, viverra ac sem in, placerat posuere diam. Ut vel velit imperdiet, fringilla libero a, placerat velit. Duis et accumsan libero. Duis ante diam, euismod a elementum molestie, ultrices sed justo. Quisque aliquam elementum consectetur. Vivamus mi orci, sodales sed venenatis et, sollicitudin id sapien."
+				});
+			}
+			var p = new Person(i, "Kalle Ilves", [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)], articles);
+			persons.push(p);
+		}
+
+		return persons;
+	}*/
+
 	_get_keyword_suggestions(function(){ _views.search_view.slideDown(500); $("#search-field").focus() });
 
 }]);
 
 $(document).ready(function(){
+
+	$(".people-nav .toggle-navigation").live("click", function(){
+		$(".people-nav .toggle-navigation").not(this).removeClass("selected-true");
+		$(".people-nav .toggle-navigation").not(this).parent("li").find("ul").slideUp();
+		$(this).toggleClass("selected-true")
+		$(this).parent("li").find("ul").slideToggle();
+	});
+
 	$("#next-iteration").tooltip();
 	$("#end-search").tooltip();
 	$("#suggest-keywords-trigger").bind("click", function(){
