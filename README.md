@@ -44,7 +44,8 @@
 }</pre>
 
 
-#POST /next
+#POST /search
+##Params
 
 <pre>
 {
