@@ -46,8 +46,6 @@
 
 #POST /next
 
-##Params
-
 <pre>
 {
 	keywords: [
