@@ -43,7 +43,7 @@
 
 }</pre>
 
-#POST /next 
+#POST /next
 
 ##Params
 
