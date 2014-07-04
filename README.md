@@ -41,7 +41,8 @@
 		...
 	]
 
-}</pre>
+}
+</pre>
 
 #POST/next
 
