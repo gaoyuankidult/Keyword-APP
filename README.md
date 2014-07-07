@@ -96,4 +96,4 @@
 # Tasks
 
 
-- A small bug lies in acquiring abstracts. The expand button is wrong *done*
+- <strike>A small bug lies in acquiring abstracts. The expand button is wrong</strike> *done*
