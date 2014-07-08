@@ -70,6 +70,7 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
             }
 
             $scope.charts = skeleton;
+            $scope.current_chart = $scope.charts[0];
             $scope.$apply();
 
             callback();
