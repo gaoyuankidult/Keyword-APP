@@ -11,23 +11,6 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
     $scope.charts = [];
     $scope.current_chart = $scope.charts[0];
 
-    (function(){
-        _fetch_charts(function(){
-           $("#chart-canvas").attr({
-                width: $("#chart-container").width() - 40,
-                height: $("#chart-container").height() - 110
-            });
-    
-            var ctx = $("#chart-canvas").get(0).getContext("2d");
-            var chart = new Chart(ctx).Line($scope.current_chart);
-    
-            $("#chart-container").fadeIn(500);
-            $("#chart-nav-container").animate({
-                width: "20%"
-            }, 500); 
-        });
-    })();
-
     $scope.switch_to_chart = function(chart){
         var ind = chart.index
         $("#chart-container").fadeOut(500, function(){
@@ -93,7 +76,20 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
         })
     }
 
-
+    _fetch_charts(function(){
+           $("#chart-canvas").attr({
+                width: $("#chart-container").width() - 40,
+                height: $("#chart-container").height() - 110
+            });
+    
+            var ctx = $("#chart-canvas").get(0).getContext("2d");
+            var chart = new Chart(ctx).Line($scope.current_chart);
+    
+            $("#chart-container").fadeIn(500);
+            $("#chart-nav-container").animate({
+                width: "20%"
+            }, 500); 
+        });
 
 }]);
 
