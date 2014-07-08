@@ -192,6 +192,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 		$(".vertical-nav > li > a").removeClass("selected-true");
 
 		var persons = _get_persons_related_to_keyword(keyword.id);
+console.log(JSON.stringify(persons));
 		persons.forEach(function(person){
 			$(".vertical-nav > li > a[data-personId='" + person.id + "']").addClass("selected-true");
 		});
