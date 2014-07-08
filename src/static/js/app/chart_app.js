@@ -64,12 +64,14 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
         ];
 
         $.get("/charts_data", function(data){
+            console.log(JSON.stringify(data));
+            
             for(var i=0; i<data.length; i++){
                 skeleton[i].labels = data[i].persons;
                 skeleton[i].datasets[0].data = data[i].data;
             }
 
-            console.log(JSON.stringify($scope.charts))
+            console.log(JSON.stringify($scope.charts));
 
             $scope.charts = skeleton;
             $scope.current_chart = $scope.charts[0];
