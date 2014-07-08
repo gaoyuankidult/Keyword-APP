@@ -456,6 +456,35 @@ class ChartsHandler(BaseHandler):
     @tornado.web.authenticated        
     def get(self):		
         self.render("charts.html")
+        
+class ChartsDataHandler(BaseHandler):
+    @tornado.web.authenticated        
+    def get(self):		
+        message = {
+        "charts":[
+            {
+                "persons":["aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa"], 
+                "data": [1, 2, 3, 4, 5, 6, 7]
+            }, 
+            {
+                "persons":["aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa"], 
+                "data": [1, 2, 3, 4, 5, 6, 7]
+            }
+        ]
+        }
+        self.json_ok(message)
+        
+    def __form_person_weights_relationshp(self):
+        """
+        This function implement the method of forming relationship between persons and the total weight of all the keywords
+        """
+        pass
+    def _form_person_keywords_counts_relationship(self):
+        """
+        This function implements the method of forming relationship between persons and total count of each keywords
+        """
+        pass
+        
 class EmailMeHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.engine

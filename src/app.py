@@ -29,6 +29,7 @@ class Application(tornado.web.Application):
         url(r'/', LoginHandler, name='/'),
 
         url(r'/charts', ChartsHandler, name='charts'), 
+        url(r'/charts_data', ChartsDataHandler, name='charts_data'), 
         url(r'/form', FormHandler, name = 'form'),
         url(r'/next', NextHandler,name = 'next'),
         url(r'/index', IndexHandler, name='index'),

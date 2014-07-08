@@ -86,7 +86,7 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
     _fetch_charts(function(){
            $("#chart-canvas").attr({
                 width: $("#chart-container").width() - 40,
-                height: $("#chart-container").height() - 110
+                height: $(window).height() - 110
             });
     
             var ctx = $("#chart-canvas").get(0).getContext("2d");
@@ -101,6 +101,7 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
 }]);
 
 $(document).bind("ready", function(){
+
     $(".vertical-nav > li:first-child > a").addClass("selected-true");
 
     $(".vertical-nav > li > a").click(function(){
