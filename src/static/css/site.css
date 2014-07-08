@@ -140,17 +140,27 @@ h2.text-muted{
 	margin-bottom: 10px;
 	text-align: center;
 }
-#keywords-container, #person-container{
+#keywords-container{
 	display: none;
+	min-height: 100%;
 	width: 70%;
 	padding: 0px;
 }
-#keywords-container h2, #person-container h2{
+#chart-container{
+	display: none;
+	min-height: 100%;
+	width: 80%;
+	padding: 0px;
+}
+#keywords-container h2, #chart-container h2{
 	border-bottom: 1px solid rgb(210,210,210);
 	color: rgb(150,150,150);
 	margin: 0px 0px 25px 0px;
 	padding: 15px 20px;
 	font-size: 2em;
+}
+#chart-canvas{
+	margin: 0px 20px 20px 20px;
 }
 #people-container{
 	position: fixed;
@@ -161,7 +171,16 @@ h2.text-muted{
 	padding: 0px;
 	overflow: scroll;
 }
-#people-container h2{
+#chart-nav-container{
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	width: 0%;
+	height: 100%;
+	padding: 0px;
+	overflow: scroll;	
+}
+#people-container h2, #chart-nav-container h2{
 	border-bottom: 1px solid rgb(30,30,30);;
 	font-size: 2em;
 	color: white;
@@ -195,17 +214,18 @@ h2.text-muted{
 .container-dark .text-muted{
 	color: rgb(160,160,160);
 }
-ul.people-nav{
+ul.vertical-nav{
 	list-style-type: none;
 	margin: 0px;
 	padding: 0px;
 }
-ul.people-nav a:focus{
+ul.vertical-nav a:focus{
 	text-decoration: none;
 }
-ul.people-nav > li  > a{
+ul.vertical-nav > li  > a{
 	transition: 0.5s;
 	display: block;
+	cursor: pointer;
 	background-color: rgb(30,30,30);
 	border-bottom: 1px solid rgb(50,50,50);
 	padding: 10px 14px;
@@ -215,37 +235,38 @@ ul.people-nav > li  > a{
     -webkit-box-shadow: inset 10px 0 5px -10px rgba(0,0,0,.5) !important;
 	box-shadow: inset 10px 0 5px -10px rgba(0,0,0,.5) !important;
 }
-ul.people-nav > li a.selected-true{
+ul.vertical-nav > li a.selected-true{
 	text-decoration: none;
 	transition: 0.5s;
 	color: white;
 	background-color: #0097cf;
 }
-ul.people-nav > li > a.selected-true i{
+ul.vertical-nav > li > a.selected-true i{
 	transition: 0.5s;
 	color: white;
 }
-ul.people-nav > li > a i{
+ul.vertical-nav > li > a i{
 	transition: 0.5s;
 	color: rgb(140,140,140);
 }
-ul.people-nav > li > a:hover{
+ul.vertical-nav > li > a:hover{
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
 	text-decoration: none;
 	transition: 0.5s;
 	color: white;
 	background-color: #0097cf;
 }
-ul.people-nav > li > a:hover i{
+ul.vertical-nav > li > a:hover i{
 	transition: 0.5s;
 	color: white;
 }
-ul.people-nav ul{
+ul.vertical-nav ul{
 	display: none;
 	padding: 0px;
 	margin: 0px;
 }
-ul.people-nav ul > li > a{
+ul.vertical-nav ul > li > a{
+	cursor: pointer;
 	background-color: rgb(15,15,15);
 	transition: 0.5s;
 	display: block;
@@ -257,25 +278,25 @@ ul.people-nav ul > li > a{
     -webkit-box-shadow: inset 10px 0 5px -10px rgba(0,0,0,.5) !important;
 	box-shadow: inset 10px 0 5px -10px rgba(0,0,0,.5) !important;
 }
-ul.people-nav ul > li > a i{
+ul.vertical-nav ul > li > a i{
 	transition: 0.5s;
 	color: rgb(125,125,125);
 }
-ul.people-nav ul > li > a:hover{
+ul.vertical-nav ul > li > a:hover{
 	transition: 0.5s;
 	background-color: black;
 	text-decoration: none;
 	color: white;
 }
-ul.people-nav ul > li > a:hover i{
+ul.vertical-nav ul > li > a:hover i{
 	transition: 0.5s;
 	color: white;
 }
-ul.people-nav > li > a i.pull-right{
+ul.vertical-nav > li > a i.pull-right{
 	position: relative;
 	top: 5px;
 }
-ul.people-nav ul > li:first-child > a{
+ul.vertical-nav ul > li:first-child > a{
 	-webkit-box-shadow: inset 5px 5px 5px -5px rgba(0,0,0,0.5) !important; 
 	-moz-box-shadow: inset 5px 5px 5px -5px rgba(0,0,0,0.5) !important;
 	box-shadow: inset 5px 5px 5px -5px rgba(0,0,0,0.5) !important;
@@ -370,6 +391,9 @@ ul.people-nav ul > li:first-child > a{
 	color: rgb(30,30,30);
 	text-shadow: none;
 }
+.keyword-box .keyword-text span{
+	cursor: pointer;
+}
 .keyword-box.keyword-box-active .arrow{
 	transition: 0.5s;
 	width: 0;
@@ -396,6 +420,11 @@ ul.people-nav ul > li:first-child > a{
 	padding: 8px 12px;
 	margin: 0px -25px 0px -25px;
 	display: block;
+}
+.highlighted-keyword{
+	text-decoration: underline;
+	font-style: italic;
+	color: white;
 }
 #article-highlight-display h3{
 	margin-top: 0px;
