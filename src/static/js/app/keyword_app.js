@@ -192,6 +192,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 		$(".vertical-nav > li > a").removeClass("selected-true");
 
 		var persons = _get_persons_related_to_keyword(keyword.id);
+		console.log("COUNT:" + persons.length)
 		persons.forEach(function(person){
 			$(".vertical-nav > li > a[data-personId='" + person.id + "']").addClass("selected-true");
 		});
@@ -320,7 +321,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 
 		console.log(id);
 		return $.grep($scope.current_persons, function(person){
-			console.log(JSON.stringify(person.keywords));
+			console.log(person.keywords.indexOf(id) >= 0);
 			return $.inArray(id, person.keywords) >= 0;
 		});
 	}
