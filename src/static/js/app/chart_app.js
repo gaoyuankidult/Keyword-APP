@@ -69,6 +69,8 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
                 skeleton[i].datasets[0].data = data[i].data;
             }
 
+            console.log(JSON.stringify($scope.charts))
+
             $scope.charts = skeleton;
             $scope.current_chart = $scope.charts[0];
             $scope.$apply();
