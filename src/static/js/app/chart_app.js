@@ -66,6 +66,8 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
         $.get("/charts_data", function(data){
             console.log(data);
             
+            data = data.charts;
+            
             for(var i=0; i<data.length; i++){
                 skeleton[i].labels = data[i].persons;
                 skeleton[i].datasets[0].data = data[i].data;
