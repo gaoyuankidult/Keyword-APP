@@ -8,58 +8,24 @@ ChartApp.config(function($interpolateProvider) {
 ChartApp.controller("ChartController", ["$scope", function($scope){
     Chart.defaults.global.tooltipTemplate = "<%= label %>";
 
-    $scope.charts = [
-    	{
-            index: 0,
-            heading: "People and keyword weights",
-            labels: ["Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves"],
-            datasets: [
-                {
-                    label: "People and keyword weights",
-                    fillColor: "rgba(0,151,207,0.2)",
-                    strokeColor: "rgba(0,151,207,1)",
-                    pointColor: "rgba(0,151,207,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(0,151,207,1)",
-                    data: [28, 48, 40, 19, 86, 27, 90, 24, 55, 10, 49, 12, 94, 56, 24]
-                }
-            ]
-        },
-        {
-            index: 1,
-            heading: "People and keyword counts",
-            labels: ["Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves", "Kalle Ilves"],
-            datasets: [
-                {
-                    label: "People and keyword counts",
-                    fillColor: "rgba(0,151,207,0.2)",
-                    strokeColor: "rgba(0,151,207,1)",
-                    pointColor: "rgba(0,151,207,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(0,151,207,1)",
-                    data: [28, 48, 40, 19, 86, 27, 90, 24, 55, 10, 49, 12, 94, 56, 24]
-                }
-            ]   
-        }
-    ];
-
+    $scope.charts = [];
     $scope.current_chart = $scope.charts[0];
 
     (function(){
-        $("#chart-canvas").attr({
-            width: $("#chart-container").width() - 40,
-            height: $("#chart-container").height() - 110
+        _fetch_charts(function(){
+           $("#chart-canvas").attr({
+                width: $("#chart-container").width() - 40,
+                height: $("#chart-container").height() - 110
+            });
+    
+            var ctx = $("#chart-canvas").get(0).getContext("2d");
+            var chart = new Chart(ctx).Line($scope.current_chart);
+    
+            $("#chart-container").fadeIn(500);
+            $("#chart-nav-container").animate({
+                width: "20%"
+            }, 500); 
         });
-
-        var ctx = $("#chart-canvas").get(0).getContext("2d");
-        var chart = new Chart(ctx).Line($scope.current_chart);
-
-        $("#chart-container").fadeIn(500);
-        $("#chart-nav-container").animate({
-            width: "20%"
-        }, 500);
     })();
 
     $scope.switch_to_chart = function(chart){
