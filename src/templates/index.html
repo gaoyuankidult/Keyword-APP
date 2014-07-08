@@ -55,24 +55,6 @@
 
 		</div>
 
-		<!-- SINGLE PERSON DISPLAY -->
-		<div class="container-basic" id="person-container">
-			
-			<h2>
-				{[{selected_person.name}]}
-
-				<button class="btn pull-right btn-close" data-toggle="tooltip" data-placement="bottom" title="Close this window" ng-click="hide_person()">
-					<i class="fa fa-times"></i>
-				</button>
-
-			</h2>
-
-			<div class="wrapper">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacinia laoreet quam, id aliquet neque. Donec tristique gravida erat eu euismod. Nam at diam interdum, tempor tortor non, consequat est. Donec dolor ante, fringilla vel mauris vitae, venenatis facilisis est. In in neque at leo condimentum aliquam.
-			</div>
-
-		</div>
-
 		<!-- KEYWORDS DISPLAY -->
 		<div class="container-basic" id="keywords-container">
 			
@@ -92,7 +74,7 @@
 			<!-- SINGLE KEYWORD DISPLAY -->
 			<div class="keywords-display">
 
-				<div class="keyword-box animated bounceIn" data-keywordId="{[{keyword.id}]}" ng-repeat="keyword in current_keywords | filter: filter_removed_keywords">
+				<div class="keyword-box animated bounceIn" data-keywordId="{[{keyword.id}]}" ng-repeat="keyword in current_keywords | filter: filter_removed_keywords" ng-mouseenter="highlight_keywords_persons(keyword)" ng-mouseleave="un_highlight_keywords_persons()">
 					
 					<input type="text" class="keyword-knob" data-width="70" data-height="70" data-displayPrevious="true" data-fgColor="#0097cf" data-bgColor="#ffffff" data-angleArc="250" data-angleOffset="-125" data-thickness=".3" value="{[{keyword.weight}]}" ng-model="keyword.weight">
 					<div class="text-center" style="margin-top: 10px">
@@ -115,8 +97,8 @@
 
 			<h2>People</h2>
 
-			<ul class="people-nav">
-				<li ng-repeat="person in current_persons"><a href="#" ng-mouseenter="highlight_persons_keywords(person)" ng-mouseleave="un_highlight_persons_keywords()" ng-click="toggle_person_selection(person);" class="toggle-navigation"><i class="fa fa-user marg-right"></i>{[{person.name}]}
+			<ul class="vertical-nav">
+				<li ng-repeat="person in current_persons"><a ng-mouseenter="highlight_persons_keywords(person)" ng-mouseleave="un_highlight_persons_keywords()" ng-click="toggle_person_selection(person)" class="toggle-navigation" data-personId="{[{person.id}]}"><i class="fa fa-user marg-right"></i>{[{person.name}]}
 					<i class="fa fa-plus pull-right" ng-hide="person.selected"></i>
 					<i class="fa fa-minus pull-right" ng-show="person.selected"></i>
 				</a>
@@ -130,8 +112,8 @@
 
 		<div class="layer" id="keywords-display-layer">
 			<div id="article-highlight-display">
-				<h3>{[{current_article.title}]}</h3>
-				<span class="text-muted">{[{current_article.abstract}]}</span>
+				<h3>{[{current_article.highlighted_title}]}</h3>
+				<span class="text-muted" ng-bind-html="current_article.highlighted_abstract"></span>
 			</div>
 		</div>
 
