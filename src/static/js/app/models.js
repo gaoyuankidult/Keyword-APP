@@ -8,7 +8,7 @@ function Keyword(id, text, exploitation, exploration){
 	this.removed = false;
 }
 
-function Person(id, name, keywords,articles){
+function Person(id, name, keywords, articles){
 	this.id = id || 0;
 	this.name = name;
 	this.keywords = keywords || [];
@@ -16,3 +16,10 @@ function Person(id, name, keywords,articles){
 	this.selected = false;
 }
 
+function Article(title, abstract){
+	this.title = title;
+	this.abstract = abstract;
+
+	this.highlighted_title = title;
+	this.highlighted_abstract = abstract;
+}
