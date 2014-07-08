@@ -261,7 +261,12 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 		$scope.current_persons = [];
 
 		data.forEach(function(person){
-			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, person.articles));
+			var articles = [];
+			person.articles.forEach(function(article){
+				articles.push(new Article(article.title, article.abstract));	
+			});
+			
+			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, articles));
 		});
 
 		$scope.$apply();
