@@ -5,6 +5,7 @@ KeywordApp.config(function($interpolateProvider) {
   	$interpolateProvider.endSymbol('}]}');
 });
 
+
 KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $sce){
 
 	$scope.keyword_suggestions = [];
@@ -119,9 +120,13 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 	}
 
 	$scope.highlight_article = function(article, person){
-		$scope.current_article = article;
+		keywords = {};
+		$scope.current_keywords.forEach(function(keyword){
+			keywords[keyword.text] = keyword;
+		});
 
-		$(".keyword-box[data-keywordId='" + Math.round(Math.random() * 10) + "']").addClass("keyword-box-active");
+		article.highlighted_abstract = $sce.trustAsHtml(_highlight_abstract_keywords(article.abstract, keywords));
+		$scope.current_article = article;
 
 		_views.article_highlight_view.show();
 		_views.keywords_view_layer.hide();
@@ -130,14 +135,16 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 	}
 
 	$scope.un_highlight_article = function(){
-		$scope.current_article = null;
-
 		$(".keyword-box").removeClass("keyword-box-active");
 
 		_views.article_highlight_view.hide();
 		_views.keywords_view_layer.show();
 		_views.keywords_view_layer.stop().fadeOut(500);	
 		_views.article_highlight_view.removeClass("animated bounceInUp");
+
+		$scope.current_article.highlighted_abstract = $scope.current_article.abstract;
+		$scope.current_article = null;
+
 	}
 
 	$scope.search = function(){
@@ -181,6 +188,20 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 		$scope.$apply();
 	}
 
+	$scope.highlight_keywords_persons = function(keyword){
+		$(".vertical-nav > li > a").removeClass("selected-true");
+
+		var persons = _get_persons_related_to_keyword(keyword.id);
+		persons.forEach(function(person){
+			$(".vertical-nav > li > a[data-personId='" + person.id + "']").addClass("selected-true");
+		});
+	}
+
+	$scope.un_highlight_keywords_persons = function(){
+		$(".vertical-nav > li > a").removeClass("selected-true");
+		$(".vertical-nav > li").has("ul:visible").find("> a").addClass("selected-true");
+	}
+
 	var _reset_variables = function(){
 		$scope.search_word = "";
 		$scope.current_keywords = [];
@@ -196,11 +217,11 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 	var _get_keyword_suggestions = function(callback){
 		$scope.keyword_suggestions = [];
 
-		/*$scope.keyword_suggestions = _keyword_suggestion_dummy_data();
+/*		$scope.keyword_suggestions = _keyword_suggestion_dummy_data();
 
 		$scope.$apply();
-		callback();*/
-
+		callback();
+*/
 
 		$.get("/search", function(data){
 			data.keywords.forEach(function(keyword){
@@ -240,10 +261,9 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 		$scope.current_persons = [];
 
 		data.forEach(function(person){
-			//console.log(person.articles)
 			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, person.articles));
 		});
-		console.log($scope.current_persons)
+
 		$scope.$apply();
 	}
 
@@ -278,6 +298,26 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 		return removed;
 	}
 
+	var _highlight_abstract_keywords = function(abstract, keywords){
+		var words = abstract.split(" ");
+		for(var i=0; i<words.length; i++){
+			if(keywords[words[i].toLowerCase()]){
+				$(".keyword-box[data-keywordId='" + keywords[words[i].toLowerCase()].id + "']").addClass("keyword-box-active");
+				words[i] = "<span class='highlighted-keyword'>" + words[i] + "</span>";
+			}
+		}
+
+		return words.join(" ");
+	}
+
+	_get_persons_related_to_keyword = function(keyword_id){
+		var id = keyword_id;
+
+		return $.grep($scope.current_persons, function(person){
+			return $.inArray(id, person.keywords) >= 0;
+		});
+	}
+
 	var _get_selected_keyword_suggestions = function(){
 		var selected = $.grep($scope.keyword_suggestions, function(keyword){
 			return keyword.selected;
@@ -290,7 +330,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 	*	DUMMY DATA   *
 	******************/
 
-	/*_keyword_suggestion_dummy_data = function(){
+	_keyword_suggestion_dummy_data = function(){
 		var suggestions = [];
 
 		for(var i=0; i<200; i++){
@@ -307,8 +347,8 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 		var keywords = [];
 
 		for(var i=0; i<10; i++){
-			var txt = "keywordkeyword";
-			var k = new Keyword(i, txt.substring(2, Math.floor(Math.random() * txt.length) + 4), Math.random(), Math.random());
+			var txt = "lorem";
+			var k = new Keyword(i, txt, Math.random(), Math.random());
 			keywords.push(k);
 		}
 
@@ -321,17 +361,15 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 		for(var i=0; i<10; i++){
 			var articles = [];
 			for(var n=0; n<10; n++){
-				articles.push({
-					title: "Lorem ipsum dolor sit amet",
-					abstract: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas suscipit lorem turpis, nec volutpat justo sagittis non. Vestibulum tortor enim, viverra ac sem in, placerat posuere diam. Ut vel velit imperdiet, fringilla libero a, placerat velit. Duis et accumsan libero. Duis ante diam, euismod a elementum molestie, ultrices sed justo. Quisque aliquam elementum consectetur. Vivamus mi orci, sodales sed venenatis et, sollicitudin id sapien."
-				});
+				articles.push(
+				new Article( "Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas suscipit lorem turpis, nec volutpat justo sagittis non. Vestibulum tortor enim, viverra ac sem in, placerat posuere diam. Ut vel velit imperdiet, fringilla libero a, placerat velit. Duis et accumsan libero. Duis ante diam, euismod a elementum molestie, ultrices sed justo. Quisque aliquam elementum consectetur. Vivamus mi orci, sodales sed venenatis et, sollicitudin id sapien."));
 			}
 			var p = new Person(i, "Kalle Ilves", [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)], articles);
 			persons.push(p);
 		}
 
 		return persons;
-	}*/
+	}
 
 	_get_keyword_suggestions(function(){ _views.search_view.slideDown(500); $("#search-field").focus() });
 
@@ -339,9 +377,9 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 
 $(document).ready(function(){
 
-	$(".people-nav .toggle-navigation").live("click", function(){
-		$(".people-nav .toggle-navigation").not(this).removeClass("selected-true");
-		$(".people-nav .toggle-navigation").not(this).parent("li").find("ul").slideUp();
+	$(".vertical-nav .toggle-navigation").live("click", function(){
+		$(".vertical-nav .toggle-navigation").not(this).removeClass("selected-true");
+		$(".vertical-nav .toggle-navigation").not(this).parent("li").find("ul").slideUp();
 		$(this).toggleClass("selected-true")
 		$(this).parent("li").find("ul").slideToggle();
 	});
