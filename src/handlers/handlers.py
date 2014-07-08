@@ -451,6 +451,11 @@ class IndexHandler(MainBaseHandler):
 #            if self._lists_overlap(key_prase, keyword.split()):
 #                selected_keys.append(keyword)
 """
+
+class ChartsHandler(BaseHandler):
+    @tornado.web.authenticated        
+    def get(self):		
+        self.render("charts.html")
 class EmailMeHandler(BaseHandler):
     @tornado.web.asynchronous
     @tornado.gen.engine
