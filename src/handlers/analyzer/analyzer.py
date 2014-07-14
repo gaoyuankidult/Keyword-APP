@@ -9,6 +9,8 @@ from numpy import sum as sum_matrix
 from numpy import matrixlib
 from numpy import zeros
 from numpy import amax
+from numpy import max
+from numpy import where
 from numpy import concatenate
 from numpy.linalg import norm
 from numpy import float64
@@ -34,6 +36,17 @@ class Analyzer():
         self._current_X = matrix(zeros((0, self._X_column_num)))
         self._current_y = matrix(zeros((1, 0))).T
         
+    def reset_current(self):
+        self._current_X = matrix(zeros((0, self._X_column_num)))
+        self._current_y = matrix(zeros((1, 0))).T
+        
+    def articlewise_wordcounts(self):
+        """
+        return: articleswise word counts
+        """
+        return sum_matrix(self._X, axis = 0)
+    def feature_matrix(self):
+        return self._X
     def _linrel_sub(self, xi, w, y):
         """
         This function calculate the relevence score for each of the images.'
@@ -62,18 +75,30 @@ class Analyzer():
         return scores
         
     def calculate_X(self, keywords, corpus):
+        """
+        return normalized feature matrix. (which is of the form number of keywords times number of articles)
+        """
         def tokenizer(s):
             return s.split(',')
+        def tf_2_augmented_frequency(tfm):
+            return where(max(tfm, axis=0)==0, tfm, 0.5 + (0.5 * tfm * 1./max(tfm,axis=1)))
+            
         vectorizer = CountVectorizer(vocabulary= keywords, tokenizer = tokenizer)  
 
         # tfm: term frequency matrix
+        # the shape of the matrix is number of articles times number of keywords
         tfm = matrix(vectorizer.fit_transform(corpus).toarray(), dtype=float64)
+        
+        # get augmented frequency matrix
+        afm = tf_2_augmented_frequency(tfm)
+        
         #tfidft : term frequency inverse document frequency transformer
-        tfidft = TfidfTransformer()
+        tfidft = TfidfTransformer(smooth_idf = True, norm = "l2")
         #tfidfm : term frequency inverse document frequency matrix        
-        tfidfm = matrix(tfidft.fit_transform(tfm).toarray(), dtype=float64)
-        target_matrix = tfm
-        return normalize(target_matrix.T, norm='l1')
+        tfidfm = matrix(tfidft.fit_transform(afm).toarray(), dtype=float64)
+        target_matrix = tfidfm
+        #print target_matrix.T
+        return target_matrix.T
         
     def calculate_y(self, weights, current_X_row_num):
         y = zeros((1, current_X_row_num)).T

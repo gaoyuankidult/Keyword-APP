@@ -297,6 +297,7 @@ class SearchHandler(MainBaseHandler):
     @tornado.web.authenticated
     def get(self):
         self.application.form_new_keywords_information()
+        self.application.analyzer.reset_current()
         # defines the number of the keywords received by the front end
         self.index_keyowords_no = 200 
         message = {
@@ -329,7 +330,10 @@ class SearchHandler(MainBaseHandler):
         keywords_id = [keyword["id"] for keyword in self.application.keywords]
         def sort_persons(person):
             return len(set(person["keywords"]) & set(keywords_id))
-        persons = sorted(self.application.persons_info, key = sort_persons, reverse = True)
+        
+        # persons info is a list that contains information of all persons
+        persons_info = self.application.corpuses_name_id.values()
+        persons = sorted(persons_info, key = sort_persons, reverse = True)
 
         message = {
             "keywords": [
@@ -359,7 +363,7 @@ class NextHandler(MainBaseHandler):
             
             # sort keywords according to their scores
             combined_pairs = zip(scores, self.application.keywords_info)
-            
+            print self.application.experienced_keywords
             # filter out the keyword info if keyword's text is in experienced_keywords
             combined_pairs = filter(lambda x: x[1]["text"] not in self.application.experienced_keywords, combined_pairs)
             
@@ -376,13 +380,12 @@ class NextHandler(MainBaseHandler):
                 self.application.keywords_info[i]["exploration"] = scores[i][1]
 
         # add exprienced word, this word will not appear any in selection process
-        self.application.experienced_keywords.extend(self.application.keywords)
+        self.application.experienced_keywords.extend([keyword["text"] for keyword in self.application.keywords])
         
         # load the data from the front end
         data = json.loads(self.request.body)
         
         # keywords info consists a list of tupes. It stores name of keyword and weight of keyword
-        print "data of next", data
         keywords_info = [(keyword ["text"] , keyword ["weight"]) for keyword in data["keywords"]]
         # decompose the keywords_info array to two arraies. One of them contains keywords, another of them contains weights of keywords
         keywords, weights = zip(*keywords_info)
@@ -407,7 +410,8 @@ class NextHandler(MainBaseHandler):
         keywords_id = [keyword["id"] for keyword in self.application.keywords]
         def sort_persons(person):
             return len(set(person["keywords"]) & set(keywords_id))
-        persons = sorted(self.application.persons_info, key = sort_persons, reverse = True)
+        persons_info = self.application.corpuses_name_id.values()
+        persons = sorted(persons_info, key = sort_persons, reverse = True)
 
         
         message = {
@@ -420,7 +424,6 @@ class NextHandler(MainBaseHandler):
                 for person in persons
             ]
         }
-        print message
         self.json_ok(message)
         
     
@@ -461,16 +464,11 @@ class ChartsDataHandler(BaseHandler):
     @tornado.web.authenticated        
     def get(self):		
         message = {
-        "charts":[
-            {
-                "persons":["aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa"], 
-                "data": [1, 2, 3, 4, 5, 6, 7]
-            }, 
-            {
-                "persons":["aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa"], 
-                "data": [1, 2, 3, 4, 5, 6, 7]
-            }
-        ]
+        "charts":
+            [
+            self.__form_person_weights_relationshp(),  
+            self.__form_person_keywords_counts_relationship()
+            ]
         }
         self.json_ok(message)
         
@@ -478,12 +476,39 @@ class ChartsDataHandler(BaseHandler):
         """
         This function implement the method of forming relationship between persons and the total weight of all the keywords
         """
-        pass
-    def _form_person_keywords_counts_relationship(self):
+        return {
+                "persons":["aaa", "aaa", "aaa", "aaa", "aaa", "aaa", "aaa"], 
+                "data": [1, 2, 3, 4, 5, 6, 7]
+            }
+    def __form_person_keywords_counts_relationship(self):
         """
         This function implements the method of forming relationship between persons and total count of each keywords
         """
-        pass
+        word_counts, person_names = zip(*[(len(person_info["keywords"]), person_info["name"])  for person_info in self.application.corpuses_name_id.values() ])
+        return {
+                "persons":person_names, 
+                "data": word_counts
+            }
+class TablesHandler(BaseHandler):
+    @tornado.web.authenticated 
+    def get(self):
+        self.render("tables.html")
+        
+class TablesDataHandler(BaseHandler):
+    @tornado.web.authenticated 
+    def get(self):
+        words, person_names = zip(*[(person_info["keywords"], person_info["name"])  for person_info in self.application.corpuses_name_id.values() ])
+        message = {
+            "tables":
+                [
+                    {
+                        "persons":person_names, 
+                        "words":words
+                    }
+                ]
+            }
+        self.json_ok(message)
+
         
 class EmailMeHandler(BaseHandler):
     @tornado.web.asynchronous

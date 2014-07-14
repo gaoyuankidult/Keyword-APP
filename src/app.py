@@ -30,6 +30,9 @@ class Application(tornado.web.Application):
 
         url(r'/charts', ChartsHandler, name='charts'), 
         url(r'/charts_data', ChartsDataHandler, name='charts_data'), 
+        url(r'/tables', TablesHandler, name='tables'), 
+        url(r'/tables_data', TablesDataHandler, name='tables_data'), 
+        
         url(r'/form', FormHandler, name = 'form'),
         url(r'/next', NextHandler,name = 'next'),
         url(r'/index', IndexHandler, name='index'),
@@ -123,22 +126,29 @@ class Application(tornado.web.Application):
             # for persons_info
             assert(len(self.original_corpuses) == len(self.corpuses) == len(self.auther_names))
             
-            corpuses_name_id = {}
+            self.corpuses_name_id = {}
+            
+            # this variable is a list that contains all information of persons
             self.persons_info = []
+            
+            person_id = 0
             for title,  original_corpuse,  decomposed_corpus, name in zip(self.titles,  self.original_corpuses, self.corpuses, self.auther_names):
-                if name not in corpuses_name_id.keys():
-                    corpuses_name_id[name] = {}
-                    corpuses_name_id[name]["name"] = name
-                    corpuses_name_id[name]["keywords"] = []
-                    corpuses_name_id[name]["articles"] = []
+                
+                if name not in self.corpuses_name_id.keys():
+                    self.corpuses_name_id[name] = {}
+                    self.corpuses_name_id[name]["id"] = person_id
+                    person_id = person_id + 1
+                    self.corpuses_name_id[name]["name"] = name
+                    self.corpuses_name_id[name]["keywords"] = []
+                    self.corpuses_name_id[name]["articles"] = []
 
-                corpuses_name_id[name]["articles"].append({"title":"%s"%title ,   "abstract":"%s"%original_corpuse})
+                self.corpuses_name_id[name]["articles"].append({"title":"%s"%title ,   "abstract":"%s"%original_corpuse})
+                
+                # append keywords in list corpuses_name_id[name]["keywords"]
                 for keyword in decomposed_corpus.split(','):
                     for keyword_info in self.keywords_info:
                         if keyword == keyword_info["text"]:
-                            corpuses_name_id[name]["keywords"].append(keyword_info["id"])
-                    
-            self.persons_info =  corpuses_name_id.values()
+                            self.corpuses_name_id[name]["keywords"].append(keyword_info["id"])
             
         def set_iteration_parameters():
             # number of iteration
@@ -152,6 +162,9 @@ class Application(tornado.web.Application):
             # set of all keywords
             self.keywords_set = pickle.load(self.keywords_file_obj)
 
+            # get list of auther names 
+            self.auther_names = self.extractors.auther_names
+            
             # get list of auther names 
             self.auther_names = self.extractors.auther_names
 
@@ -185,7 +198,8 @@ class Application(tornado.web.Application):
         self.ranked_keywords = deepcopy(self.keywords_info)
         # keywords after user input their preferences, this will be only be used in the SearchHandler
         self.filtered_keywords = deepcopy(self.keywords_info)
-        # selected keywords
+        
+        # selected keywords, the format is the text of keyword
         self.experienced_keywords = []
         
 
