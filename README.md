@@ -93,6 +93,35 @@
 	]
 }</pre>
 
+#GET chart_data
+
+{
+	charts : [],
+	articles: [
+		{
+			title: "title",
+			id: 1
+		},
+		...
+	]
+}
+
+#GET article_matrix
+
+##Params
+
+<pre>
+{
+	ids: [1, 2, 3, ...]
+}
+</pre>
+
+##Response
+
+{
+	matrix: [[1, 2, 3, ...], [...], ...]
+}
+
 # Tasks
 
 - Chart data (persons and keyword counts + persons and keyword weights)
