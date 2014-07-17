@@ -111,6 +111,7 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
         });
     }
     $scope.switch_to_chart = function(chart){
+alert("switch")
         var ind = chart.index
 
         $(".vertical-nav > li > ul").slideUp(500);
@@ -223,8 +224,6 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
             console.log(JSON.stringify($scope.charts));
 
             $scope.charts = skeleton;
-            $scope.current_chart = $scope.charts[0];
-            $scope.$apply();
 
             callback();
         })
@@ -235,6 +234,9 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
                 width: $("#chart-container").width() - 40,
                 height: $(window).height() - 110
             });
+
+	    $scope.current_chart = $scope.charts[0];
+            $scope.$apply();
     
             var ctx = $("#chart-canvas").get(0).getContext("2d");
             var chart = new Chart(ctx).Line($scope.current_chart);
