@@ -229,11 +229,12 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
         $.get("/charts_data", function(data){
             console.log(data);
             
-            data = data.charts;
+            $scope.articles = data.articles
+            charts = data.charts;
             
-            for(var i=0; i<data.length; i++){
-                skeleton[i].labels = data[i].persons;
-                skeleton[i].datasets[0].data = data[i].data;
+            for(var i=0; i<charts.length; i++){
+                skeleton[i].labels = charts[i].persons;
+                skeleton[i].datasets[0].data = charts[i].data;
             }
 
             console.log(JSON.stringify($scope.charts));
