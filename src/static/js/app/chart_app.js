@@ -110,7 +110,67 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
             $scope.$apply();
         });
     }
+    $scope.switch_to_chart = function(chart){
+        var ind = chart.index
 
+        $(".vertical-nav > li > ul").slideUp(500);
+
+        $("#article-relation-container").hide();
+        $("#chart-container").fadeOut(500, function(){
+            $scope.current_chart = $scope.charts[ind];
+
+            $("#chart-canvas").show();
+            $("#article-relation-container").hide();
+
+            var ctx = $("#chart-canvas").get(0).getContext("2d");
+            var chart = new Chart(ctx).Line($scope.current_chart);
+            
+            $("#chart-container").fadeIn(500);
+
+            $scope.$apply();
+        });
+    }
+
+    $scope.switch_to_article_relation_chart = function(){
+        $(".article-relation-chart-options").slideDown(500);
+
+        $("#chart-container").fadeOut(500, function(){
+            $("#chart-canvas").hide();
+            $("#article-relation-container").show();
+
+            $scope.current_chart = {
+                heading: "Keyword relations"
+            }
+            $("#chart-container").fadeIn(500);
+
+            $scope.$apply();
+        });
+    }
+
+    $scope.check_all_articles = function(){
+        $scope.articles.forEach(function(article){
+            article.selected = true;
+        });
+
+        $scope.$apply();
+    }
+
+    $scope.display_article_relation_visualization = function(){
+        _render_article_relation_visualization();
+    }
+
+    var _render_article_relation_visualization = function(){
+        var selected_articles = $.grep($scope.articles, function(article){
+            return article.selected;
+        });
+
+        if(selected_articles.length < 20){
+            $scope.visualized_articles = Visualization.visualize_small(_article_matrix);
+            $scope.$apply();
+        }else{
+            Visualization.visualize_large(_article_matrix);
+        }
+    }
     var _fetch_charts = function(callback){
 
         var skeleton = [
