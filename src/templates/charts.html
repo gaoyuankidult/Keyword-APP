@@ -20,13 +20,56 @@
 	<body ng-controller="ChartController">
 		<div class="container-basic" id="chart-container">
 			<h2>{[{current_chart.heading}]}</h2>
-			<canvas id="chart-canvas">
+
+			<canvas id="chart-canvas"></canvas>
+
+			<div id="article-relation-container">
+				<div id="small-visualization-container">
+				
+					<div style="position: absolute; margin: 10px 40px 0px">
+						<canvas id="coordination-canvas"></canvas>
+						<div ng-repeat="article in visualized_articles" class="article-ball" style="top: {[{article.y}]}; left: {[{article.x}]}; width: {[{article.size}]}; height: {[{article.size}]}"></div>
+					</div>
+				</div>
+
+				<div id="large-visualization-container" style="margin-top: -25px">
+					<canvas id="article-relation-canvas" width="800" height="800"></canvas>
+				</div>
+			</div>
 		</div>
 
 		<div class="container-basic container-dark container-dark-vertical" id="chart-nav-container">
 			<h2>Charts</h2>
 			<ul class="vertical-nav">
 				<li ng-repeat="chart in charts"><a ng-click="switch_to_chart(chart)"><i class="fa fa-bar-chart-o marg-right"></i>{[{chart.heading}]}</a></li>
+				<li>
+					<a ng-click="switch_to_article_relation_chart()"><i class="fa fa-bar-chart-o marg-right"></i>Keyword relations</a>
+
+					<ul class="article-relation-chart-options">
+						<li>
+							<a ng-click="display_article_relation_visualization()" class="text-center">
+								<i class="fa fa-eye marg-right"></i>Visualize
+							</a>
+						</li>
+						<li class="no-link">
+							<input type="text" class="form-control text-field-rounded" ng-model="article_list_filter">
+						</li>
+						<li>
+							<a ng-click="check_all_articles()" class="text-center">
+								<i class="fa fa-check marg-right"></i>Select all
+							</a>
+						</li>
+						<li ng-repeat="article in articles | filter: article_list_filter" class="no-link">
+							<div class="checkbox">
+							  <label>
+							    <input type="checkbox" value="" ng-model="article.selected">
+							    {[{article.title}]}
+							  </label>
+							</div>
+						</li>
+						<li class="no-link"></li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 	</body>

@@ -5,6 +5,93 @@ ChartApp.config(function($interpolateProvider) {
     $interpolateProvider.endSymbol('}]}');
 });
 
+ChartApp.service("Visualization", function(){
+
+    function draw_line(x, y, xx, yy, context){
+        context.beginPath();
+        context.strokeStyle = "rgb(230,230,230)";
+        context.moveTo(x,y);
+        context.lineTo(xx, yy);
+        context.stroke();
+    }
+
+    function max_val(matrix){
+        var max_val = -1;
+
+        for(y=0; y<matrix.length; y++){
+            for(var x=0; x<matrix[0].length; x++){
+                if(matrix[y][x] > max_val){
+                    max_val = matrix[y][x];
+                }
+            }
+        }
+
+        return max_val;
+    }
+
+    function visualize_large(matrix){
+        var ctx = $("#article-relation-canvas")[0].getContext("2d");
+
+        $("#article-relation-canvas").attr({
+            height: $("#chart-container").width(),
+            width: $("#chart-container").width()
+        });
+
+        var block_height = $("#chart-container").width() / matrix.length;
+        var block_width = $("#chart-container").width() / matrix[0].length;
+        var opacity_scale = max_val(matrix);
+
+        for(var y=0; y<matrix.length; y++){
+            for(var x=0; x<matrix[0].length; x++){
+                ctx.fillStyle = "rgba(0,151,207," + ( matrix[y][x] / opacity_scale ) + ")";
+                ctx.fillRect(x*block_width, y*block_height, block_width, block_height);
+            }
+        }
+
+        $("#small-visualization-container").hide();
+        $("#large-visualization-container").show();
+    }
+
+    function visualize_small(matrix){
+        var scale_size = max_val(matrix);
+        var draw_width = $("#chart-container").width() - 80;
+        var scale_y = draw_width / matrix.length;
+        var scale_x = draw_width / matrix[0].length;
+        var ctx = $("#coordination-canvas")[0].getContext("2d");
+        $("#coordination-canvas").attr({
+            height: draw_width,
+            width: draw_width
+        });
+
+        var articles = [];
+
+        for(y=0; y<matrix.length; y++){
+            draw_line(0, y * scale_y, draw_width, y * scale_y, ctx);
+            for(var x=0; x<matrix[0].length; x++){
+                draw_line(x * scale_x, 0, x * scale_x, draw_width, ctx);
+                var size = matrix[y][x] / scale_size * 60 
+                articles.push({
+                    x: x * scale_x - size / 2,
+                    y: y * scale_y - size / 2,
+                    size: size
+                });
+            }
+        }
+
+        $("#large-visualization-container").hide();
+        $("#small-visualization-container").show();
+    
+
+        return articles;
+    }
+
+    return {
+        visualize_large: visualize_large,
+        visualize_small: visualize_small
+    };
+});
+
+
 ChartApp.controller("ChartController", ["$scope", function($scope){
     Chart.defaults.global.tooltipTemplate = "<%= label %>";
 
@@ -23,7 +110,67 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
             $scope.$apply();
         });
     }
+    $scope.switch_to_chart = function(chart){
+        var ind = chart.index
 
+        $(".vertical-nav > li > ul").slideUp(500);
+
+        $("#article-relation-container").hide();
+        $("#chart-container").fadeOut(500, function(){
+            $scope.current_chart = $scope.charts[ind];
+
+            $("#chart-canvas").show();
+            $("#article-relation-container").hide();
+
+            var ctx = $("#chart-canvas").get(0).getContext("2d");
+            var chart = new Chart(ctx).Line($scope.current_chart);
+            
+            $("#chart-container").fadeIn(500);
+
+            $scope.$apply();
+        });
+    }
+
+    $scope.switch_to_article_relation_chart = function(){
+        $(".article-relation-chart-options").slideDown(500);
+
+        $("#chart-container").fadeOut(500, function(){
+            $("#chart-canvas").hide();
+            $("#article-relation-container").show();
+
+            $scope.current_chart = {
+                heading: "Keyword relations"
+            }
+            $("#chart-container").fadeIn(500);
+
+            $scope.$apply();
+        });
+    }
+
+    $scope.check_all_articles = function(){
+        $scope.articles.forEach(function(article){
+            article.selected = true;
+        });
+
+        $scope.$apply();
+    }
+
+    $scope.display_article_relation_visualization = function(){
+        _render_article_relation_visualization();
+    }
+
+    var _render_article_relation_visualization = function(){
+        var selected_articles = $.grep($scope.articles, function(article){
+            return article.selected;
+        });
+
+        if(selected_articles.length < 20){
+            $scope.visualized_articles = Visualization.visualize_small(_article_matrix);
+            $scope.$apply();
+        }else{
+            Visualization.visualize_large(_article_matrix);
+        }
+    }
     var _fetch_charts = function(callback){
 
         var skeleton = [
