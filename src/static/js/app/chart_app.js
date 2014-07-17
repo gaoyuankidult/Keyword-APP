@@ -5,6 +5,23 @@ ChartApp.config(function($interpolateProvider) {
     $interpolateProvider.endSymbol('}]}');
 });
 
+ChartApp.service("Interface", function(){
+    var initialize_canvas = function(){
+        $("#chart-canvas").remove();
+        $("#chart-holder").append("<canvas id='chart-canvas'></canvas>");
+        $("#chart-canvas").attr({
+            width: $("#chart-container").width() - 40,
+            height: $("#chart-container").height() - 110
+        });
+        
+        return $("#chart-canvas").get(0).getContext("2d")
+    }
+
+    return {
+        initialize_canvas: initialize_canvas
+    }
+});
+
 ChartApp.service("Visualization", function(){
 
     function draw_line(x, y, xx, yy, context){
@@ -92,7 +109,7 @@ ChartApp.service("Visualization", function(){
 });
 
 
-ChartApp.controller("ChartController", ["$scope", function($scope){
+ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", function($scope, Visualization, Interface){
     Chart.defaults.global.tooltipTemplate = "<%= label %>";
 
     $scope.charts = [];
@@ -156,21 +173,20 @@ ChartApp.controller("ChartController", ["$scope", function($scope){
     }
 
     $scope.display_article_relation_visualization = function(){
-        _render_article_relation_visualization();
-    }
-
-    var _render_article_relation_visualization = function(){
         var selected_articles = $.grep($scope.articles, function(article){
             return article.selected;
         });
-
-        if(selected_articles.length < 20){
-            $scope.visualized_articles = Visualization.visualize_small(_article_matrix);
-            $scope.$apply();
-        }else{
-            Visualization.visualize_large(_article_matrix);
-        }
-    }
+        
+        $.get("/article_matrix", $.map(selected_articles, function(article){ return article.id }))
+        .done(function(data){
+            if(selected_articles.length < 20){
+                $scope.visualized_articles = Visualization.visualize_small(data.matrix);
+                $scope.$apply();
+            }else{
+                Visualization.visualize_large(data.matrix);
+            }
+        });
+    } 
     var _fetch_charts = function(callback){
 
         var skeleton = [
