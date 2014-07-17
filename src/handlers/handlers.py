@@ -467,7 +467,8 @@ class ChartsDataHandler(BaseHandler):
         "charts":
             [
             self.__form_person_weights_relationshp(),  
-            self.__form_person_keywords_counts_relationship()
+            self.__form_person_keywords_counts_relationship(), 
+           # self.__form_article_correlation_relationship()
             ]
         }
         self.json_ok(message)
@@ -489,6 +490,12 @@ class ChartsDataHandler(BaseHandler):
                 "persons":person_names, 
                 "data": word_counts
             }
+    def __form_article_correlation_relationship(self):
+        feature_matrix = self.application.analyzer._X()
+        correlation_matrix =  feature_matrix.T * feature_matrix
+        return {
+            "data":[correlation_matrix.asarray()]
+        }    
 class TablesHandler(BaseHandler):
     @tornado.web.authenticated 
     def get(self):

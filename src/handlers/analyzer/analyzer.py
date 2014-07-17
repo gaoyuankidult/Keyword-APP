@@ -35,6 +35,9 @@ class Analyzer():
         self._X_row_num,   self._X_column_num = self._X.shape
         self._current_X = matrix(zeros((0, self._X_column_num)))
         self._current_y = matrix(zeros((1, 0))).T
+    @property
+    def _X():
+        return self._X
         
     def reset_current(self):
         self._current_X = matrix(zeros((0, self._X_column_num)))
@@ -74,21 +77,27 @@ class Analyzer():
             scores[i] = self._linrel_sub(self._X[i, :], w, cy)
         return scores
         
+
+        
     def calculate_X(self, keywords, corpus):
         """
         return normalized feature matrix. (which is of the form number of keywords times number of articles)
         """
         def tokenizer(s):
             return s.split(',')
+
         def tf_2_augmented_frequency(tfm):
-            return where(max(tfm, axis=0)==0, tfm, 0.5 + (0.5 * tfm * 1./max(tfm,axis=1)))
+            """
+            This function transforms the term frequency matrix to augmented grequency matrix
+            defined as in http://stackoverflow.com/questions/24731626/is-there-any-function-in-sklearn-that-implements-augmented-frequency?noredirect=1#comment38364544_24731626
+            """
+            return where(max(tfm, axis=0)==0, tfm, 0.5 + (0.5 * tfm * 1./max(tfm,axis=0)))
             
         vectorizer = CountVectorizer(vocabulary= keywords, tokenizer = tokenizer)  
 
         # tfm: term frequency matrix
         # the shape of the matrix is number of articles times number of keywords
         tfm = matrix(vectorizer.fit_transform(corpus).toarray(), dtype=float64)
-        
         # get augmented frequency matrix
         afm = tf_2_augmented_frequency(tfm)
         
@@ -115,7 +124,7 @@ class Analyzer():
         """
         
         input_matrix = self.calculate_X(keywords, all_corpus)
-        print sum_matrix(input_matrix, 1)
+        #print sum_matrix(input_matrix, 1)
         self._current_X_row_num, self._current_X_column_num = input_matrix.shape
         cy = self.calculate_y(weights, self._current_X_row_num)
         self._current_y = concatenate( ( self._current_y, cy) ) 
