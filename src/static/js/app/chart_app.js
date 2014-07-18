@@ -128,7 +128,6 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
         });
     }
     $scope.switch_to_chart = function(chart){
-alert("switch")
         var ind = chart.index
 
         $(".vertical-nav > li > ul").slideUp(500);
@@ -140,7 +139,7 @@ alert("switch")
             $("#chart-canvas").show();
             $("#article-relation-container").hide();
 
-            var ctx = $("#chart-canvas").get(0).getContext("2d");
+            var ctx = Interface.initialize_canvas();
             var chart = new Chart(ctx).Line($scope.current_chart);
             
             $("#chart-container").fadeIn(500);
@@ -247,15 +246,10 @@ alert("switch")
     }
 
     _fetch_charts(function(){
-           $("#chart-canvas").attr({
-                width: $("#chart-container").width() - 40,
-                height: $(window).height() - 110
-            });
-
 	    $scope.current_chart = $scope.charts[0];
             $scope.$apply();
     
-            var ctx = $("#chart-canvas").get(0).getContext("2d");
+            var ctx = Interface.initialize_canvas();
             var chart = new Chart(ctx).Line($scope.current_chart);
     
             $("#chart-container").fadeIn(500);
