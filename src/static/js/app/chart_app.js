@@ -185,6 +185,7 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
                 $scope.visualized_articles = Visualization.visualize_small(data.matrix);
                 $scope.$apply();
             }else{
+            	console.log(JSON.stringify(data.matrix))
                 Visualization.visualize_large(data.matrix);
             }
         });
