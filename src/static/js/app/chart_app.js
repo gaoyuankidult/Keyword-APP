@@ -177,6 +177,8 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             return article.selected;
         });
         
+        console.log($.map(selected_articles, function(article){ return article.id }));
+        
         $.get("/article_matrix", $.map(selected_articles, function(article){ return article.id }))
         .done(function(data){
             if(selected_articles.length < 20){
