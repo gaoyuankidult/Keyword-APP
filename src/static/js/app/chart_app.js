@@ -32,18 +32,22 @@ ChartApp.service("Visualization", function(){
         context.stroke();
     }
 
-    function max_val(matrix){
-        var max_val = -1;
+    function min_max_val(matrix){
+        var max_val = Number.NEGATIVE_INFINITY;
+        var min_val = Number.POSITIVE_INFINITY;
 
         for(y=0; y<matrix.length; y++){
             for(var x=0; x<matrix[0].length; x++){
                 if(matrix[y][x] > max_val){
                     max_val = matrix[y][x];
                 }
+                if(matrix[y][x] < min_val){
+                	min_val = matrix[y][x];
+                }
             }
         }
 
-        return max_val;
+        return { max: max_val, min: min_val };
     }
 
     function visualize_large(matrix){
@@ -54,9 +58,10 @@ ChartApp.service("Visualization", function(){
             width: $("#chart-container").width()
         });
 
+	var min_max = min_max_val(matrix);
         var block_height = $("#chart-container").width() / matrix.length;
         var block_width = $("#chart-container").width() / matrix[0].length;
-        var opacity_scale = max_val(matrix);
+        var opacity_scale = min_max.max - min_max.min;
 
         for(var y=0; y<matrix.length; y++){
             for(var x=0; x<matrix[0].length; x++){
@@ -70,7 +75,8 @@ ChartApp.service("Visualization", function(){
     }
 
     function visualize_small(matrix){
-        var scale_size = max_val(matrix);
+    	var min_max = min_max_val(matrix);
+        var scale_size = min_max.max - min_max.min;
         var draw_width = $("#chart-container").width() - 80;
         var scale_y = draw_width / matrix.length;
         var scale_x = draw_width / matrix[0].length;
