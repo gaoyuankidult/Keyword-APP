@@ -62,6 +62,8 @@ ChartApp.service("Visualization", function(){
         var block_height = $("#chart-container").width() / matrix.length;
         var block_width = $("#chart-container").width() / matrix[0].length;
         var opacity_scale = min_max.max - min_max.min;
+	
+	console.log(opacity_scale)
 
         for(var y=0; y<matrix.length; y++){
             for(var x=0; x<matrix[0].length; x++){
