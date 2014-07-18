@@ -183,12 +183,12 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
         .done(function(data){
             if(selected_articles.length < 20){
             	console.log("SMALL")
-            	console.log(data.matrix)
+            	console.log(data)
                 $scope.visualized_articles = Visualization.visualize_small(data.matrix);
                 $scope.$apply();
             }else{
             	console.log("LARGE");
-            	console.log(data.matrix)
+            	console.log(data)
                 Visualization.visualize_large(data.matrix);
             }
         });
