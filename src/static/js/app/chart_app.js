@@ -67,7 +67,7 @@ ChartApp.service("Visualization", function(){
 
         for(var y=0; y<matrix.length; y++){
             for(var x=0; x<matrix[0].length; x++){
-                ctx.fillStyle = "rgba(0,151,207," + ( matrix[y][x] / opacity_scale ) + ")";
+                ctx.fillStyle = "rgba(0,151,207," + ( (matrix[y][x] - min_max.min) / opacity_scale ) + ")";
                 ctx.fillRect(x*block_width, y*block_height, block_width, block_height);
             }
         }
