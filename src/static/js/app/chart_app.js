@@ -181,7 +181,7 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
         
         $.post("/article_matrix", JSON.stringify({ articles: $.map(selected_articles, function(article){ return article.id }) }))
         .done(function(data){
-            if(selected_articles.length < 20){
+            if(selected_articles.length == -1){
             	console.log("SMALL")
             	console.log(data)
                 $scope.visualized_articles = Visualization.visualize_small(data.matrix);
