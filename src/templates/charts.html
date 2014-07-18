@@ -20,9 +20,11 @@
 	<body ng-controller="ChartController">
 		<div class="container-basic" id="chart-container">
 			<h2>{[{current_chart.heading}]}</h2>
-
-			<canvas id="chart-canvas"></canvas>
-
+			
+			<div id="chart-holder">
+				<canvas id="chart-canvas"></canvas>
+			</div>
+			
 			<div id="article-relation-container">
 				<div id="small-visualization-container">
 				
