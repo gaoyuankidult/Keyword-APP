@@ -41,35 +41,42 @@ ChartApp.service("Visualization", function(){
         context.stroke();
     }
 
-    function max_val(matrix){
-        var max_val = -1;
+    function min_max_val(matrix){
+        var max_val = Number.NEGATIVE_INFINITY;
+        var min_val = Number.POSITIVE_INFINITY;
 
         for(y=0; y<matrix.length; y++){
             for(var x=0; x<matrix[0].length; x++){
                 if(matrix[y][x] > max_val){
                     max_val = matrix[y][x];
                 }
+                if(matrix[y][x] < min_val){
+                 min_val = matrix[y][x];
+                }
             }
         }
 
-        return max_val;
+        return { max: max_val, min: min_val };
     }
 
     function visualize_large(matrix){
         var ctx = $("#article-relation-canvas")[0].getContext("2d");
 
         $("#article-relation-canvas").attr({
-            height: 600,
-            width: 600
+            height: $("#chart-container").width(),
+            width: $("#chart-container").width()
         });
 
-        var block_height = 600 / matrix.length;
-        var block_width = 600 / matrix[0].length;
-        var opacity_scale = max_val(matrix);
+var min_max = min_max_val(matrix);
+        var block_height = $("#chart-container").width() / matrix.length;
+        var block_width = $("#chart-container").width() / matrix[0].length;
+        var opacity_scale = min_max.max - min_max.min;
+
+console.log(opacity_scale)
 
         for(var y=0; y<matrix.length; y++){
             for(var x=0; x<matrix[0].length; x++){
-                ctx.fillStyle = "rgba(0,151,207," + ( matrix[y][x] / opacity_scale ) + ")";
+                ctx.fillStyle = "rgba(0,151,207," + ( (matrix[y][x] - min_max.min) / opacity_scale ) + ")";
                 ctx.fillRect(x*block_width, y*block_height, block_width, block_height);
             }
         }
@@ -79,12 +86,12 @@ ChartApp.service("Visualization", function(){
     }
 
     function visualize_small(matrix){
-        var scale_size = max_val(matrix);
-        var draw_width = 600;
+     var min_max = min_max_val(matrix);
+        var scale_size = min_max.max - min_max.min;
+        var draw_width = $("#chart-container").width() - 80;
         var scale_y = draw_width / matrix.length;
         var scale_x = draw_width / matrix[0].length;
         var ctx = $("#coordination-canvas")[0].getContext("2d");
-
         $("#coordination-canvas").attr({
             height: draw_width,
             width: draw_width
@@ -96,22 +103,18 @@ ChartApp.service("Visualization", function(){
             draw_line(0, y * scale_y, draw_width, y * scale_y, ctx);
             for(var x=0; x<matrix[0].length; x++){
                 draw_line(x * scale_x, 0, x * scale_x, draw_width, ctx);
-                var size = matrix[y][x] / scale_size * 50 
+                var size = ( matrix[y][x] min_max.min ) / scale_size * 60
                 articles.push({
                     x: x * scale_x - size / 2,
                     y: y * scale_y - size / 2,
-                    size: size,
-                    active: false
+                    size: size
                 });
             }
         }
 
         $("#large-visualization-container").hide();
         $("#small-visualization-container").show();
-
-        setTimeout(function(){
-            $(".article-ball").removeClass("animated bounceIn");
-        }, 1000);
+    
 
         return articles;
     }
