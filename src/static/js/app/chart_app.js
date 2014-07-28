@@ -103,7 +103,7 @@ console.log(opacity_scale)
             draw_line(0, y * scale_y, draw_width, y * scale_y, ctx);
             for(var x=0; x<matrix[0].length; x++){
                 draw_line(x * scale_x, 0, x * scale_x, draw_width, ctx);
-                var size = ( matrix[y][x] min_max.min ) / scale_size * 60
+                var size = ( matrix[y][x] - min_max.min ) / scale_size * 60
                 articles.push({
                     x: x * scale_x - size / 2,
                     y: y * scale_y - size / 2,
