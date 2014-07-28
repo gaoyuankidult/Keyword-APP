@@ -119,7 +119,16 @@
 ##Response
 
 {
-	matrix: [[1, 2, 3, ...], [...], ...]
+	matrix: 
+	[
+		[
+			{
+				value:1, 
+				title: "",
+				abstract: ""
+			} ...
+		]
+	]
 }
 
 # Tasks
