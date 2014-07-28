@@ -117,8 +117,22 @@
 </pre>
 
 ##Response
+
+# When more than 5 articles are selected 
 <pre>
 {
+	matrix: 
+	[
+		[
+			1,
+			2,
+			3
+		]
+	]
+}
+</pre>
+# When less than 5 articlesare selected
+<pre>
 {
 	matrix: 
 	[
