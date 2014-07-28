@@ -63,13 +63,13 @@ ChartApp.service("Visualization", function(){
         var ctx = $("#article-relation-canvas")[0].getContext("2d");
 
         $("#article-relation-canvas").attr({
-            height: $("#chart-container").width(),
-            width: $("#chart-container").width()
+            height: 600,
+            width: 600
         });
 
 var min_max = min_max_val(matrix);
-        var block_height = $("#chart-container").width() / matrix.length;
-        var block_width = $("#chart-container").width() / matrix[0].length;
+        var block_height = 600 / matrix.length;
+        var block_width = 600 / matrix[0].length;
         var opacity_scale = min_max.max - min_max.min;
 
 console.log(opacity_scale)
@@ -88,7 +88,7 @@ console.log(opacity_scale)
     function visualize_small(matrix){
      var min_max = min_max_val(matrix);
         var scale_size = min_max.max - min_max.min;
-        var draw_width = $("#chart-container").width() - 80;
+        var draw_width = 600;
         var scale_y = draw_width / matrix.length;
         var scale_x = draw_width / matrix[0].length;
         var ctx = $("#coordination-canvas")[0].getContext("2d");
