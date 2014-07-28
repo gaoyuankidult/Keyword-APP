@@ -117,7 +117,8 @@
 </pre>
 
 ##Response
-
+<pre>
+{
 {
 	matrix: 
 	[
@@ -130,7 +131,7 @@
 		]
 	]
 }
-
+</pre>
 # Tasks
 
 - Chart data (persons and keyword counts + persons and keyword weights)
