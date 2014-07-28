@@ -56,7 +56,7 @@ class Analyzer():
         @param self: Pointer to class
         @param cii: current image
         """
-        c = 0.8
+        c = 1.2
         a_i = xi * w
         score = [float(a_i * y), c/2*norm(a_i)]
 

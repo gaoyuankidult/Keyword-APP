@@ -10,10 +10,7 @@ import boto
 import cStringIO
 from PIL import Image
 
-import tornado.auth
-import tornado.escape
-import tornado.gen
-import tornado.httpserver
+
 import logging
 import bson.json_util
 import json
@@ -22,53 +19,13 @@ import time
 import threading
 import functools
 import datetime
+import numpy
 
-from random import sample
-import json
+from base_handler import *
+from charts_handlers import *
+from process_handlers import *
 
 
-from tornado.ioloop import IOLoop
-from tornado.web import asynchronous, RequestHandler, Application
-from tornado.httpclient import AsyncHTTPClient
-
-from analyzer.analyzer import Analyzer
-from analyzer.extractors import Extractors
-
-class BaseHandler(RequestHandler):
-    def get_login_url(self):
-        return u"/login"
-
-    def get_current_user(self):
-        user_json = self.get_secure_cookie("user")
-        if user_json:
-            return tornado.escape.json_decode(user_json)
-        else:
-            return None
-    def json_ok(self, data):
-        info = {}
-        info.update(data)
-        j_ = json.dumps(info)
-        self.set_header("Content-Type", "application/json")
-        self.finish("%s\n" % j_)
-    # Allows us to get the previous URL
-    def get_referring_url(self):
-        try:
-            _, _, referer, _, _, _ = urlparse.urlparse(self.request.headers.get('Referer'))
-            if referer:
-                return referer
-        # Test code will throw this if there was no 'previous' page
-        except AttributeError:
-            pass
-        return '/'
-
-    def get_flash(self):
-        flash = self.get_secure_cookie('flash')
-        self.clear_cookie('flash')
-        return flash
-
-    def get_essentials(self):
-        mp = {k: ''.join(v) for k, v in self.request.arguments.iteritems()}
-        print mp
 
 class AnalyzerHandler(BaseHandler):
     def get(self):
@@ -272,160 +229,11 @@ class ThreadHandler(tornado.web.RequestHandler):
         self.write("Thread output: %s" % output)
         self.finish()
 
-class MainBaseHandler(BaseHandler):
-    def get_researcher(self,selected_words = None):
-        """
-        This function takes care of returning professors according to selected words by user.
-        @param self pointer to class. But we don't take any variables provided by this pointer 
-        @param selected_words list of words selected by user.
-        @return a list of professors ranked by their score.
-        """
-        
-        return ["von Etter", "Zhao", "Huizhen", "Liang"]
-    
-    def get_messages(self): 
-        return self.application.syncdb.messages.find()
 
 
 
 
 
-class SearchHandler(MainBaseHandler):
-    def _lists_overlap(self, a, b):
-        return bool(set(a) & set(b))
-
-    @tornado.web.authenticated
-    def get(self):
-        self.application.form_new_keywords_information()
-        self.application.analyzer.reset_current()
-        # defines the number of the keywords received by the front end
-        self.index_keyowords_no = 200 
-        message = {
-            "keywords":sample(self.application.keywords_set,self.index_keyowords_no)
-        }
-        self.json_ok(message)
-        
-    @tornado.web.authenticated
-    def post(self):
-        # reset the iteration number 
-        self.application.iter_num = 0
-        # load the data from the front end
-        data = json.loads(self.request.body)
-
-        search_word = data["search_word"]
-       # print data["keywords"]
-        # decompose the search word and keywords and make them as a local keyoword list
-        keywords = [word for keyword in data["keywords"] for word in keyword["text"].split()]
-        #print keywords
-        # initilze temp container for sending keywords
-        temp = []
-        #iterate throught each word in the list and check wether it overlaps with our local keyword list.
-        for keyword_info in self.application.keywords_info:
-            if self._lists_overlap(keywords, keyword_info["text"].split()):
-                temp.append(keyword_info)
-        self.application.filtered_keywords = temp
-        self.application.keywords = self.application.filtered_keywords[self.application.keywords_number * self.application.iter_num:self.application.keywords_number*(self.application.iter_num +1)]    
-
-        # sort the persons
-        keywords_id = [keyword["id"] for keyword in self.application.keywords]
-        def sort_persons(person):
-            return len(set(person["keywords"]) & set(keywords_id))
-        
-        # persons info is a list that contains information of all persons
-        persons_info = self.application.corpuses_name_id.values()
-        persons = sorted(persons_info, key = sort_persons, reverse = True)
-
-        message = {
-            "keywords": [
-                keyword
-                for keyword in self.application.keywords
-            ], 
-            "persons": [
-                person
-                for person in persons
-            ]
-            
-        }
-        self.json_ok(message)
-        
-class NextHandler(MainBaseHandler):
-    def get(self):
-        
-        pass
-
-    def post(self):
-        def sort_keyowrds(scores):
-            """
-            This function sorts the keywords according to their scores. This function also will filter out the keywords contained in the 
-            @params scores: scores of h=the keywords , the order is the same as how keywords are order in self.application keywords
-            @return 
-            """
-            
-            # sort keywords according to their scores
-            combined_pairs = zip(scores, self.application.keywords_info)
-            print self.application.experienced_keywords
-            # filter out the keyword info if keyword's text is in experienced_keywords
-            combined_pairs = filter(lambda x: x[1]["text"] not in self.application.experienced_keywords, combined_pairs)
-            
-            sorted_pair = zip(*sorted(combined_pairs))
-            return sorted_pair[1]
-            
-        def update_keywords_info(scores):
-            """
-            This function update information stored in the self.application.keywords_info
-            @params scores is a list of tuples. First element of tuple stores exploitation rate of the keyword. Second element of tuple stores exaploration rate of the keyword
-            """
-            for i in xrange(len(self.application.keywords_info)):
-                self.application.keywords_info[i]["exploitation"] = scores[i][0]
-                self.application.keywords_info[i]["exploration"] = scores[i][1]
-
-        # add exprienced word, this word will not appear any in selection process
-        self.application.experienced_keywords.extend([keyword["text"] for keyword in self.application.keywords])
-        
-        # load the data from the front end
-        data = json.loads(self.request.body)
-        
-        # keywords info consists a list of tupes. It stores name of keyword and weight of keyword
-        keywords_info = [(keyword ["text"] , keyword ["weight"]) for keyword in data["keywords"]]
-        # decompose the keywords_info array to two arraies. One of them contains keywords, another of them contains weights of keywords
-        keywords, weights = zip(*keywords_info)
-        # increase the iteration number
-        self.application.iter_num = self.application.iter_num +1
-        
-        # get scores of all the keywords ordered in list order 
-        before = datetime.datetime.now()
-        scores = self.application.analyzer.analyze(keywords ,self.application.corpuses, weights)
-        after = datetime.datetime.now()
-        print "Time Comsumption of Function Analyzer: ",  after- before
-        scores_sum = [sum(score) for score in scores]
-        
-        # update information if self.application.keywords_info
-        update_keywords_info(scores)
-        self.application.ranked_keywords = sort_keyowrds(scores_sum)
-        
-        # get the keywords that has hightest score.
-        self.application.keywords = (self.application.ranked_keywords[-self.application.keywords_number:])[::-1]
-        
-        # sort the persons
-        keywords_id = [keyword["id"] for keyword in self.application.keywords]
-        def sort_persons(person):
-            return len(set(person["keywords"]) & set(keywords_id))
-        persons_info = self.application.corpuses_name_id.values()
-        persons = sorted(persons_info, key = sort_persons, reverse = True)
-
-        
-        message = {
-            "keywords": [
-               keyword
-                for keyword in self.application.keywords
-            ],
-            "persons": [
-                person
-                for person in persons
-            ]
-        }
-        self.json_ok(message)
-        
     
 class IndexHandler(MainBaseHandler):
 
@@ -455,47 +263,7 @@ class IndexHandler(MainBaseHandler):
 #                selected_keys.append(keyword)
 """
 
-class ChartsHandler(BaseHandler):
-    @tornado.web.authenticated        
-    def get(self):		
-        self.render("charts.html")
-        
-class ChartsDataHandler(BaseHandler):
-    @tornado.web.authenticated        
-    def get(self):		
-        message = {
-        "charts":
-            [
-            self.__form_person_weights_relationshp(),  
-            self.__form_person_keywords_counts_relationship(), 
-           # self.__form_article_correlation_relationship()
-            ]
-        }
-        self.json_ok(message)
-        
-    def __form_person_weights_relationshp(self):
-        """
-        This function implement the method of forming relationship between persons and the total weight of all the keywords
-        """
-        return {
-                "persons":["aaa", "aaa", "aaa", "aaa", "aaa", "aaa", "aaa"], 
-                "data": [1, 2, 3, 4, 5, 6, 7]
-            }
-    def __form_person_keywords_counts_relationship(self):
-        """
-        This function implements the method of forming relationship between persons and total count of each keywords
-        """
-        word_counts, person_names = zip(*[(len(person_info["keywords"]), person_info["name"])  for person_info in self.application.corpuses_name_id.values() ])
-        return {
-                "persons":person_names, 
-                "data": word_counts
-            }
-    def __form_article_correlation_relationship(self):
-        feature_matrix = self.application.analyzer._X()
-        correlation_matrix =  feature_matrix.T * feature_matrix
-        return {
-            "data":[correlation_matrix.asarray()]
-        }    
+
 class TablesHandler(BaseHandler):
     @tornado.web.authenticated 
     def get(self):

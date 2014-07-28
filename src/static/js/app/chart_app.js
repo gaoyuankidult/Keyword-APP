@@ -129,7 +129,7 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             $scope.current_chart = $scope.charts[ind];
 
             var ctx = $("#chart-canvas").get(0).getContext("2d");
-            var chart = new Chart(ctx).Line($scope.current_chart);
+            var chart = new Chart(ctx).Bar($scope.current_chart);
             $("#chart-container").fadeIn(500);
 
             $scope.$apply();
@@ -148,7 +148,7 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             $("#article-relation-container").hide();
 
             var ctx = Interface.initialize_canvas();
-            var chart = new Chart(ctx).Line($scope.current_chart);
+            var chart = new Chart(ctx).Bar($scope.current_chart);
             
             $("#chart-container").fadeIn(500);
 
@@ -264,7 +264,7 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             $scope.$apply();
     
             var ctx = Interface.initialize_canvas();
-            var chart = new Chart(ctx).Line($scope.current_chart);
+            var chart = new Chart(ctx).Bar($scope.current_chart);
     
             $("#chart-container").fadeIn(500);
             $("#chart-nav-container").animate({
