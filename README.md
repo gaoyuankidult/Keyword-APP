@@ -118,10 +118,34 @@
 
 ##Response
 
+# When more than 5 articles are selected 
+<pre>
 {
-	matrix: [[1, 2, 3, ...], [...], ...]
+	matrix: 
+	[
+		[
+			1,
+			2,
+			3
+		]
+	]
 }
-
+</pre>
+# When less than 5 articlesare selected
+<pre>
+{
+	matrix: 
+	[
+		[
+			{
+				value:1, 
+				title: "",
+				abstract: ""
+			} ...
+		]
+	]
+}
+</pre>
 # Tasks
 
 - Chart data (persons and keyword counts + persons and keyword weights)
