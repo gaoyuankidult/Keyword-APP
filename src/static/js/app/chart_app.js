@@ -135,7 +135,7 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             $scope.current_chart = $scope.charts[ind];
 
             var ctx = $("#chart-canvas").get(0).getContext("2d");
-            var chart = new Chart(ctx).Line($scope.current_chart);
+            var chart = new Chart(ctx).Bar($scope.current_chart);
             $("#chart-container").fadeIn(500);
 
             $scope.$apply();
@@ -154,7 +154,7 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             $("#article-relation-container").hide();
 
             var ctx = Interface.initialize_canvas();
-            var chart = new Chart(ctx).Line($scope.current_chart);
+            var chart = new Chart(ctx).Bar($scope.current_chart);
             
             $("#chart-container").fadeIn(500);
 
@@ -201,6 +201,7 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             	console.log("SMALL")
             	console.log(data)
                 $scope.visualized_articles = Visualization.visualize_small(data.matrix);
+                $scope.active_article = $scope.visualized_articles[0];
                 $scope.$apply();
             }else{
             	console.log("LARGE");
@@ -209,6 +210,28 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             }
         });
     } 
+    
+    $scope.hide_article_information = function(){
+        $scope.visualized_articles.forEach(function(a){
+            a.active = false;
+        });
+
+        $scope.active_article = null;
+
+        $scope.$apply();
+    }
+
+    $scope.show_article_information = function(article){
+        $scope.visualized_articles.forEach(function(a){
+            a.active = false;
+        });
+
+        article.active = true;
+        $scope.active_article = article;
+
+        $scope.$apply();
+    }
+    
     var _fetch_charts = function(callback){
 
         var skeleton = [
@@ -272,7 +295,7 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             $scope.$apply();
     
             var ctx = Interface.initialize_canvas();
-            var chart = new Chart(ctx).Line($scope.current_chart);
+            var chart = new Chart(ctx).Bar($scope.current_chart);
     
             $("#chart-container").fadeIn(500);
             $("#chart-nav-container").animate({
