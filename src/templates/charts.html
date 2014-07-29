@@ -29,7 +29,7 @@
 				<div id="small-visualization-container">
 					<div class="article-ball-container">
 						<canvas id="coordination-canvas"></canvas>
-						<div ng-repeat="article in visualized_articles" class="article-ball animated bounceIn" style="top: {[{article.y}]}; left: {[{article.x}]}; width: {[{article.size}]}; height: {[{article.size}]}" ng-click="show_article_information(article)" data-placement="bottom" ng-class="{active: article.active}" data-container="body" data-toggle="popover" data-trigger="hover" title="{[{article.title}]}" data-content="{[{ article.abstract | limitTo: 100 }]}" popover></div>
+						<div ng-repeat="article in visualized_articles" class="article-ball animated bounceIn" style="top: {[{article.y}]}; left: {[{article.x}]}; width: {[{article.size}]}; height: {[{article.size}]}" ng-click="show_article_information(article)" data-placement="bottom" ng-class="{active: article.active}" data-container="body" data-toggle="popover" data-trigger="hover" title="{[{article.title}]}" data-content="{[{ article.abstract | limitTo: 100 }]}"></div>
 					</div>
 
 					<div class="legend">
