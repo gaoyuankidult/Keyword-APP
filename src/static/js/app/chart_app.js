@@ -309,7 +309,16 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
     _fetch_charts(function(){
 	    $scope.current_chart = $scope.charts[0];
             $scope.$apply();
-    
+    	
+    	    $(".vertical-nav > li:first-child > a").addClass("selected-true");
+
+	    $(".vertical-nav > li > a").bind("click", function(){
+	    	console.log("TRIGGERED BY: " + $(this).html());
+	        $(".vertical-nav > li > a").removeClass("selected-true");
+	        console.log("SELECTED: " + $(this).length)
+	        $(this).addClass("selected-true");
+	    });
+	    
             var ctx = Interface.initialize_canvas();
             var chart = new Chart(ctx).Bar($scope.current_chart);
     
@@ -322,12 +331,5 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
 }]);
 
 $(document).ready(function(){
-    $(".vertical-nav > li:first-child > a").addClass("selected-true");
-
-    $(".vertical-nav > li > a").bind("click", function(){
-    	console.log("TRIGGERED BY: " + $(this).html());
-        $(".vertical-nav > li > a").removeClass("selected-true");
-        console.log("SELECTED: " + $(this).length)
-        $(this).addClass("selected-true");
-    })
+    
 });
