@@ -218,6 +218,8 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             	console.log("SMALL")
             	console.log(data)
                 $scope.visualized_articles = Visualization.visualize_small(data.matrix);
+                console.log("ARRAY")
+                console.log($scope.visualized_articles);
                 $scope.active_article = $scope.visualized_articles[0];
                 $scope.$apply();
             }else{
