@@ -321,11 +321,11 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
 
 }]);
 
-$(document).bind("ready", function(){
-
+$(document).ready(function(){
     $(".vertical-nav > li:first-child > a").addClass("selected-true");
 
-    $(".vertical-nav > li > a").click(function(){
+    $(".vertical-nav > li > a").bind("click", function(){
+    	console.log("TRIGGERED!")
         $(".vertical-nav > li > a").removeClass("selected-true");
         $(this).addClass("selected-true");
     })
