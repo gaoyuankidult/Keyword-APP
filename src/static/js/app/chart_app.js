@@ -76,7 +76,7 @@ console.log(opacity_scale)
 
         for(var y=0; y<matrix.length; y++){
             for(var x=0; x<matrix[0].length; x++){
-            	if(y < x){
+            	if(y <= x){
                 	ctx.fillStyle = "rgba(0,151,207," + ( (matrix[y][x] - min_max.min) / opacity_scale ) + ")";
                 	ctx.fillRect(x*block_width, y*block_height, block_width, block_height);
             	}
@@ -105,7 +105,7 @@ console.log(opacity_scale)
             draw_line(0, y * scale_y, draw_width, y * scale_y, ctx);
             for(var x=0; x<matrix[0].length; x++){
                 draw_line(x * scale_x, 0, x * scale_x, draw_width, ctx);
-                if(y < x){
+                if(y <= x){
                 	console.log("CURRENT: " + JSON.stringify(matrix[y][x]))
                 	console.log(matrix[y][x].value);
                 	console.log(matrix[y][x]["value"]);
