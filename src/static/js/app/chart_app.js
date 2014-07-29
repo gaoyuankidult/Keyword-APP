@@ -9,7 +9,9 @@ ChartApp.directive("popover", function(){
     return {
         restrict: "EA",
         link: function(scope, elem, attrs){
-            elem.popover();
+            elem.popover({
+            	title: scope.article.title
+            });
         }
     }
 });
@@ -114,7 +116,7 @@ console.log(opacity_scale)
 	                articles.push({
 	                    x: x * scale_x - size / 2,
 	                    y: y * scale_y - size / 2,
-	                    size: size,
+	                    size: Math.max(size, 3),
 	                    title: matrix[y][x].title,
 	                    abstract: matrix[y][x].abstract
 	                });
