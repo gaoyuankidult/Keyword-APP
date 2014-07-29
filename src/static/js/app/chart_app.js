@@ -327,6 +327,7 @@ $(document).ready(function(){
     $(".vertical-nav > li > a").bind("click", function(){
     	console.log("TRIGGERED!")
         $(".vertical-nav > li > a").removeClass("selected-true");
+        console.log("SELECTED: " + $(this).length)
         $(this).addClass("selected-true");
     })
 });
