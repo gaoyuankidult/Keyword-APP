@@ -29,7 +29,7 @@
 				<div id="small-visualization-container">
 					<div class="article-ball-container">
 						<canvas id="coordination-canvas"></canvas>
-						<div ng-repeat="article in visualized_articles" class="article-ball animated bounceIn" style="top: {[{article.y}]}; left: {[{article.x}]}; width: {[{article.size}]}; height: {[{article.size}]}" ng-click="show_article_information(article)" data-placement="bottom" ng-class="{active: article.active}" data-container="body" data-toggle="popover" data-trigger="hover" title="Lorem ipsum dolor sit amet" data-content="Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet" popover></div>
+						<div ng-repeat="article in visualized_articles" class="article-ball animated bounceIn" style="top: {[{article.y}]}; left: {[{article.x}]}; width: {[{article.size}]}; height: {[{article.size}]}" ng-click="show_article_information(article)" data-placement="bottom" ng-class="{active: article.active}" data-container="body" data-toggle="popover" data-trigger="hover" title="{[{ article.title }]}" data-content="{[{ article.abstract | limitTo: 100 }]}" popover></div>
 					</div>
 
 					<div class="legend">
@@ -57,10 +57,10 @@
 			<div id="article-relation-model-container" ng-class="{ show: active_article != null }">
 				<div class="heading-container">
 					<button id="close-article-relation-model" class="pull-right" ng-click="hide_article_information()"><i class="fa fa-times"></i></button>
-					<h2>Lorem ipsum dolor sit amet</h2>
+					<h2>{[{ active_article.title }]}</h2>
 				</div>
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt elit ac arcu consectetur, vitae egestas lorem dapibus. Mauris at odio quis est mollis cursus sit amet vitae urna. Phasellus a facilisis velit. Phasellus porta, purus et venenatis adipiscing, nisl magna tristique leo, a pellentesque leo velit nec odio. Praesent pellentesque lobortis justo in hendrerit. Ut id purus interdum, gravida sem vitae, egestas erat.
+					{[{ active_artice.abstract }]}
 				</p>
 			</div>
 
