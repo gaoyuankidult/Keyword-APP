@@ -9,7 +9,9 @@ ChartApp.directive("popover", function(){
     return {
         restrict: "EA",
         link: function(scope, elem, attrs){
-            elem.popover();
+            elem.popover({
+            	title: scope.article.title
+            });
         }
     }
 });
