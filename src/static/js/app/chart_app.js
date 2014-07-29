@@ -5,17 +5,6 @@ ChartApp.config(function($interpolateProvider) {
     $interpolateProvider.endSymbol('}]}');
 });
 
-ChartApp.directive("popover", function(){
-    return {
-        restrict: "EA",
-        link: function(scope, elem, attrs){
-            elem.popover({
-            	title: scope.article.title
-            });
-        }
-    }
-});
-
 ChartApp.service("Interface", function(){
     var initialize_canvas = function(){
         $("#chart-canvas").remove();
@@ -228,6 +217,8 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
                 console.log($scope.visualized_articles);
                 $scope.active_article = $scope.visualized_articles[0];
                 $scope.$apply();
+                
+                $(".article-ball").popover();
             }else{
             	console.log("LARGE");
             	console.log(data)
