@@ -76,8 +76,10 @@ console.log(opacity_scale)
 
         for(var y=0; y<matrix.length; y++){
             for(var x=0; x<matrix[0].length; x++){
-                ctx.fillStyle = "rgba(0,151,207," + ( (matrix[y][x] - min_max.min) / opacity_scale ) + ")";
-                ctx.fillRect(x*block_width, y*block_height, block_width, block_height);
+            	if(y < x){
+                	ctx.fillStyle = "rgba(0,151,207," + ( (matrix[y][x] - min_max.min) / opacity_scale ) + ")";
+                	ctx.fillRect(x*block_width, y*block_height, block_width, block_height);
+            	}
             }
         }
 
@@ -103,12 +105,16 @@ console.log(opacity_scale)
             draw_line(0, y * scale_y, draw_width, y * scale_y, ctx);
             for(var x=0; x<matrix[0].length; x++){
                 draw_line(x * scale_x, 0, x * scale_x, draw_width, ctx);
-                var size = ( matrix[y][x] - min_max.min ) / scale_size * 60
-                articles.push({
-                    x: x * scale_x - size / 2,
-                    y: y * scale_y - size / 2,
-                    size: size
-                });
+                if(y < x){
+	                var size = ( matrix[y][x].value - min_max.min ) / scale_size * 60
+	                articles.push({
+	                    x: x * scale_x - size / 2,
+	                    y: y * scale_y - size / 2,
+	                    size: size,
+	                    title: matrix[y][x].title,
+	                    abstract: matrix[y][x].abstract
+	                });
+                }
             }
         }
 
