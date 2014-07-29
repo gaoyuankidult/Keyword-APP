@@ -188,6 +188,14 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
 
         $scope.$apply();
     }
+    
+    $scope.un_check_all_articles = function(){
+    	$scope.articles.forEach(function(article){
+    		article.selected = false;	
+    	});
+    	
+    	$scope.$apply();
+    }
 
     $scope.display_article_relation_visualization = function(){
     	$scope.active_article = null;

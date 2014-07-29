@@ -87,6 +87,11 @@
 								<i class="fa fa-check marg-right"></i>Select all
 							</a>
 						</li>
+						<li>
+							<a ng-click="un_check_all_articles()" class="text-center">
+								<i class="fa fa-times marg-right"></i>Deselect all
+							</a>
+						</li>
 						<li ng-repeat="article in articles | filter: article_list_filter" class="no-link">
 							<div class="checkbox">
 							  <label>

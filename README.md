@@ -118,7 +118,7 @@
 
 ##Response
 
-# When more than 5 articles are selected 
+# When more than 10 articles are selected 
 <pre>
 {
 	matrix: 
@@ -131,7 +131,7 @@
 	]
 }
 </pre>
-# When less than 5 articlesare selected
+# When less than 10 articlesare selected
 <pre>
 {
 	matrix: 
