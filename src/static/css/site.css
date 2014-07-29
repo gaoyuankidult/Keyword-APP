@@ -170,7 +170,6 @@ h2.text-muted{
 #large-visualization-container{
 	width: 850px;
 	margin: 0px auto;
-	overflow: hidden;
 }
 #large-visualization-container canvas{
 	float: left;
@@ -273,7 +272,6 @@ h2.text-muted{
 	float: left;
 	height: 600px;
 	padding: 0px 20px 20px 20px;
-	overflow: scroll;
 }
 #small-visualization-container .legend h3{
 	padding-bottom: 10px;
@@ -302,6 +300,7 @@ h2.text-muted{
 	width: 0%;
 	height: 100%;
 	padding: 0px;
+	z-index: 0;
 	overflow: scroll;
 }
 #chart-nav-container{
@@ -311,7 +310,7 @@ h2.text-muted{
 	width: 0%;
 	height: 100%;
 	padding: 0px;
-	overflow: scroll;	
+	overflow: scroll !important;
 }
 #people-container h2, #chart-nav-container h2{
 	border-bottom: 1px solid rgb(30,30,30);;
