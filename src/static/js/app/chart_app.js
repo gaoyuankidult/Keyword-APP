@@ -47,10 +47,10 @@ ChartApp.service("Visualization", function(){
 
         for(y=0; y<matrix.length; y++){
             for(var x=0; x<matrix[0].length; x++){
-                if(matrix[y][x] > max_val){
+                if(matrix[y][x].value > max_val){
                     max_val = matrix[y][x].value;
                 }
-                if(matrix[y][x] < min_val){
+                if(matrix[y][x].value < min_val){
                  min_val = matrix[y][x].value;
                 }
             }
