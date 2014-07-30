@@ -148,6 +148,8 @@
 </pre>
 # Tasks for gao
 
+- topic models data
+- clean data for all authers
 
 # Tasks
 
