@@ -150,6 +150,7 @@
 
 - topic models data
 - clean data for all authers
+- formalize the preprocessing step
 
 # Tasks
 
