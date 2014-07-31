@@ -148,9 +148,14 @@
 </pre>
 # Tasks for gao
 
+- topic models data
+- clean data for all authers
+- formalize the preprocessing step
 
 # Tasks
 
+- merge deselete and select icon
+- chart bug when number of astracts are big than 20
 
 - Chart data (persons and keyword counts + persons and keyword weights)
 - <strike>A small bug lies in acquiring abstracts. The expand button is wrong</strike> *done*
