@@ -82,15 +82,12 @@
 						<li class="no-link">
 							<input type="text" class="form-control text-field-rounded" ng-model="article_list_filter">
 						</li>
-						<li>
-							<a ng-click="check_all_articles()" class="text-center">
+						<li class="no-link">
+							<button style="background-color: transparent; border: 0px none;" ng-click="check_all_articles()" class="text-center">
 								<i class="fa fa-check marg-right"></i>Select all
-							</a>
-						</li>
-						<li>
-							<a ng-click="un_check_all_articles()" class="text-center">
+							</button> <span style='color: rgb(100,100,100)'>/</span> <button style="background-color: transparent; border: 0px none;" ng-click="un_check_all_articles()" class="text-center">
 								<i class="fa fa-times marg-right"></i>Deselect all
-							</a>
+							</button>
 						</li>
 						<li ng-repeat="article in articles | filter: article_list_filter" class="no-link">
 							<div class="checkbox">

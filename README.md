@@ -154,8 +154,8 @@
 
 # Tasks
 
-- merge deselete and select icon
-- chart bug when number of astracts are big than 20
+- <strike> merge deselete and select icon </strike> 
+- <strike> chart bug when number of astracts are big than 20</strike>
 
 - Chart data (persons and keyword counts + persons and keyword weights)
 - <strike>A small bug lies in acquiring abstracts. The expand button is wrong</strike> *done*
