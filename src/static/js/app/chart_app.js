@@ -129,6 +129,9 @@ console.log(opacity_scale)
 ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", function($scope, Visualization, Interface){
     Chart.defaults.global.tooltipTemplate = "<%= label %>";
 
+    var _article_id_to_topic_model = {};
+    var _topic_model_to_data = {};
+
     $scope.charts = [];
     $scope.current_chart = $scope.charts[0];
     $scope.active_article = null;
@@ -205,23 +208,18 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             return article.selected;
         });
         
-        console.log($.map(selected_articles, function(article){ return article.id }));
-        
         $.post("/article_matrix", JSON.stringify({ articles: $.map(selected_articles, function(article){ return article.id }) }))
         .done(function(data){
             if(selected_articles.length < 20){
-            	console.log("SMALL")
-            	console.log(data)
                 $scope.visualized_articles = Visualization.visualize_small(data.matrix);
-                console.log("ARRAY")
-                console.log($scope.visualized_articles);
                 $scope.active_article = $scope.visualized_articles[0];
                 $scope.$apply();
                 
                 $(".article-ball").popover();
             }else{
-            	console.log("LARGE");
-            	console.log(data)
+            	_article_id_to_topic_model = data.topic_model_relation;
+            	_topic_model_to_data = data.topic_data;
+            	
                 Visualization.visualize_large(data.matrix);
             }
         });
