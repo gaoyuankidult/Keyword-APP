@@ -97,15 +97,11 @@ console.log(opacity_scale)
             for(var x=0; x<matrix[0].length; x++){
                 draw_line(x * scale_x, 0, x * scale_x, draw_width, ctx);
                 if(y <= x){
-                	console.log("CURRENT: " + JSON.stringify(matrix[y][x]))
-                	console.log(matrix[y][x].value);
-                	console.log(matrix[y][x]["value"]);
-	                var size = ( matrix[y][x].value - min_max.min ) / scale_size * 60
-	                console.log("SIZE: " + size)
+	                var size = Math.max(( matrix[y][x].value - min_max.min ) / scale_size * 60, 6);
 	                articles.push({
 	                    x: x * scale_x - size / 2,
 	                    y: y * scale_y - size / 2,
-	                    size: Math.max(size, 3),
+	                    size: size,
 	                    title: matrix[y][x].title,
 	                    abstract: matrix[y][x].abstract
 	                });
