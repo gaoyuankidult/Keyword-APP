@@ -97,17 +97,15 @@ console.log(opacity_scale)
             for(var x=0; x<matrix[0].length; x++){
                 draw_line(x * scale_x, 0, x * scale_x, draw_width, ctx);
                 if(y <= x){
-                	console.log("CURRENT: " + JSON.stringify(matrix[y][x]))
-                	console.log(matrix[y][x].value);
-                	console.log(matrix[y][x]["value"]);
-	                var size = ( matrix[y][x].value - min_max.min ) / scale_size * 60
-	                console.log("SIZE: " + size)
+	                var size = Math.max(( matrix[y][x].value - min_max.min ) / scale_size * 60, 6);
 	                articles.push({
 	                    x: x * scale_x - size / 2,
 	                    y: y * scale_y - size / 2,
-	                    size: Math.max(size, 3),
+	                    size: size,
 	                    title: matrix[y][x].title,
-	                    abstract: matrix[y][x].abstract
+	                    abstract: matrix[y][x].abstract,
+	                    id: matrix[y][x].id,
+	                    row_parent: matrix[0][x]
 	                });
                 }
             }
@@ -128,6 +126,9 @@ console.log(opacity_scale)
 
 ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", function($scope, Visualization, Interface){
     Chart.defaults.global.tooltipTemplate = "<%= label %>";
+
+    var _article_id_to_topic_model = {};
+    var _topic_model_to_data = {};
 
     $scope.charts = [];
     $scope.current_chart = $scope.charts[0];
@@ -205,23 +206,18 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             return article.selected;
         });
         
-        console.log($.map(selected_articles, function(article){ return article.id }));
-        
         $.post("/article_matrix", JSON.stringify({ articles: $.map(selected_articles, function(article){ return article.id }) }))
         .done(function(data){
             if(selected_articles.length < 20){
-            	console.log("SMALL")
-            	console.log(data)
                 $scope.visualized_articles = Visualization.visualize_small(data.matrix);
-                console.log("ARRAY")
-                console.log($scope.visualized_articles);
                 $scope.active_article = $scope.visualized_articles[0];
                 $scope.$apply();
                 
                 $(".article-ball").popover();
             }else{
-            	console.log("LARGE");
-            	console.log(data)
+            	_article_id_to_topic_model = data.topic_model_relation;
+            	_topic_model_to_data = data.topic_data;
+            	
                 Visualization.visualize_large(data.matrix);
             }
         });
@@ -244,6 +240,8 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
 
         article.active = true;
         $scope.active_article = article;
+        $scope.active_article.topic_model_keywords = _topic_model_to_data[_article_id_to_topic_model[$scope.active_article.id]];
+	$scope.active_article.row_parent.topic_model_keywords = _topic_model_to_data[_article_id_to_topic_model[$scope.active_article.row_parent.id]];
 
         $scope.$apply();
     }

@@ -29,7 +29,7 @@
 				<div id="small-visualization-container">
 					<div class="article-ball-container">
 						<canvas id="coordination-canvas"></canvas>
-						<div ng-repeat="article in visualized_articles" class="article-ball animated bounceIn" style="top: {[{article.y}]}; left: {[{article.x}]}; width: {[{article.size}]}; height: {[{article.size}]}" ng-click="show_article_information(article)" data-placement="bottom" ng-class="{active: article.active}" data-container="body" data-toggle="popover" data-trigger="hover" title="{[{article.title}]}" data-content="{[{ article.abstract | limitTo: 100 }]}"></div>
+						<div ng-repeat="article in visualized_articles" class="article-ball animated bounceIn" style="top: {[{article.y}]}; left: {[{article.x}]}; width: {[{article.size}]}; height: {[{article.size}]}" ng-click="show_article_information(article)" data-placement="bottom" ng-class="{active: article.active}" data-container="body" data-toggle="popover" data-trigger="hover" title="Lorem ipsum dolor sit amet" data-content="Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet" popover></div>
 					</div>
 
 					<div class="legend">
@@ -57,11 +57,29 @@
 			<div id="article-relation-model-container" ng-class="{ show: active_article != null }">
 				<div class="heading-container">
 					<button id="close-article-relation-model" class="pull-right" ng-click="hide_article_information()"><i class="fa fa-times"></i></button>
-					<h2>{[{ active_article.title }]}</h2>
+					<h2>Topic model</h2>
 				</div>
-				<p>
-					{[{ active_article.abstract }]}
-				</p>
+				<div class="row">
+					<div class="col-md-6">
+						<h3>Title selected</h3>
+						<p>
+							<input type="text" placeholder="Find keywords"> <button><i class="fa fa-search"></i></button>
+						</p>
+						<ul class="bars">
+							<li ng-repeat="keyword in active_article.topic_model_keywords"><div class="bar" style="width: 200px">{[{keyword.passibility}]}</div> {[{keyword.text}]}</li>
+						</ul>
+					</div>
+
+					<div class="col-md-6">
+						<h3>Title row parent</h3>
+						<p>
+							<input type="text" placeholder="Find keywords"> <button><i class="fa fa-search"></i></button>
+						</p>
+							<ul class="bars">
+							<li ng-repeat="keyword in active_article.row_parent.topic_model_keywords"><div class="bar" style="width: 200px">{[{keyword.passibility}]}</div> {[{keyword.text}]}</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 
 		</div>
@@ -82,10 +100,10 @@
 						<li class="no-link">
 							<input type="text" class="form-control text-field-rounded" ng-model="article_list_filter">
 						</li>
-						<li class="no-link">
-							<button style="background-color: transparent; border: 0px none;" ng-click="check_all_articles()" class="text-center">
+						<li class="no-link text-center">
+							<button ng-click="check_all_articles()" class="btn-no-style">
 								<i class="fa fa-check marg-right"></i>Select all
-							</button> <span style='color: rgb(100,100,100)'>/</span> <button style="background-color: transparent; border: 0px none;" ng-click="un_check_all_articles()" class="text-center">
+							</button> <span style="color: rgb(100,100,100)">/</span> <button ng-click="un_check_all_articles()" class="btn-no-style">
 								<i class="fa fa-times marg-right"></i>Deselect all
 							</button>
 						</li>
@@ -97,7 +115,6 @@
 							  </label>
 							</div>
 						</li>
-						<li class="no-link"></li>
 					</ul>
 				</li>
 			</ul>
