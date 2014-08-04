@@ -211,6 +211,8 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             if(selected_articles.length <= 10){
             	_article_id_to_topic_model = data.topic_model_relation;
             	_topic_model_to_data = data.topic_data;
+            	console.log("ARTICLE ID TO TOPIC MODEL: " + _article_id_to_topic_model)
+            	console.log("TOPIC MODEL TO DATA: " + _topic_model_to_data)
             	
                 $scope.visualized_articles = Visualization.visualize_small(data.matrix);
                 $scope.active_article = $scope.visualized_articles[0];
