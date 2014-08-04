@@ -152,10 +152,10 @@
 	topic_data:
 	{
 		topicID:
-		{
-			keyword1: passibility1,
+		[
+			{ text: "keyword1", passibility: "passibility1" },
 			...
-		},
+		],
 		...
 	}
 }
