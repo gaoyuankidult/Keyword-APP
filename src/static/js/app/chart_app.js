@@ -215,6 +215,8 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
             	console.log("TOPIC MODEL TO DATA: " + JSON.stringify(_topic_model_to_data))
             	
                 $scope.visualized_articles = Visualization.visualize_small(data.matrix);
+                
+                console.log("ARTICLES: " + JSON.stringify($scope.visualized_articles));
                 $scope.active_article = $scope.visualized_articles[0];
                 $scope.$apply();
                 
