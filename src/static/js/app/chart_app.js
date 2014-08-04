@@ -97,7 +97,7 @@ console.log(opacity_scale)
             for(var x=0; x<matrix[0].length; x++){
                 draw_line(x * scale_x, 0, x * scale_x, draw_width, ctx);
                 if(y <= x){
-	                var size = Math.max(( matrix[y][x].value - min_max.min ) / scale_size * 60, 6);
+	                var size = Math.max(( matrix[y][x].value - min_max.min ) / scale_size * 60, 10);
 	                articles.push({
 	                    x: x * scale_x - size / 2,
 	                    y: y * scale_y - size / 2,
@@ -209,10 +209,10 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
         $.post("/article_matrix", JSON.stringify({ articles: $.map(selected_articles, function(article){ return article.id }) }))
         .done(function(data){
             if(selected_articles.length <= 10){
-            	//_article_id_to_topic_model = data.topic_model_relation;
-            	//_topic_model_to_data = data.topic_data;
-            	//console.log("ARTICLE ID TO TOPIC MODEL: " + JSON.stringify(_article_id_to_topic_model))
-            	//console.log("TOPIC MODEL TO DATA: " + JSON.stringify(_topic_model_to_data))
+            	_article_id_to_topic_model = data.topic_model_relation;
+            	_topic_model_to_data = data.topic_data;
+            	console.log("ARTICLE ID TO TOPIC MODEL: " + JSON.stringify(_article_id_to_topic_model))
+            	console.log("TOPIC MODEL TO DATA: " + JSON.stringify(_topic_model_to_data))
             	
                 $scope.visualized_articles = Visualization.visualize_small(data.matrix);
                 
