@@ -153,7 +153,7 @@
 	{
 		topicID:
 		[
-			{ text: "keyword1", passibility: "passibility1" },
+			{ text: "keyword1", possibility: "possibility1" },
 			...
 		],
 		...
