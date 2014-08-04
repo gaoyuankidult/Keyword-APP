@@ -209,10 +209,10 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
         $.post("/article_matrix", JSON.stringify({ articles: $.map(selected_articles, function(article){ return article.id }) }))
         .done(function(data){
             if(selected_articles.length <= 10){
-            	_article_id_to_topic_model = data.topic_model_relation;
-            	_topic_model_to_data = data.topic_data;
-            	console.log("ARTICLE ID TO TOPIC MODEL: " + JSON.stringify(_article_id_to_topic_model))
-            	console.log("TOPIC MODEL TO DATA: " + JSON.stringify(_topic_model_to_data))
+            	//_article_id_to_topic_model = data.topic_model_relation;
+            	//_topic_model_to_data = data.topic_data;
+            	//console.log("ARTICLE ID TO TOPIC MODEL: " + JSON.stringify(_article_id_to_topic_model))
+            	//console.log("TOPIC MODEL TO DATA: " + JSON.stringify(_topic_model_to_data))
             	
                 $scope.visualized_articles = Visualization.visualize_small(data.matrix);
                 
