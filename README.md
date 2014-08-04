@@ -144,6 +144,20 @@
 			} ...
 		]
 	]
+	topic_model_relation:
+	{
+		articleID:topicID,
+		...
+	}
+	topic_data:
+	{
+		topicID:
+		{
+			keyword1: passibility1,
+			...
+		},
+		...
+	}
 }
 </pre>
 # Tasks for gao
