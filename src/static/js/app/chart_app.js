@@ -218,6 +218,7 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
                 
                 console.log("ARTICLES: " + JSON.stringify($scope.visualized_articles));
                 $scope.active_article = $scope.visualized_articles[0];
+                _set_topic_model();
                 $scope.$apply();
                 
                 $(".article-ball").popover();
@@ -225,7 +226,7 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
                 Visualization.visualize_large(data.matrix);
             }
         });
-    } 
+    }
     
     $scope.hide_article_information = function(){
         $scope.visualized_articles.forEach(function(a){
@@ -244,12 +245,14 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
 
         article.active = true;
         $scope.active_article = article;
-        console.log("MODEL: " + _article_id_to_topic_model[$scope.active_article.id.toString()])
-        $scope.active_article.topic_model_keywords = _topic_model_to_data[_article_id_to_topic_model[$scope.active_article.id.toString()]];
-	$scope.active_article.row_parent.topic_model_keywords = _topic_model_to_data[_article_id_to_topic_model[$scope.active_article.row_parent.id.toString()]];
-	console.log(JSON.stringify($scope.active_article.topic_model_keywords));
-
+        _set_topic_model();
+        
         $scope.$apply();
+    }
+    
+    var _set_topic_model = function(){
+    	$scope.active_article.topic_model_keywords = _topic_model_to_data[_article_id_to_topic_model[$scope.active_article.id.toString()]];
+	$scope.active_article.row_parent.topic_model_keywords = _topic_model_to_data[_article_id_to_topic_model[$scope.active_article.row_parent.id.toString()]];
     }
     
     var _fetch_charts = function(callback){
