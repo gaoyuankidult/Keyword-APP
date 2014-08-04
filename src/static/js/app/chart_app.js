@@ -242,6 +242,7 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
         $scope.active_article = article;
         $scope.active_article.topic_model_keywords = _topic_model_to_data[_article_id_to_topic_model[$scope.active_article.id]];
 	$scope.active_article.row_parent.topic_model_keywords = _topic_model_to_data[_article_id_to_topic_model[$scope.active_article.row_parent.id]];
+	console.log(JSON.stringify($scope.active_article.topic_model_keywords));
 
         $scope.$apply();
     }
@@ -327,7 +328,3 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
         });
 
 }]);
-
-$(document).ready(function(){
-    
-});
