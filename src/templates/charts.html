@@ -61,22 +61,22 @@
 				</div>
 				<div class="row">
 					<div class="col-md-6">
-						<h3>Title selected</h3>
+						<h3>{[{active_article.title}]}</h3>
 						<p>
 							<input type="text" placeholder="Find keywords" ng-model="active_article_keyword_filter">
 						</p>
 						<ul class="bars">
-							<li ng-repeat="keyword in active_article.topic_model_keywords | filter: active_article_keyword_filter"><div class="bar" style="width: {[{keyword.passibility * 80}]}px">{[{keyword.passibility}]}</div> {[{keyword.text}]}</li>
+							<li ng-repeat="keyword in active_article.topic_model_keywords | filter: active_article_keyword_filter"><div class="bar" style="width: {[{keyword.possibility * 80}]}px">{[{keyword.possibility}]}</div> {[{keyword.text}]}</li>
 						</ul>
 					</div>
 
 					<div class="col-md-6">
-						<h3>Title row parent</h3>
+						<h3>{[{active_article.row_parent.title}]}</h3>
 						<p>
 							<input type="text" placeholder="Find keywords" ng-model="row_parent_keyword_filter">
 						</p>
 							<ul class="bars">
-							<li ng-repeat="keyword in active_article.row_parent.topic_model_keywords | filter: row_parent_keyword_filter"><div class="bar" style="width: {[{keyword.passibility * 80}]}px">{[{keyword.passibility}]}</div> {[{keyword.text}]}</li>
+							<li ng-repeat="keyword in active_article.row_parent.topic_model_keywords | filter: row_parent_keyword_filter"><div class="bar" style="width: {[{keyword.possibility * 80}]}px">{[{keyword.possibility}]}</div> {[{keyword.text}]}</li>
 						</ul>
 					</div>
 				</div>
