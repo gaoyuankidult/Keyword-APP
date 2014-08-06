@@ -18,10 +18,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys, os, re, random, math, urllib2, time, cPickle
+import sys
 import numpy
+from pickle import load
+from contextlib import contextmanager
+from sys import stderr
 
-import onlineldavb
+
+@contextmanager
+def read_pickle_file(pickle_file_path):
+    """
+    This file reads information according from a pickler file path and return the content.
+    """
+    try:
+        with open(pickle_file_path) as f:
+            yield load(f)
+    except IOError, e:
+        print >> stderr, e
+    finally:
+        pass
+
+
 
 def main():
     """
@@ -29,8 +46,10 @@ def main():
     (expected) most prominent words in the topics, the second column
     gives their (expected) relative prominence.
     """
-    vocab = str.split(file(sys.argv[1]).read())
-    testlambda = numpy.loadtxt(sys.argv[2])
+    all_keywords_file_path = "../../keywords/abstract_109.txt"
+    with read_pickle_file(all_keywords_file_path) as content:
+        vocab = list(content)
+    testlambda = numpy.loadtxt(sys.argv[1])
 
     for k in range(0, len(testlambda)):
         lambdak = list(testlambda[k, :])

@@ -18,14 +18,11 @@ import urlparse
 import time
 import threading
 import functools
-import datetime
 import numpy
 
 from base_handler import *
 from charts_handlers import *
 from process_handlers import *
-
-
 
 class AnalyzerHandler(BaseHandler):
     def get(self):
@@ -48,18 +45,15 @@ class FormHandler(BaseHandler):
         auth = self.application.syncdb['users'].save(user)
         self.redirect(u"/index")
 
-
 class NotificationHandler(BaseHandler):
     def get(self):
         messages = self.application.syncdb.messages.find()
         self.render("notification.html", messages=messages, notification='hello')
 
-
 class SlidyHandler(BaseHandler):
     def get(self):
         messages = self.application.syncdb.messages.find()
         self.render("slidy.html", messages=messages, notification=self.get_flash())
-
 
 class PopupHandler(BaseHandler):
     def get(self):
@@ -97,7 +91,6 @@ class LoginHandler(BaseHandler):
         else:
             self.clear_cookie("user")
 
-
 class NoneBlockingLogin(BaseHandler):
     """ Runs Bcrypt in a thread - Allows tornado to server up other handlers but can not process multiple logins simultaneously"""
     def get(self):
@@ -130,7 +123,6 @@ class NoneBlockingLogin(BaseHandler):
         self.set_flash('Error Login incorrect')
         self.redirect('/login')
 
-
 class RegisterHandler(LoginHandler):
     def get(self):
         self.render("register.html", next=self.get_argument("next", "/"))
@@ -156,7 +148,6 @@ class RegisterHandler(LoginHandler):
 
         self.redirect(u"/index")
 
-
 class TwitterLoginHandler(LoginHandler,
                           tornado.auth.TwitterMixin):
     @tornado.web.asynchronous
@@ -175,7 +166,6 @@ class TwitterLoginHandler(LoginHandler,
 
         self.set_current_user(tw_user['username'])
         self.redirect(u"/index")
-
 
 class FacebookLoginHandler(LoginHandler, tornado.auth.FacebookGraphMixin):
     @tornado.web.asynchronous
@@ -198,7 +188,6 @@ class FacebookLoginHandler(LoginHandler, tornado.auth.FacebookGraphMixin):
         # Create user if user not found
         self.set_current_user(fb_user['id'])
         self.redirect(u"/index")
-
 
 class LogoutHandler(BaseHandler):
     def get(self):
@@ -229,12 +218,6 @@ class ThreadHandler(tornado.web.RequestHandler):
         self.write("Thread output: %s" % output)
         self.finish()
 
-
-
-
-
-
-    
 class IndexHandler(MainBaseHandler):
 
     @tornado.web.authenticated        

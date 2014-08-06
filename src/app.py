@@ -29,10 +29,11 @@ class Application(tornado.web.Application):
         url(r'/', LoginHandler, name='/'),
 
         url(r'/charts', ChartsHandler, name='charts'), 
-        url(r'/charts_data', ChartsDataHandler, name='charts_data'), 
+        url(r'/charts_data', ChartsDataHandler, name='charts_data'),
+        url(r'/topic_model', TopicModelHandler, name='topic_model'),
         url(r'/tables', TablesHandler, name='tables'), 
         url(r'/tables_data', TablesDataHandler, name='tables_data'), 
-        url(r'/article_matrix', ArticleMatrixHnadler, name='article_matrix'), 
+        url(r'/article_matrix', ArticleMatrixHandler, name='article_matrix'),
         
         url(r'/form', FormHandler, name = 'form'),
         url(r'/next', NextHandler,name = 'next'),
