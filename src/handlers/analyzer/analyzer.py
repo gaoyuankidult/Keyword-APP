@@ -76,9 +76,7 @@ class Analyzer():
         for i in xrange(0, self._X_row_num):
             scores[i] = self._linrel_sub(self._X[i, :], w, cy)
         return scores
-        
 
-        
     def calculate_X(self, keywords, corpus):
         """
         return normalized feature matrix. (which is of the form number of keywords times number of articles)

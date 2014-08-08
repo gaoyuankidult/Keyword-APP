@@ -186,7 +186,6 @@ class Application(tornado.web.Application):
         form_keywords_info()
         form_persons_info()
         analyze_data()
-        
 
     def form_new_keywords_information(self):
         keywords_exploitation = [0.1] * len( self.keywords_list)
