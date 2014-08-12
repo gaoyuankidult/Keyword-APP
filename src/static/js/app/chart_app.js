@@ -92,7 +92,7 @@ console.log(opacity_scale)
      var min_max = min_max_val(matrix);
         var scale_size = min_max.max - min_max.min;
         var draw_width = 600;
-        var scale_y = draw_width / ( matrix.length - 1;
+        var scale_y = draw_width / ( matrix.length - 1 );
         var scale_x = draw_width / ( matrix[0].length - 1);
         var ctx = $("#coordination-canvas")[0].getContext("2d");
         
