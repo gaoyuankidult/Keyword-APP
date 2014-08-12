@@ -108,6 +108,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 	$scope.remove_person = function(person){
 		$.post("/remove_person", JSON.stringify({ id: person.id })).done(function(data){
 			$scope.current_persons = $.grep($scope.current_persons, function(p){ return p.id != person.id });
+			$scope.$apply();
 		});
 	}
 
