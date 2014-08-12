@@ -98,7 +98,9 @@
 			<h2>People</h2>
 
 			<ul class="vertical-nav">
-				<li ng-repeat="person in current_persons"><a ng-mouseenter="highlight_persons_keywords(person)" ng-mouseleave="un_highlight_persons_keywords()" ng-click="toggle_person_selection(person)" class="toggle-navigation" data-personId="{[{person.id}]}"><i class="fa fa-user marg-right"></i>{[{person.name}]}
+				<li ng-repeat="person in current_persons">
+					<button class="pull-right btn-no-style text-danger remove-person-button" ng-click="remove_person(person)"><i class="fa fa-times"></i></button>
+					<a ng-mouseenter="highlight_persons_keywords(person)" ng-mouseleave="un_highlight_persons_keywords()" ng-click="toggle_person_selection(person)" class="toggle-navigation" data-personId="{[{person.id}]}"><i class="fa fa-user marg-right"></i>{[{person.name}]}
 					<i class="fa fa-plus pull-right" ng-hide="person.selected"></i>
 					<i class="fa fa-minus pull-right" ng-show="person.selected"></i>
 				</a>
