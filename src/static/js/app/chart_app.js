@@ -31,6 +31,16 @@ ChartApp.service("Visualization", function(){
         context.lineTo(xx, yy);
         context.stroke();
     }
+    
+    function draw_axis(ctx, step, size){
+        for(var x=0; x<=size; x+=step){
+            draw_line(x, 0, x, size, ctx);
+        }
+
+        for(var y=0; y<=size + step; y+=step){
+            draw_line(0, y, size, y, ctx);
+        }
+    }
 
     function min_max_val(matrix){
         var max_val = Number.NEGATIVE_INFINITY;
@@ -82,9 +92,10 @@ console.log(opacity_scale)
      var min_max = min_max_val(matrix);
         var scale_size = min_max.max - min_max.min;
         var draw_width = 600;
-        var scale_y = draw_width / matrix.length;
-        var scale_x = draw_width / matrix[0].length;
+        var scale_y = draw_width / ( matrix.length - 1;
+        var scale_x = draw_width / ( matrix[0].length - 1);
         var ctx = $("#coordination-canvas")[0].getContext("2d");
+        
         $("#coordination-canvas").attr({
             height: draw_width,
             width: draw_width
@@ -93,9 +104,7 @@ console.log(opacity_scale)
         var articles = [];
 
         for(y=0; y<matrix.length; y++){
-            draw_line(0, y * scale_y, draw_width, y * scale_y, ctx);
             for(var x=0; x<matrix[0].length; x++){
-                draw_line(x * scale_x, 0, x * scale_x, draw_width, ctx);
                 if(y <= x){
 	                var size = Math.max(( matrix[y][x].value - min_max.min ) / scale_size * 60, 10);
 	                articles.push({
@@ -110,6 +119,8 @@ console.log(opacity_scale)
                 }
             }
         }
+
+	draw_axis(ctx, scale_x, 600);
 
         $("#large-visualization-container").hide();
         $("#small-visualization-container").show();

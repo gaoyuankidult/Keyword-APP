@@ -3,6 +3,12 @@ body{
 	color: rgb(100,100,100);
 	font-family: 'Ubuntu', sans-serif;
 }
+.remove-person-button{
+	position: relative; 
+	top: 14px; 
+	margin: 0px 6px;
+	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.8);
+}
 .label{
 	border-radius: 0px;
 	padding: 4px 8px;
@@ -334,6 +340,7 @@ ul.bars li div.bar{
 	top: 25px; float: left;
 	position: relative; display: inline-block;
 	width: 600px; height: 600px;
+	margin-bottom: 80px;
 }
 #keywords-container h2, #chart-container h2{
 	border-bottom: 1px solid rgb(210,210,210);
