@@ -34,7 +34,7 @@
 
 						<canvas id="coordination-canvas"></canvas>
 
-						<div ng-repeat="article in visualized_articles" class="article-ball animated bounceIn" style="top: {[{article.y}]}; left: {[{article.x}]}; width: {[{article.size}]}; height: {[{article.size}]}" ng-click="show_article_information(article)" data-placement="right" ng-class="{active: article.active}" data-container="body" data-toggle="popover" data-trigger="hover" title="{[{article.title}]}" data-content="{[{article.abstract | limitTo: 150 }]}..."></div>
+						<div ng-repeat="article in visualized_articles" class="article-ball animated bounceIn" style="top: {[{article.y}]}; left: {[{article.x}]}; width: {[{article.size}]}; height: {[{article.size}]}" ng-click="show_article_information(article)" data-placement="right" ng-class="{active: article.active}" data-container="body" data-toggle="popover" data-trigger="hover" title="{[{article.title}]} <span class='text-muted' style='font-size: 0.8em'>{[{article.author}]}</span>" data-html="true" data-content="{[{article.abstract | limitTo: 150 }]}..."></div>
 					</div>
 				</div>
 
