@@ -163,7 +163,7 @@
 </pre>
 
 
-#GET related_article
+#Post related_article
 
 ##Params
 
