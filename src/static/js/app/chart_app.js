@@ -59,6 +59,14 @@ ChartApp.service("Visualization", function(){
 
         return { max: max_val, min: min_val };
     }
+    
+    function get_label_font_size(articles_count){
+        if(articles_count <= 6){
+            return 0.9;
+        }else{
+            return (articles_count - 42) / -40;
+        }
+    }
 
     function visualize_large(matrix){
         var ctx = $("#article-relation-canvas")[0].getContext("2d");
@@ -89,9 +97,11 @@ console.log(opacity_scale)
     }
 
     function visualize_small(matrix){
-     var min_max = min_max_val(matrix);
+    	var label_margin_x = 35;
+        var label_margin_y = 50;
+     	var min_max = min_max_val(matrix);
         var scale_size = min_max.max - min_max.min;
-        var draw_width = 600;
+        var draw_width = 730;
         var scale_y = draw_width / ( matrix.length - 1 );
         var scale_x = draw_width / ( matrix[0].length - 1);
         var ctx = $("#coordination-canvas")[0].getContext("2d");
@@ -102,9 +112,28 @@ console.log(opacity_scale)
         });
 
         var articles = [];
+        var labels = [];
+        var label_font_size = get_label_font_size(matrix.length);
 
         for(y=0; y<matrix.length; y++){
+            labels.push({
+                x: 730 + label_margin_x,
+                y: y * scale_y - 10,
+                width: 130,
+                font_size: label_font_size,
+                text: matrix[y][0].title
+            });
+        	
             for(var x=0; x<matrix[0].length; x++){
+            	if(y == 0){
+                    labels.push({
+                        x: x * scale_x - ( scale_x / 2 ),
+                        y: -label_margin_y,
+                        width: scale_x,
+                        font_size: label_font_size,
+                        text: matrix[0][x].title
+                    });   
+                }
                 if(y <= x){
 	                var size = Math.max(( matrix[y][x].value - min_max.min ) / scale_size * 60, 10);
 	                articles.push({
@@ -120,13 +149,19 @@ console.log(opacity_scale)
             }
         }
 
-	draw_axis(ctx, scale_x, 600);
+	draw_axis(ctx, scale_x, 730);
 
         $("#large-visualization-container").hide();
         $("#small-visualization-container").show();
     
+        setTimeout(function(){
+            $(".article-ball").removeClass("animated bounceIn");
+        }, 1000);
 
-        return articles;
+        return {
+           articles: articles,
+           labels: labels
+        };
     }
 
     return {
@@ -219,13 +254,16 @@ ChartApp.controller("ChartController", ["$scope", "Visualization", "Interface", 
         
         $.post("/article_matrix", JSON.stringify({ articles: $.map(selected_articles, function(article){ return article.id }) }))
         .done(function(data){
-            if(selected_articles.length <= 10){
+            if(selected_articles.length <= 15){
+            	var visualization_data = Visualization.visualize_small(data.matrix)
+            	
             	_article_id_to_topic_model = data.topic_model_relation;
             	_topic_model_to_data = data.topic_data;
             	console.log("ARTICLE ID TO TOPIC MODEL: " + JSON.stringify(_article_id_to_topic_model))
             	console.log("TOPIC MODEL TO DATA: " + JSON.stringify(_topic_model_to_data))
             	
-                $scope.visualized_articles = Visualization.visualize_small(data.matrix);
+                $scope.visualized_articles = visualization_data.articles;
+                $scope.visualized_articles_labels = visualization_data.labels;
                 
                 console.log("ARTICLES: " + JSON.stringify($scope.visualized_articles));
                 $scope.active_article = $scope.visualized_articles[0];
