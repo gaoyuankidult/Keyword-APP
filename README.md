@@ -140,6 +140,7 @@
 			{
 				value:1, 
 				title: "",
+				auther: "",
 				abstract: ""
 			} ...
 		]
