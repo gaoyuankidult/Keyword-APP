@@ -161,6 +161,34 @@
 	}
 }
 </pre>
+
+
+#GET related_article
+
+##Params
+
+<pre>
+{
+	id:1
+}
+</pre>
+
+##Response
+
+# When less than 10 articlesare selected
+<pre>
+{
+	matrix: 
+	[
+		{
+			distance:1, 
+			title: "",
+			auther: "",
+			abstract: ""
+		} ...
+	]
+}
+</pre>
 # Tasks for gao
 
 - topic models data
