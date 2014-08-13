@@ -121,7 +121,7 @@ console.log(opacity_scale)
                 y: y * scale_y - 10,
                 width: 130,
                 font_size: label_font_size,
-                text: matrix[y][0].title
+                text: matrix[0][y].title
             });
         	
             for(var x=0; x<matrix[0].length; x++){
