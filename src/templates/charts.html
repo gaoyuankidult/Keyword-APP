@@ -28,18 +28,13 @@
 			<div id="article-relation-container">
 				<div id="small-visualization-container">
 					<div class="article-ball-container">
-						<canvas id="coordination-canvas"></canvas>
-						<div ng-repeat="article in visualized_articles" class="article-ball animated bounceIn" style="top: {[{article.y}]}; left: {[{article.x}]}; width: {[{article.size}]}; height: {[{article.size}]}" ng-click="show_article_information(article)" data-placement="bottom" ng-class="{active: article.active}" data-container="body" data-toggle="popover" data-trigger="hover" title="Lorem ipsum dolor sit amet" data-content="Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet" popover></div>
-					</div>
-
-					<div class="legend">
-						<div class="legend-title" style="margin-bottom: 20px">High reletation</div>
-						<div>
-							<div class="article-ball-dummy"></div>
-							<div class="spacer-vertical"></div>
-							<div class="article-ball-dummy" style="width: 20px; height: 20px"></div>
+						<div class="article-label" ng-repeat="label in visualized_articles_labels" style="top: {[{label.y}]}px; left: {[{label.x}]}px; width: {[{label.width}]}; font-size: {[{label.font_size}]}em">
+							{[{label.text}]}
 						</div>
-						<div class="legend-title" style="margin-top: 20px">Low reletation</div>
+
+						<canvas id="coordination-canvas"></canvas>
+
+						<div ng-repeat="article in visualized_articles" class="article-ball animated bounceIn" style="top: {[{article.y}]}; left: {[{article.x}]}; width: {[{article.size}]}; height: {[{article.size}]}" ng-click="show_article_information(article)" data-placement="{[{article.popover_position}]}" ng-class="{active: article.active}" data-container="body" data-toggle="popover" data-trigger="hover" title="Lorem ipsum dolor sit amet" data-content="Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet"></div>
 					</div>
 				</div>
 
@@ -66,7 +61,12 @@
 							<input type="text" placeholder="Find keywords" ng-model="active_article_keyword_filter">
 						</p>
 						<ul class="bars">
-							<li ng-repeat="keyword in active_article.topic_model_keywords | filter: active_article_keyword_filter"><div class="bar" style="width: {[{keyword.possibility * 80}]}px">{[{keyword.possibility}]}</div> {[{keyword.text}]}</li>
+							<li ng-repeat="keyword in active_article.topic_model_keywords | filter: active_article_keyword_filter">
+								<div class="bar" data-toggle="tooltip" data-placement="top" title="Keyword has probability of {[{keyword.possibility * 100}]}%">
+									<div class="bar-title">{[{keyword.text}]} ({[{keyword.possibility * 100}]}%)</div>
+									<div class="bar-body" style="width: {[{keyword.possibility * 100}]}%"></div>
+								</div>
+							</li>
 						</ul>
 					</div>
 
@@ -76,7 +76,12 @@
 							<input type="text" placeholder="Find keywords" ng-model="row_parent_keyword_filter">
 						</p>
 							<ul class="bars">
-							<li ng-repeat="keyword in active_article.row_parent.topic_model_keywords | filter: row_parent_keyword_filter"><div class="bar" style="width: {[{keyword.possibility * 80}]}px">{[{keyword.possibility}]}</div> {[{keyword.text}]}</li>
+							<li ng-repeat="keyword in active_article.row_parent.topic_model_keywords | filter: row_parent_keyword_filter">
+								<div class="bar" data-toggle="tooltip" data-placement="top" title="Keyword has probability of {[{keyword.possibility * 100}]}%">
+									<div class="bar-title">{[{keyword.text}]} ({[{keyword.possibility * 100}]}%)</div>
+									<div class="bar-body" style="width: {[{keyword.possibility * 100}]}%"></div>
+								</div>
+							</li>
 						</ul>
 					</div>
 				</div>
