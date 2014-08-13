@@ -142,6 +142,7 @@ console.log(opacity_scale)
 	                    size: size,
 	                    title: matrix[y][x].title,
 	                    abstract: matrix[y][x].abstract,
+	                    author: matrix[y][x].author,
 	                    id: matrix[y][x].id,
 	                    row_parent: matrix[0][y]
 	                });
