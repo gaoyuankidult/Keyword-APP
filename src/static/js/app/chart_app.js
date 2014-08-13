@@ -143,7 +143,7 @@ console.log(opacity_scale)
 	                    title: matrix[y][x].title,
 	                    abstract: matrix[y][x].abstract,
 	                    id: matrix[y][x].id,
-	                    row_parent: matrix[0][x]
+	                    row_parent: matrix[0][y]
 	                });
                 }
             }
