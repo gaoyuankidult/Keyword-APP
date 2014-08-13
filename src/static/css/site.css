@@ -13,6 +13,7 @@ body{
 	border-radius: 0px;
 	padding: 4px 8px;
 }
+
 .popover{
 	border-radius: 0px;
 	-moz-box-shadow: 0 0 5px rgba(0,0,0,.2);
@@ -174,6 +175,7 @@ h2.text-muted{
 #chart-container{
 	display: none;
 	min-height: 100%;
+	min-width: 800px;
 	width: 80%;
 	padding: 0px;
 }
@@ -277,19 +279,28 @@ ul.bars{
 	padding: 0px;
 }
 ul.bars li{
-	line-height: 13px;
 	padding: 0px;
-	margin: 0px;
+	margin: 0px 0px 1px 0px;
 }
-ul.bars li div.bar{
-	display: inline-block;
-	text-align: center;
+ul.bars li .bar{
+	display: block;
+	background-color: rgb(230,230,230);
+	box-shadow: inset 0px 0px 2px 2px rgba(0,0,0,.2);
+	position: relative;
+	height: 26px;
+}
+ul.bars .bar .bar-title{
+	position: absolute;
+	text-align: left;
+	padding: 3px 6px;
+	width: 100%;
 	color: white;
-	padding: 2px;
-	background-color: #0097cf;
-	font-size: 0.7em;
-	overflow: hidden;
-	margin-right: 6px;
+	text-shadow: 0px 0px 3px rgba(0,0,0,.9);
+}
+ul.bars .bar .bar-body{
+	width: 10%;
+	height: 26px;
+	background-color: #0097CF;
 }
 #article-relation-model-container h3{
 	margin: -15px -25px 15px -25px;
@@ -322,8 +333,20 @@ ul.bars li div.bar{
 }
 #small-visualization-container{
 	display: none;
+	position: relative;
 	width: 850px;
 	margin: 0px auto;
+	margin-bottom: 40px;
+}
+#small-visualization-container .article-label{
+	color: #969696;
+	width: 130px;
+	text-align: center;
+	font-size: 0.9em;
+	position: absolute;
+	white-space:nowrap; 
+	overflow: hidden; 
+	text-overflow: ellipsis;
 }
 #small-visualization-container .legend{
 	width: 230px;
@@ -337,10 +360,10 @@ ul.bars li div.bar{
 	border-bottom: 1px solid #D2D2D2;
 }
 #small-visualization-container .article-ball-container{
-	top: 25px; float: left;
-	position: relative; display: inline-block;
-	width: 600px; height: 600px;
-	margin-bottom: 80px;
+	position: relative; 
+	display: inline-block;
+	width: 730px; height: 730px;
+	margin: 60px 0px 40px 0px;
 }
 #keywords-container h2, #chart-container h2{
 	border-bottom: 1px solid rgb(210,210,210);
