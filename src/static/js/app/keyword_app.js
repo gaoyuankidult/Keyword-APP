@@ -404,7 +404,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 		data.forEach(function(person){
 			var articles = [];
 			person.articles.forEach(function(article){
-				articles.push(new Article(article.title, article.abstract));	
+				articles.push(new Article(article.title, article.abstract, article.id));	
 			});
 			
 			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, articles));
