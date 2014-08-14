@@ -16,9 +16,10 @@ function Person(id, name, keywords, articles){
 	this.selected = false;
 }
 
-function Article(title, abstract){
+function Article(title, abstract, id){
 	this.title = title;
 	this.abstract = abstract;
+	this.id = id;
 
 	this.highlighted_title = title;
 	this.highlighted_abstract = abstract;
