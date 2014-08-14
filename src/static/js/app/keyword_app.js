@@ -126,7 +126,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	
 	
 	$scope.bring_article_to_middle = function(article){
-		$.get("/related_articles", JSON.stringify({ id: article.id })).done(function(related){
+		$.get("/related_articles", { id: article.id }).done(function(related){
 			Visualization.change_the_middle(article, related, function(articles){
 				$scope.related_articles = articles;
 				$scope.$apply();
@@ -137,8 +137,9 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	}
 
 	$scope.show_related_articles = function(article){
+		console.log(article.id);
 		$scope.related_articles = [];
-		$.get("/related_articles", JSON.stringify({ id: article.id })).done(function(related){
+		$.get("/related_articles", { id: article.id }).done(function(related){
 			$scope.related_articles = Visualization.visualize_related_articles(article, related);
 			$scope.$apply();
 
