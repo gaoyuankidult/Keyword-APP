@@ -32,6 +32,7 @@
 			keywords: [1, 2, 3, ...],
 			articles: [
 				{
+					id: 1,
 					title: "Some title",
 					abstract: "Some abstract"
 				},
