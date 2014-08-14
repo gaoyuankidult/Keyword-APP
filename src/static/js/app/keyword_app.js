@@ -126,8 +126,8 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	
 	
 	$scope.bring_article_to_middle = function(article){
-		$.post("/related_articles", JSON.stringify({ id: article.id })).done(function(related){
-			Visualization.change_the_middle(article, related, function(articles){
+		$.post("/related_articles", JSON.stringify({ id: article.id })).done(function(data){
+			Visualization.change_the_middle(article, data.related_articles, function(articles){
 				$scope.related_articles = articles;
 				$scope.$apply();
 	
@@ -139,9 +139,9 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	$scope.show_related_articles = function(article){
 		console.log("ARTICLE ID: " + article.id);
 		$scope.related_articles = [];
-		$.post("/related_articles", JSON.stringify({ id: article.id })).done(function(related){
-			console.log(JSON.stringify(related));
-			$scope.related_articles = Visualization.visualize_related_articles(article, related);
+		$.post("/related_articles", JSON.stringify({ id: article.id })).done(function(data){
+			console.log(JSON.stringify(data.related_articles));
+			$scope.related_articles = Visualization.visualize_related_articles(article, data.related_articles);
 			$scope.$apply();
 
 			Visualization.move_to_desired_location($("#article-relation-visualization .article-ball-grey"));
