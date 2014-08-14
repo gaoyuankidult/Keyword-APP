@@ -26,6 +26,11 @@ KeywordApp.service("Visualization", function(){
 		}
 	}
 
+	var shuffle = function(o){
+	    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+	    return o;
+	};
+
 	var move_to_desired_location = function(selector){
 		$(".popover").hide();
 
@@ -89,6 +94,8 @@ KeywordApp.service("Visualization", function(){
 
 			location_vector = rotate_vector(location_vector, rotate_iterator);
 		});
+		
+		articles.around = shuffle(articles.around)
 
 		return articles;
 	}
