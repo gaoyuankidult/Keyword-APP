@@ -5,8 +5,102 @@ KeywordApp.config(function($interpolateProvider) {
   	$interpolateProvider.endSymbol('}]}');
 });
 
+KeywordApp.service("Visualization", function(){
+	var container_dimensions = {
+		width: $("#article-relation-visualization").width(),
+		height: $("#article-relation-visualization").height()
+	}
+	
+	var base_size = 60;
+	var base_distance = 200;
+	
+	var middle = {
+		x: container_dimensions.width / 2,
+		y: container_dimensions.height / 2 
+	}
 
-KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $sce){
+	var rotate_vector = function(vector, angle){
+		return {
+			x: vector.x * Math.cos(angle) - vector.y * Math.sin(angle),
+			y: vector.x * Math.sin(angle) + vector.y * Math.cos(angle)
+		}
+	}
+
+	var move_to_desired_location = function(selector){
+		$(".popover").hide();
+
+		$(selector).each(function(index){
+			var _this = $(this);
+
+			$(this).transit({
+				top: _this.attr("data-desiredTop"),
+				left: _this.attr("data-desiredLeft"),
+				opacity: 1
+			}, 1000);
+		});
+	}
+
+	var change_the_middle = function(article, related, callback){
+		$("#article-relation-visualization .article-ball-grey").transit({
+			top: middle.y - base_size / 2,
+			left: middle.x - base_size / 2,
+			opacity: 0
+		}, 1000);
+
+		setTimeout(function(){
+			callback(visualize_related_articles(article, related));
+		}, 1000);
+	}
+
+	var visualize_related_articles = function(article, related){
+		$("#article-relation-layer").fadeIn(500);
+
+		var rotate_iterator = ( 2 * Math.PI ) / 10;
+
+		var articles = {};
+		articles.around = [];
+		articles.middle = {
+			title: article.title,
+			abstract: article.abstract,
+			author: article.author,
+			id: article.id,
+			x: middle.x - base_size / 2,
+			y: middle.y - base_size / 2
+		};
+
+		var location_vector = {
+			x: 1, 
+			y: 1
+		}
+
+		related.forEach(function(a){
+			var distance = a.distance;
+			
+			articles.around.push({
+				title: a.title,
+				abstract: a.abstract,
+				author: a.author,
+				id: a.id,
+				init_x: middle.x - base_size / 2,
+				init_y: middle.y - base_size / 2,
+				x: middle.x + location_vector.x * Math.max(base_size / 2, distance * base_distance) - base_size / 2,
+				y: middle.y + location_vector.y * Math.max(base_size / 2, distance * base_distance) - base_size / 2
+			});
+
+			location_vector = rotate_vector(location_vector, rotate_iterator);
+		});
+
+		return articles;
+	}
+
+	return {
+		visualize_related_articles: visualize_related_articles,
+		move_to_desired_location: move_to_desired_location,
+		change_the_middle: change_the_middle
+	}
+});
+
+KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", function($scope, $sce, Visualization){
 
 	$scope.keyword_suggestions = [];
 	$scope.show_keyword_suggestions = false;
@@ -25,7 +119,44 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", function($scope, $
 		search_view: $("#search-container"),
 		keyword_suggestions_view: $(".keyword-suggestions-list"),
 		keywords_view_layer: $("#keywords-display-layer"),
-		article_highlight_view: $("#article-highlight-display")
+		article_highlight_view: $("#article-highlight-display"),
+		article_relation_layer: $("#article-relation-layer"),
+		current_related_article: $("#current-related-article")
+	}
+	
+	
+	$scope.bring_article_to_middle = function(article){
+		$.get("/related_articles", { id: article.id }).done(function(related){
+			Visualization.change_the_middle(article, related, function(articles){
+				$scope.related_articles = articles;
+				$scope.$apply();
+	
+				Visualization.move_to_desired_location($("#article-relation-visualization .article-ball-grey"));
+			});
+		});
+	}
+
+	$scope.show_related_articles = function(article){
+		$scope.related_articles = [];
+		$.get("/related_articles", { id: article.id }).done(function(related){
+			$scope.related_articles = Visualization.visualize_related_articles(article, related);
+			$scope.$apply();
+
+			Visualization.move_to_desired_location($("#article-relation-visualization .article-ball-grey"));
+		});
+	}
+
+	$scope.set_current_related_article = function(article){
+		$scope.current_related_article = article;
+		_views.current_related_article.addClass("bring-right");
+	}
+
+	$scope.un_set_current_related_article = function(){
+		_views.current_related_article.removeClass("bring-right");
+	}
+
+	$scope.hide_related_articles = function(){
+		_views.article_relation_layer.fadeOut(500);
 	}
 
 	$scope.highlight_persons_keywords = function(person){
