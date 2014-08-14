@@ -13,6 +13,7 @@
 		<script src="static/js/knob.js"></script>
 		<script src="static/js/angular.js"></script>
 		<script src="static/bootstrap/js/bootstrap.min.js"></script>
+		<script src="static/js/transit.min.js"></script>
 		<script src="static/js/app/models.js"></script>
 		<script src="static/js/app/keyword_app.js"></script>
 
@@ -99,25 +100,48 @@
 
 			<ul class="vertical-nav">
 				<li ng-repeat="person in current_persons">
+				
 					<button class="pull-right btn-no-style text-danger remove-person-button" ng-click="remove_person(person)"><i class="fa fa-times"></i></button>
 					<a ng-mouseenter="highlight_persons_keywords(person)" ng-mouseleave="un_highlight_persons_keywords()" ng-click="toggle_person_selection(person)" class="toggle-navigation" data-personId="{[{person.id}]}"><i class="fa fa-user marg-right"></i>{[{person.name}]}
 					<i class="fa fa-plus pull-right" ng-hide="person.selected"></i>
 					<i class="fa fa-minus pull-right" ng-show="person.selected"></i>
 				</a>
 					<ul class="list-unstyled">
-						<li ng-repeat="article in person.articles"><a href="#" ng-mouseenter="highlight_article(article, person)" ng-mouseleave="un_highlight_article()"><i class="fa fa-file-text marg-right"></i>{[{article.title}]}</a></li>
+						<li ng-repeat="article in person.articles">
+							<button class="btn-no-style pull-right show-related-articles" ng-click="show_related_articles(article)" style="position: relative; top: 14px; right: 8px" title="Show related articles" data-toggle="tooltip" data-placement="left"><i class="fa fa-eye"></i></button>
+							
+							<a href="#" ng-mouseenter="highlight_article(article, person)" ng-mouseleave="un_highlight_article()"><i class="fa fa-file-text marg-right"></i>{[{article.title}]}</a>
+						</li>
 					</ul>
 				</li>
 			</ul>
 
 		</div>
+		
+		<!-- RELATED ARTICLES VISUALIZATION -->
+		<div class="layer" id="article-relation-layer">
+			<button class="btn-no-style" id="close-article-relation" ng-click="hide_related_articles()"><i class="fa fa-times"></i></button>
 
+			<h2>Articles related to <i>"{[{related_articles.middle.title}]}"</i></h2>
+
+			<div id="article-relation-visualization">
+				<div class="article-ball article-ball-grey" ng-repeat="related_article in related_articles.around" style="top: {[{related_article.init_y}]}; left: {[{related_article.init_x}]}" data-desiredTop="{[{related_article.y}]}" data-desiredLeft="{[{related_article.x}]}" ng-click="bring_article_to_middle(related_article)" ng-mouseenter="set_current_related_article(related_article)" ng-mouseleave="un_set_current_related_article()"><i class="fa fa-file-text"></i></div>
+
+				<div class="article-ball" style="top: {[{related_articles.middle.y}]}; left: {[{related_articles.middle.x}]}" ng-mouseenter="set_current_related_article(related_articles.middle)" ng-mouseleave="un_set_current_related_article()"><i class=" fa fa-file-text"></i></div>
+			</div>
+
+			<div id="current-related-article">
+				<h3>{[{current_related_article.title}]} <small>{[{current_related_article.author}]}</small></h3>
+				{[{current_related_article.abstract}]}
+			</div>
+		</div>
+
+		<!-- ARTICLE DISPLAY -->
 		<div class="layer" id="keywords-display-layer">
 			<div id="article-highlight-display">
 				<h3>{[{current_article.highlighted_title}]}</h3>
 				<span class="text-muted" ng-bind-html="current_article.highlighted_abstract"></span>
 			</div>
 		</div>
-
 	</body>
 </html>
