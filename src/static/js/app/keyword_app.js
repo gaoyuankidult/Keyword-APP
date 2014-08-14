@@ -77,6 +77,8 @@ KeywordApp.service("Visualization", function(){
 			x: 1, 
 			y: 1
 		}
+		
+		related = shuffle(related);
 
 		related.forEach(function(a){
 			var distance = a.distance;
@@ -94,8 +96,6 @@ KeywordApp.service("Visualization", function(){
 
 			location_vector = rotate_vector(location_vector, rotate_iterator);
 		});
-		
-		articles.around = shuffle(articles.around)
 
 		return articles;
 	}
