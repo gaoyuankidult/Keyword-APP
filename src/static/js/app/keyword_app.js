@@ -140,6 +140,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 		console.log(article.id);
 		$scope.related_articles = [];
 		$.get("/related_articles", { id: article.id }).done(function(related){
+			console.log(JSON.stringify(related));
 			$scope.related_articles = Visualization.visualize_related_articles(article, related);
 			$scope.$apply();
 
