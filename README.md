@@ -164,7 +164,7 @@
 </pre>
 
 
-#Post related_article
+#Post related_articles
 
 ##Params
 
