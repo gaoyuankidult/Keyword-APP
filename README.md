@@ -34,7 +34,8 @@
 				{
 					id: 1,
 					title: "Some title",
-					abstract: "Some abstract"
+					abstract: "Some abstract",
+					url: "www.myarticle.com"
 				},
 				...
 			]
@@ -81,11 +82,13 @@
 	persons: [
 		{
 			name: "Kalle Ilves",
+			profile_picture: "my_profile_image.jpg",
 			keywords: [1, 2, 3, ...],
 			articles: [
 				{
 					title: "Some title",
-					abstract: "Some abstract"
+					abstract: "Some abstract",
+					url: "www.myarticle.com"
 				},
 				...
 			]
