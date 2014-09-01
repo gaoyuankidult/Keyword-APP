@@ -17,10 +17,11 @@ function Person(id, name, keywords, articles, profile_picture){
 	this.selected = false;
 }
 
-function Article(title, abstract, id){
+function Article(title, abstract, id, url){
 	this.title = title;
 	this.abstract = abstract;
 	this.id = id;
+	this.url = url;
 
 	this.highlighted_title = title;
 	this.highlighted_abstract = abstract;
