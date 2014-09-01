@@ -448,6 +448,29 @@ ul.bars .bar .bar-body{
 #chart-canvas{
 	margin: 0px 20px 20px 20px;
 }
+#person-profile-picture{
+	position: absolute;
+	bottom: 20px;
+	left: -220px;
+	transition: left 0.5s;
+}
+#person-profile-picture.bring-left{
+	left: 20px;
+	transition: left 0.5s;
+	z-index: 999;
+}
+#person-profile-picture img{
+	width: 150px;
+	height: auto;
+	box-shadow: 0px 0px 4px rgba(0,0,0,.8);
+}
+#person-display-container h2{
+	border-bottom: 1px solid rgb(220,220,220);
+	margin: 0px;
+	color: #969696;
+	padding: 15px 20px;
+	font-size: 1.4em;
+}
 #people-container{
 	position: fixed;
 	top: 0px;
@@ -456,7 +479,7 @@ ul.bars .bar .bar-body{
 	height: 100%;
 	padding: 0px;
 	z-index: 0;
-	overflow: scroll;
+	overflow: scroll !important;
 }
 #chart-nav-container{
 	position: fixed;
@@ -734,12 +757,15 @@ ul.vertical-nav ul > li:first-child > a{
 #article-highlight-display{
 	border-top: 1px solid rgba(255,255,255,0.2);
 	display: none;
-	padding: 20px;
+	padding: 20px 20px 20px 200px;
 	position: fixed;
 	bottom: 0px;
 	color: white;
 	width: 70%;
 	text-shadow:0px 0px 3px rgba(0,0,0,.8);
+}
+#article-highlight-display.no-profile-pic{
+	padding-left: 20px;
 }
 .article-ball{
 	border-radius: 50%;
