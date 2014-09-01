@@ -169,6 +169,9 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	}
 
 	$scope.highlight_persons_keywords = function(person){
+		$scope.active_person = person;
+		$scope.active_person.show = true;
+		
 		person.keywords.forEach(function(keyword){
 			$(".keyword-box[data-keywordId='" + keyword + "']").addClass("keyword-box-active");
 		});
@@ -178,6 +181,8 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	}
 
 	$scope.un_highlight_persons_keywords = function(){
+		$scope.active_person.show = false;
+		
 		$(".keyword-box").removeClass("keyword-box-active");
 
 		_views.keywords_view_layer.show();
@@ -267,6 +272,9 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	}
 
 	$scope.highlight_article = function(article, person){
+		$scope.active_person = person;
+		$scope.active_person.show = true;
+		
 		keywords = {};
 		$scope.current_keywords.forEach(function(keyword){
 			keywords[keyword.text] = keyword;
@@ -282,6 +290,8 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	}
 
 	$scope.un_highlight_article = function(){
+		$scope.active_person.show = false;
+		
 		$(".keyword-box").removeClass("keyword-box-active");
 
 		_views.article_highlight_view.hide();
@@ -299,18 +309,6 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 			_views.keyword_suggestions_view.hide();
 
 			var post_params = { search_word: ( $scope.search_word || "" ), keywords: _get_selected_keyword_suggestions() };
-
-			/*var keywords = _keyword_dummy_data();
-			var persons = _person_dummy_data();
-
-			_initialize_keywords(keywords);
-			_initialize_persons(persons);
-			
-			_views.people_view.animate({
-				width: "30%"
-			}, 500);
-			
-			_views.keywords_view.fadeIn(500);*/
 
 			$.post("/search", JSON.stringify(post_params)).done(function(data){
 				_initialize_keywords(data.keywords);
@@ -365,12 +363,6 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	var _get_keyword_suggestions = function(callback){
 		$scope.keyword_suggestions = [];
 
-/*		$scope.keyword_suggestions = _keyword_suggestion_dummy_data();
-
-		$scope.$apply();
-		callback();
-*/
-
 		$.get("/search", function(data){
 			data.keywords.forEach(function(keyword){
 				var k = new Keyword();
@@ -414,7 +406,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 				articles.push(new Article(article.title, article.abstract, article.id));	
 			});
 			
-			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, articles));
+			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, articles, profile_pic_url));
 		});
 
 		$scope.$apply();
