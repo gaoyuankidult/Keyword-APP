@@ -406,7 +406,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 				articles.push(new Article(article.title, article.abstract, article.id));	
 			});
 			
-			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, articles, profile_pic_url));
+			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, articles, person.profile_picture));
 		});
 
 		$scope.$apply();
@@ -471,51 +471,6 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 		});
 
 		return selected;
-	}
-
-	/*****************
-	*	DUMMY DATA   *
-	******************/
-
-	_keyword_suggestion_dummy_data = function(){
-		var suggestions = [];
-
-		for(var i=0; i<200; i++){
-			var txt = "keywordkeyword";
-			var k = new Keyword();
-			k.text = txt.substring(2, Math.floor(Math.random() * txt.length) + 4);
-			suggestions.push(k);
-		}
-
-		return suggestions;
-	}
-
-	_keyword_dummy_data = function(){
-		var keywords = [];
-
-		for(var i=0; i<10; i++){
-			var txt = "lorem";
-			var k = new Keyword(i, txt, Math.random(), Math.random());
-			keywords.push(k);
-		}
-
-		return keywords;	
-	}
-
-	_person_dummy_data = function(){
-		var persons = [];
-
-		for(var i=0; i<10; i++){
-			var articles = [];
-			for(var n=0; n<10; n++){
-				articles.push(
-				new Article( "Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas suscipit lorem turpis, nec volutpat justo sagittis non. Vestibulum tortor enim, viverra ac sem in, placerat posuere diam. Ut vel velit imperdiet, fringilla libero a, placerat velit. Duis et accumsan libero. Duis ante diam, euismod a elementum molestie, ultrices sed justo. Quisque aliquam elementum consectetur. Vivamus mi orci, sodales sed venenatis et, sollicitudin id sapien."));
-			}
-			var p = new Person(i, "Kalle Ilves", [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)], articles);
-			persons.push(p);
-		}
-
-		return persons;
 	}
 
 	_get_keyword_suggestions(function(){ _views.search_view.slideDown(500); $("#search-field").focus() });
