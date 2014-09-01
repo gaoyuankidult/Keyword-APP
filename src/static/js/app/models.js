@@ -8,9 +8,10 @@ function Keyword(id, text, exploitation, exploration){
 	this.removed = false;
 }
 
-function Person(id, name, keywords, articles){
+function Person(id, name, keywords, articles, profile_picture){
 	this.id = id || 0;
 	this.name = name;
+	this.profile_picture = profile_picture;
 	this.keywords = keywords || [];
 	this.articles = articles || [];
 	this.selected = false;
