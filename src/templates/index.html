@@ -111,7 +111,7 @@
 						<li ng-repeat="article in person.articles">
 							<button class="btn-no-style pull-right show-related-articles" ng-click="show_related_articles(article)" style="padding: 13px 8px;" title="Show related articles" data-toggle="tooltip" data-placement="left"><i class="fa fa-eye"></i></button>
 
-							<a href="{[{article.url}]}" target="_blank" ng-mouseenter="highlight_article(article, person)" ng-mouseleave="un_highlight_article()"><i class="fa fa-file-text marg-right"></i>{[{article.title}]}</a>
+							<a href="http://www.google.com" target="_blank" ng-mouseenter="highlight_article(article, person)" ng-mouseleave="un_highlight_article()"><i class="fa fa-file-text marg-right"></i>{[{article.title}]}</a>
 						</li>
 					</ul>
 				</li>
@@ -143,9 +143,13 @@
 		</div>
 
 		<div class="layer" id="keywords-display-layer">
-			<div id="article-highlight-display" ng-class="{'no-profile-pic': !active_person.profile_picture}">
-				<h3>{[{current_article.highlighted_title}]}</h3>
-				<span class="text-muted" ng-bind-html="current_article.highlighted_abstract"></span>
+			<div id="article-highlight-display" class="media">
+			    <img class="media-object pull-left" src="{[{current_article.author_profile_picture}]}" style="width: 160px; height: auto; margin-right: 20px">
+			
+			  	<div class="media-body">
+			   		<h3>{[{current_article.highlighted_title}]}</h3>
+					<span class="text-muted" ng-bind-html="current_article.highlighted_abstract"></span>
+			  	</div>
 			</div>
 		</div>
 
