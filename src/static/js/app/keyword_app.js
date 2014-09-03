@@ -272,8 +272,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	}
 
 	$scope.highlight_article = function(article, person){
-		$scope.active_person = person;
-		$scope.active_person.show = true;
+		$scope.active_person.show = false;
 		
 		keywords = {};
 		$scope.current_keywords.forEach(function(keyword){
@@ -290,8 +289,6 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	}
 
 	$scope.un_highlight_article = function(){
-		$scope.active_person.show = false;
-		
 		$(".keyword-box").removeClass("keyword-box-active");
 
 		_views.article_highlight_view.hide();
@@ -403,7 +400,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 		data.forEach(function(person){
 			var articles = [];
 			person.articles.forEach(function(article){
-				articles.push(new Article(article.title, article.abstract, article.id, article.url));	
+				articles.push(new Article(article.title, article.abstract, article.id, article.url, article.author_profile_picture));	
 			});
 			
 			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, articles, person.profile_picture));
