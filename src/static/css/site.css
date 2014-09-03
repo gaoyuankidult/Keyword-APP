@@ -460,7 +460,7 @@ ul.bars .bar .bar-body{
 	z-index: 999;
 }
 #person-profile-picture img{
-	width: 150px;
+	width: 160px;
 	height: auto;
 	box-shadow: 0px 0px 4px rgba(0,0,0,.8);
 }
@@ -757,15 +757,12 @@ ul.vertical-nav ul > li:first-child > a{
 #article-highlight-display{
 	border-top: 1px solid rgba(255,255,255,0.2);
 	display: none;
-	padding: 20px 20px 20px 200px;
+	padding: 20px 20px 20px 20px;
 	position: fixed;
 	bottom: 0px;
 	color: white;
 	width: 70%;
 	text-shadow:0px 0px 3px rgba(0,0,0,.8);
-}
-#article-highlight-display.no-profile-pic{
-	padding-left: 20px;
 }
 .article-ball{
 	border-radius: 50%;
