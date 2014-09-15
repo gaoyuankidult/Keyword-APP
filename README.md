@@ -29,6 +29,12 @@
 	persons: [
 		{
 			name: "Kalle Ilves",
+			email: "N.Asokan[at]cs.helsinki.fi"
+			room: "D212"
+			phone: "+358 2941 51225"
+			homepage: "http://cs.helsinki.fi/~asokan"
+			reception_time: "By appointment"
+			group: "Secure Systems"
 			keywords: [1, 2, 3, ...],
 			articles: [
 				{
@@ -82,6 +88,12 @@
 	persons: [
 		{
 			name: "Kalle Ilves",
+			email: "N.Asokan[at]cs.helsinki.fi"
+			room: "D212"
+			phone: "+358 2941 51225"
+			homepage: "http://cs.helsinki.fi/~asokan"
+			reception_time: "By appointment"
+			group: "Secure Systems"
 			profile_picture: "my_profile_image.jpg",
 			keywords: [1, 2, 3, ...],
 			articles: [
