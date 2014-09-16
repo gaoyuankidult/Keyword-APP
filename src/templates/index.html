@@ -138,8 +138,8 @@
 		</div>
 
 		<!-- PERSON PROFILE PICTURE -->
-		<div id="person-profile-picture" ng-class="{'bring-left': active_person && active_person.show && active_person.profile_picture}">
-			<img src="{[{active_person.profile_picture}]}" class="pull-left" ng-show="{[{active_person.profile_picture}]}">
+		<div id="person-profile-picture" ng-class="{'bring-left': active_person && active_person.show }">
+			<img src="{[{active_person.profile_picture}]}" class="pull-left" ng-show="active_person.profile_picture">
 			<div id="person-profile-info" class="pull-left">
 				<h3>{[{active_person.name}]}</h3>
 				<ul class="fa-ul">
