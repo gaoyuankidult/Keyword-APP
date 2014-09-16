@@ -139,16 +139,16 @@
 
 		<!-- PERSON PROFILE PICTURE -->
 		<div id="person-profile-picture" ng-class="{'bring-left': active_person && active_person.show && active_person.profile_picture}">
-			<img src="{[{active_person.profile_picture}]}" class="pull-left">
+			<img src="{[{active_person.profile_picture}]}" class="pull-left" ng-show="{[[active_person.profile_picture}]}">
 			<div id="person-profile-info" class="pull-left">
-				<h3>{{active_person.name}}</h3>
+				<h3>{[{active_person.name}]}</h3>
 				<ul class="fa-ul">
-					<li><i class="fa fa-li fa-envelope"></i> Email: {{active_person.profile_info.email}}</li>
-					<li><i class="fa fa-li fa-map-marker"></i> Room: {{active_person.profile_info.room}}</li>
-					<li><i class="fa fa-li fa-phone"></i> Phone: {{active_person.profile_info.phone}}</li>
-					<li><i class="fa fa-li fa-home"></i> Homepage: <a href="{{active_person.profile_info.homepage}}">{{active_person.homepagel}}</a></li>
-					<li><i class="fa fa-li fa-clock-o"></i> Reception time: {{active_person.profile_info.reception_time}}</li>
-					<li><i class="fa fa-li fa-group"></i> Group: {{active_person.profile_info.group}}</li>
+					<li><i class="fa fa-li fa-envelope"></i> Email: {[{active_person.profile_info.email}]}</li>
+					<li><i class="fa fa-li fa-map-marker"></i> Room: {[{active_person.profile_info.room}]}</li>
+					<li><i class="fa fa-li fa-phone"></i> Phone: {[{active_person.profile_info.phone}]}</li>
+					<li><i class="fa fa-li fa-home"></i> Homepage: <a href="{[{active_person.profile_info.homepage}]}">{[{active_person.homepage}]}</a></li>
+					<li><i class="fa fa-li fa-clock-o"></i> Reception time: {[{active_person.profile_info.reception_time}]}</li>
+					<li><i class="fa fa-li fa-group"></i> Group: {[{active_person.profile_info.group}]}</li>
 				</ul>
 			</div>
 		</div>
