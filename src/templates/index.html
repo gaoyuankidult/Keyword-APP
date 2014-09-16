@@ -111,7 +111,7 @@
 						<li ng-repeat="article in person.articles">
 							<button class="btn-no-style pull-right show-related-articles" ng-click="show_related_articles(article)" style="padding: 13px 8px;" title="Show related articles" data-toggle="tooltip" data-placement="left"><i class="fa fa-eye"></i></button>
 
-							<a href="{{article.url}}" target="_blank" ng-mouseenter="highlight_article(article, person)" ng-mouseleave="un_highlight_article()"><i class="fa fa-file-text marg-right"></i>{[{article.title}]}</a>
+							<a href="{[{article.url}]}" target="_blank" ng-mouseenter="highlight_article(article, person)" ng-mouseleave="un_highlight_article()"><i class="fa fa-file-text marg-right"></i>{[{article.title}]}</a>
 						</li>
 					</ul>
 				</li>
