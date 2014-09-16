@@ -148,7 +148,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	}
 
 	$scope.show_related_articles = function(article){
-		$scope.show_layer = false;
+		$scope.show_keyword_layer = false;
 		$scope.active_person.show = false;
 		$scope.related_articles = [];
 		$.post("/related_articles", JSON.stringify({ id: article.id })).done(function(data){
@@ -171,7 +171,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 
 	$scope.hide_related_articles = function(){
 		if(_selected_person){
-			$scope.show_layer = true;
+			$scope.show_keyword_layer = true;
 			$scope.active_person.show = true;
 		}
 		
