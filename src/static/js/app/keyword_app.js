@@ -419,6 +419,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 			person.articles.forEach(function(article){
 				articles.push(new Article(article.title, article.abstract, article.id, article.url, article.author_profile_picture));	
 			});
+			console.log('Page: ' + person.homepage);
 			
 			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, articles, person.profile_picture, { email: person.email, room: person.room, phone: person.phone, homepage: person.homepage, reception_time: person.reception_time, group: person.group }));
 		});
