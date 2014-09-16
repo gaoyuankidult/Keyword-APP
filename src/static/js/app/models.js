@@ -8,13 +8,14 @@ function Keyword(id, text, exploitation, exploration){
 	this.removed = false;
 }
 
-function Person(id, name, keywords, articles, profile_picture){
+function Person(id, name, keywords, articles, profile_picture, profile_info){
 	this.id = id || 0;
 	this.name = name;
 	this.profile_picture = profile_picture;
 	this.keywords = keywords || [];
 	this.articles = articles || [];
 	this.selected = false;
+	this.profile_info = profile_info || {};
 }
 
 function Article(title, abstract, id, url, author_profile_picture){
