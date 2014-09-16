@@ -118,6 +118,10 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	$scope.current_persons = [];
 
 	$scope.current_article = null;
+	
+	$scope.show_keyword_layer = false;
+	
+	var _selected_person = null;
 
 	var _views = {
 		keywords_view: $("#keywords-container"),
@@ -144,7 +148,6 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 	}
 
 	$scope.show_related_articles = function(article){
-		console.log("ARTICLE ID: " + article.id);
 		$scope.related_articles = [];
 		$.post("/related_articles", JSON.stringify({ id: article.id })).done(function(data){
 			console.log(JSON.stringify(data.related_articles));
@@ -176,17 +179,19 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 			$(".keyword-box[data-keywordId='" + keyword + "']").addClass("keyword-box-active");
 		});
 
-		_views.keywords_view_layer.hide();
-		_views.keywords_view_layer.stop().fadeIn(500);
+		$scope.show_keyword_layer = true;
 	}
 
 	$scope.un_highlight_persons_keywords = function(){
-		$scope.active_person.show = false;
-		
 		$(".keyword-box").removeClass("keyword-box-active");
 
-		_views.keywords_view_layer.show();
-		_views.keywords_view_layer.stop().fadeOut(500);
+		if(_selected_person == null){
+			$scope.active_person.show = false;
+			$scope.show_keyword_layer = false;
+		}else{
+			$scope.active_person = _selected_person;
+			$scope.active_person.show = true;
+		}
 	};
 
 	$scope.toggle_keyword_suggestions = function(){
@@ -269,6 +274,19 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 		});
 
 		person.selected = !person.selected;
+		
+		if(person.selected){
+			_selected_person = person;
+
+			$scope.show_keyword_layer = true;
+			$scope.active_person = person;
+			$scope.active_person.show = true;
+		}else{
+			_selected_person = null;
+
+			$scope.show_keyword_layer = false;
+			$scope.active_person.show = false;
+		}
 	}
 
 	$scope.highlight_article = function(article, person){
@@ -281,19 +299,18 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 
 		article.highlighted_abstract = $sce.trustAsHtml(_highlight_abstract_keywords(article.abstract, keywords));
 		$scope.current_article = article;
+		$scope.show_keyword_layer = true;
 
 		_views.article_highlight_view.show();
-		_views.keywords_view_layer.hide();
-		_views.keywords_view_layer.stop().fadeIn(500);
 		_views.article_highlight_view.addClass("animated bounceInUp");
 	}
 
 	$scope.un_highlight_article = function(){
+		$scope.active_person.show = true;
+		
 		$(".keyword-box").removeClass("keyword-box-active");
 
 		_views.article_highlight_view.hide();
-		_views.keywords_view_layer.show();
-		_views.keywords_view_layer.stop().fadeOut(500);	
 		_views.article_highlight_view.removeClass("animated bounceInUp");
 
 		$scope.current_article.highlighted_abstract = $scope.current_article.abstract;
@@ -403,7 +420,7 @@ KeywordApp.controller("KeywordController", ["$scope", "$sce", "Visualization", f
 				articles.push(new Article(article.title, article.abstract, article.id, article.url, article.author_profile_picture));	
 			});
 			
-			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, articles, person.profile_picture));
+			$scope.current_persons.push(new Person(person.id, person.name, person.keywords, articles, person.profile_picture, { email: person.email, room: person.room, phone: person.phone, homepage: person.homepage, reception_time: person.reception_time, group: person.group }));
 		});
 
 		$scope.$apply();
