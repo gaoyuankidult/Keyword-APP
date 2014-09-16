@@ -141,7 +141,7 @@
 		<div id="person-profile-picture" ng-class="{'bring-left': active_person && active_person.show && active_person.profile_picture}">
 			<img src="{[{active_person.profile_picture}]}" class="pull-left">
 			<div id="person-profile-info" class="pull-left">
-				<h3>Patrick Floreen</h3>
+				<h3>{{active_person.name}}</h3>
 				<ul class="fa-ul">
 					<li><i class="fa fa-li fa-envelope"></i> Email: {{active_person.profile_info.email}}</li>
 					<li><i class="fa fa-li fa-map-marker"></i> Room: {{active_person.profile_info.room}}</li>
