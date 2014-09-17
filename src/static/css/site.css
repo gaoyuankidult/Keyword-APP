@@ -27,6 +27,7 @@ body{
 	background-color: white;
 	border-bottom: 1px solid rgb(220,220,220);
 }
+
 h2.text-muted{
 	color: rgb(150,150,150);
 }
@@ -453,7 +454,7 @@ ul.bars .bar .bar-body{
 	width: 730px; height: 730px;
 	margin: 60px 0px 40px 0px;
 }
-#keywords-container h2, #chart-container h2{
+#keywords-container h2, #chart-container h2, h2.page-title{
 	border-bottom: 1px solid rgb(210,210,210);
 	color: rgb(150,150,150);
 	margin: 0px 0px 25px 0px;
@@ -690,13 +691,22 @@ ul.vertical-nav ul > li:first-child > a{
 	background-color: #2f9c48;
 	color: white;
 }
+.box{
+	background-color: white;
+	padding: 20px;
+	margin: 0px 20px;
+	box-shadow: 0px 0px 4px rgba(0,0,0,.25);
+	max-width: 600px;
+}
 .btn-blue{
 	background-color: #0097cf;
 	color: white;
+	border: 0px none;
 }
 .btn-blue:hover{
 	background-color: #0088ba;
 	color: white;
+	border: 0px none;
 }
 .btn-rounded{
 	border-radius: 18px;
