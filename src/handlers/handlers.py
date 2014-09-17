@@ -19,10 +19,13 @@ import time
 import threading
 import functools
 import numpy
+import string
+import random
 
 from base_handler import *
 from charts_handlers import *
 from process_handlers import *
+
 
 class AnalyzerHandler(BaseHandler):
     def get(self):
@@ -30,7 +33,8 @@ class AnalyzerHandler(BaseHandler):
         
     def post(self):
         pass
-    
+
+
 class FormHandler(BaseHandler):
     def get(self):
         user=self.get_current_user()
@@ -38,6 +42,7 @@ class FormHandler(BaseHandler):
             self.redirect("/login")         
         messages = self.application.syncdb.messages.find()
         self.render("form.html", messages=messages, notification=self.get_flash(),user=self.get_current_user())
+
     def post(self):
         description = self.get_argument('description', '')
         user = self.application.syncdb['users'].find_one({'user': self.get_current_user()})
@@ -45,15 +50,18 @@ class FormHandler(BaseHandler):
         auth = self.application.syncdb['users'].save(user)
         self.redirect(u"/index")
 
+
 class NotificationHandler(BaseHandler):
     def get(self):
         messages = self.application.syncdb.messages.find()
         self.render("notification.html", messages=messages, notification='hello')
 
+
 class SlidyHandler(BaseHandler):
     def get(self):
         messages = self.application.syncdb.messages.find()
         self.render("slidy.html", messages=messages, notification=self.get_flash())
+
 
 class PopupHandler(BaseHandler):
     def get(self):
@@ -91,8 +99,12 @@ class LoginHandler(BaseHandler):
         else:
             self.clear_cookie("user")
 
+
 class NoneBlockingLogin(BaseHandler):
-    """ Runs Bcrypt in a thread - Allows tornado to server up other handlers but can not process multiple logins simultaneously"""
+    """
+    Runs Bcrypt in a thread - Allows tornado to server up
+    other handlers but can not process multiple logins simultaneously
+    """
     def get(self):
         messages = self.application.syncdb.messages.find()
         self.render("login.html", notification=self.get_flash())
@@ -123,6 +135,7 @@ class NoneBlockingLogin(BaseHandler):
         self.set_flash('Error Login incorrect')
         self.redirect('/login')
 
+
 class RegisterHandler(LoginHandler):
     def get(self):
         self.render("register.html", next=self.get_argument("next", "/"))
@@ -148,6 +161,7 @@ class RegisterHandler(LoginHandler):
 
         self.redirect(u"/index")
 
+
 class TwitterLoginHandler(LoginHandler,
                           tornado.auth.TwitterMixin):
     @tornado.web.asynchronous
@@ -166,6 +180,7 @@ class TwitterLoginHandler(LoginHandler,
 
         self.set_current_user(tw_user['username'])
         self.redirect(u"/index")
+
 
 class FacebookLoginHandler(LoginHandler, tornado.auth.FacebookGraphMixin):
     @tornado.web.asynchronous
@@ -188,6 +203,7 @@ class FacebookLoginHandler(LoginHandler, tornado.auth.FacebookGraphMixin):
         # Create user if user not found
         self.set_current_user(fb_user['id'])
         self.redirect(u"/index")
+
 
 class LogoutHandler(BaseHandler):
     def get(self):
@@ -218,6 +234,7 @@ class ThreadHandler(tornado.web.RequestHandler):
         self.write("Thread output: %s" % output)
         self.finish()
 
+
 class IndexHandler(MainBaseHandler):
 
     @tornado.web.authenticated        
@@ -233,9 +250,7 @@ class IndexHandler(MainBaseHandler):
         
         for k in key_prase:
             indexes.append(self.application.keywords.index(k))
-        
 
-        
     def __del__(self):
         super(BaseHandler, self).__del__(*args, **kwargs)
         self.application.iter_num = 0
@@ -251,7 +266,8 @@ class TablesHandler(BaseHandler):
     @tornado.web.authenticated 
     def get(self):
         self.render("tables.html")
-        
+
+
 class TablesDataHandler(BaseHandler):
     @tornado.web.authenticated 
     def get(self):
@@ -301,6 +317,8 @@ class EmailMeHandler(BaseHandler):
         else:
             self.set_secure_cookie('flash', "FAIL")
             self.redirect('/')
+
+
 class MessageHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
@@ -385,6 +403,8 @@ async demo - creates a constantly loading webpage which updates from a file.
 'tail -f data/to_read.txt' >> webpage
 Blocks. Can't be used by more than 1 user at a time.
 """
+
+
 class TailHandler(BaseHandler):
     @asynchronous
     def get(self):
@@ -494,3 +514,29 @@ class S3PhotoUploadHandler(BaseHandler):
     def image_uploaded(self):
         self.set_secure_cookie('flash', "File Uploaded")
         self.redirect("/")
+
+
+class UploadHandler(BaseHandler):
+    def get(self):
+        self.render("upload-files.html")
+
+
+class PdfUploader(BaseHandler):
+    """ Ideally image resizing should be done with a queue and a seperate python process """
+    @tornado.web.asynchronous
+    def post(self):
+        file1 = self.request.files['file'][0]
+        original_fname = file1['filename']
+        extension = os.path.splitext(original_fname)[1]
+        fname = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(6))
+        final_filename= fname+extension
+        output_file = open("uploads/" + final_filename, 'w')
+        output_file.write(file1['body'])
+        self.finish("file" + final_filename + " is uploaded")
+
+
+
+# class FileHandler(tornado.web.RequestHandler):
+#     file_body = self.request.files['filefieldname'][0]['body']
+#     img = Image.open(StringIO.StringIO(file_body))
+#     img.save("../img/", img.format)
