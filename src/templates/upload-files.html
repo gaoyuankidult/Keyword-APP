@@ -17,6 +17,7 @@
 		<h2 class="page-title">
 			Manage your papers
 		</h2>
+
 		<div class="papers-container" ng-controller="PaperController">
 			<div class="row" style="margin: 15px">
 				<div class="col-md-7">
@@ -26,11 +27,10 @@
 							<li ng-repeat="paper in papers"><i class="fa fa-li fa-file text-muted"></i> <a href="{{paper.url}}">{{paper.name}}</a></li>
 						</ul>
 					</div>
-				</div>
 				<div class="col-md-5">
 					<div class="box">
 						<h3>Upload a paper</h3>
-						<form method="POST" action="/paper_upload" style="margin-bottom: 0px">
+						<form method="POST" enctype="multipart/form-data" action="/paper_upload" style="margin-bottom: 0px">
 							<div class="form-group">
 								<input type="file" name="file">
 							</div>

@@ -1,3 +1,14 @@
+#GET /user_files
+
+<pre>
+	files: [
+		{
+			name: 'my_file.pdf',
+			url: 'my_file.pdf'
+		}
+	];
+</pre>
+
 #GET /search
 
 

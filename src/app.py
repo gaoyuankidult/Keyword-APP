@@ -34,9 +34,13 @@ class Application(tornado.web.Application):
         url(r'/tables', TablesHandler, name='tables'), 
         url(r'/tables_data', TablesDataHandler, name='tables_data'), 
         url(r'/article_matrix', ArticleMatrixHandler, name='article_matrix'),
+        url(r'/related_articles', RelatedArticlesHandler, name='related_articles'),
+        url(r'/file_upload', UploadHandler, name="file_upload"),
+        url(r'/paper_upload', PdfUploader, name="paper_upload"),
         
         url(r'/form', FormHandler, name = 'form'),
-        url(r'/next', NextHandler,name = 'next'),
+        url(r'/next', NextHandler, name = 'next'),
+        url(r'/remove_person', RemovePersonHandler, name='remove_person'),
         url(r'/index', IndexHandler, name='index'),
         url(r'/search', SearchHandler, name='search'),
         url(r'/analyzer', AnalyzerHandler, name='analyzer'),
@@ -92,8 +96,7 @@ class Application(tornado.web.Application):
         else:
             self.syncdb = self.syncconnection["test-thank"]
         self.syncconnection.close()
-        
-        
+
         # following part is for analyzer
         def set_keywords_parameters():
             self.keywords_number = 10
@@ -115,6 +118,7 @@ class Application(tornado.web.Application):
                 self.corpuses = pickle.load(self.corpus_keywords_file_obj)
                 self.original_corpuses = self.extractors.project_corpuses
                 self.corpus_keywords_file_obj.close()
+
             def set_titles():
                 self.titles = self.extractors.titles
             
@@ -122,7 +126,6 @@ class Application(tornado.web.Application):
             set_titles()
             # set all the corpuses related parameters
             set_corpuses()
-
             
         def form_persons_info():    
             # for persons_info
@@ -135,16 +138,23 @@ class Application(tornado.web.Application):
             
             person_id = 0
             for title,  original_corpuse,  decomposed_corpus, name in zip(self.titles,  self.original_corpuses, self.corpuses, self.auther_names):
-                
                 if name not in self.corpuses_name_id.keys():
                     self.corpuses_name_id[name] = {}
                     self.corpuses_name_id[name]["id"] = person_id
-                    person_id = person_id + 1
+                    person_id += 1
                     self.corpuses_name_id[name]["name"] = name
+                    self.corpuses_name_id[name]["email"] = "N.Asokan[at]cs.helsinki.fi"
+                    self.corpuses_name_id[name]["room"] = "D212"
+                    self.corpuses_name_id[name]["phone"] = "+358 2941 51225"
+                    self.corpuses_name_id[name]["homepage"] = "http://cs.helsinki.fi/~asokan"
+                    self.corpuses_name_id[name]["reception_time"] = "By appointment"
+                    self.corpuses_name_id[name]["group"] = "Secure Systems"
                     self.corpuses_name_id[name]["keywords"] = []
                     self.corpuses_name_id[name]["articles"] = []
+                    self.corpuses_name_id[name]["profile_picture"] = "http://upload.wikimedia.org/wikipedia/commons/2/22/Turkish_Van_Cat.jpg"
 
-                self.corpuses_name_id[name]["articles"].append({"title":"%s"%title ,   "abstract":"%s"%original_corpuse})
+
+                self.corpuses_name_id[name]["articles"].append({"author_profile_picture":"http://upload.wikimedia.org/wikipedia/commons/2/22/Turkish_Van_Cat.jpg", "id": 1, "title":"%s"%title ,   "abstract":"%s"%original_corpuse, "url":"http://images4.fanpop.com/image/photos/14700000/Beautifull-cat-cats-14749885-1600-1200.jpg"})
                 
                 # append keywords in list corpuses_name_id[name]["keywords"]
                 for keyword in decomposed_corpus.split(','):
@@ -155,8 +165,10 @@ class Application(tornado.web.Application):
         def set_iteration_parameters():
             # number of iteration
             self.iter_num = 0
+
         def analyze_data():
             self.analyzer = Analyzer(self.keywords_list, self.corpuses)
+
         def form_keywords_info():
             
             self.keywords_file_obj = open(self.keywords_filename,'r')
@@ -190,7 +202,7 @@ class Application(tornado.web.Application):
     def form_new_keywords_information(self):
         keywords_exploitation = [0.1] * len( self.keywords_list)
         keywords_exploration = [0.9] * len( self.keywords_list)
-        self.keywords_info = zip( self.keywords_id ,self.keywords_list,keywords_exploitation, keywords_exploration)
+        self.keywords_info = zip( self.keywords_id, self.keywords_list, keywords_exploitation, keywords_exploration)
         self.kewords_keys = ("id", "text",  "exploitation", "exploration" )
         self.keywords_info = [dict(zip(self.kewords_keys, keyword_info)) for keyword_info in self.keywords_info]
         self.keywords = self.keywords_list[self.keywords_number * self.iter_num:self.keywords_number*(self.iter_num +1)]
@@ -202,12 +214,9 @@ class Application(tornado.web.Application):
         
         # selected keywords, the format is the text of keyword
         self.experienced_keywords = []
-        
 
     def __del__(self):
         super(tornado.web.Application, self).__del__(*args, **kwargs)
-
-
 
 # to redirect log file run python with : --log_file_prefix=mylog
 def main():
